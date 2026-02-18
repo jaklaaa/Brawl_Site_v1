@@ -254,6 +254,7 @@
         if (first) first.click();
     }
 
+    // comment jasper is gay
     function addRankClick(el, rank, title) {
         el.addEventListener("click", () => {
             document.querySelectorAll("#rankGrid .rank-icon, #rankGrid .rank-placeholder").forEach(i => {
