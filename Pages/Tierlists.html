@@ -14,7 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* ── Reset top-bar from base styles ── */
+        /* ── Hide old top-bar ── */
         .top-bar { display: none; }
 
         /* ═══════════════════════════════════════
@@ -32,11 +32,10 @@
             background: rgba(10, 10, 20, 0.55);
             backdrop-filter: blur(18px) saturate(180%);
             -webkit-backdrop-filter: blur(18px) saturate(180%);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-            box-shadow: 0 4px 32px rgba(0, 0, 0, 0.4);
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            box-shadow: 0 4px 32px rgba(0,0,0,0.4);
         }
 
-        /* Left — back button */
         #navBack {
             display: flex;
             align-items: center;
@@ -53,14 +52,9 @@
             cursor: pointer;
             transition: background 0.2s, color 0.2s, border-color 0.2s;
         }
-        #navBack:hover {
-            background: rgba(255,255,255,0.12);
-            color: #fff;
-            border-color: rgba(255,255,255,0.22);
-        }
+        #navBack:hover { background:rgba(255,255,255,0.12); color:#fff; border-color:rgba(255,255,255,0.22); }
         #navBack svg { flex-shrink: 0; }
 
-        /* Centre — title */
         #navTitle {
             font-family: 'Orbitron', sans-serif;
             font-size: 15px;
@@ -74,7 +68,6 @@
             transform: translateX(-50%);
         }
 
-        /* Right — gear */
         #navGear {
             background: rgba(255,255,255,0.06);
             border: 1px solid rgba(255,255,255,0.1);
@@ -88,17 +81,12 @@
             transition: background 0.2s, transform 0.4s, border-color 0.2s;
             color: rgba(255,255,255,0.65);
         }
-        #navGear:hover {
-            background: rgba(255,255,255,0.12);
-            color: #fff;
-            border-color: rgba(255,255,255,0.22);
-        }
-        #navGear.open {
-            transform: rotate(60deg);
-            background: rgba(255,255,255,0.12);
-            color: #fff;
-        }
+        #navGear:hover { background:rgba(255,255,255,0.12); color:#fff; border-color:rgba(255,255,255,0.22); }
+        #navGear.open  { transform:rotate(60deg); background:rgba(255,255,255,0.12); color:#fff; }
 
+        /* ═══════════════════════════════════════
+           SETTINGS DRAWER
+        ═══════════════════════════════════════ */
         #settingsOverlay {
             display: none;
             position: fixed;
@@ -107,29 +95,24 @@
             background: rgba(0,0,0,0);
             transition: background 0.3s;
         }
-        #settingsOverlay.visible {
-            display: block;
-            background: rgba(0,0,0,0.35);
-        }
+        #settingsOverlay.visible { display:block; background:rgba(0,0,0,0.35); }
 
         #settingsDrawer {
             position: fixed;
-            top: 0;
-            right: 0;
+            top: 0; right: 0;
             height: 100vh;
             width: 300px;
             max-width: 88vw;
             z-index: 195;
-            background: rgba(14, 14, 26, 0.82);
+            background: rgba(14,14,26,0.82);
             backdrop-filter: blur(24px) saturate(160%);
             -webkit-backdrop-filter: blur(24px) saturate(160%);
             border-left: 1px solid rgba(255,255,255,0.08);
             box-shadow: -8px 0 48px rgba(0,0,0,0.6);
             transform: translateX(100%);
-            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+            transition: transform 0.35s cubic-bezier(0.22,1,0.36,1);
             display: flex;
             flex-direction: column;
-            padding: 0;
             overflow-y: auto;
         }
         #settingsDrawer.open { transform: translateX(0); }
@@ -159,11 +142,9 @@
             display: flex;
             align-items: center;
         }
-        #drawerClose:hover { color: #fff; background: rgba(255,255,255,0.08); }
+        #drawerClose:hover { color:#fff; background:rgba(255,255,255,0.08); }
 
-        .drawer-section {
-            padding: 20px 20px 4px;
-        }
+        .drawer-section { padding: 20px 20px 4px; }
         .drawer-section-label {
             font-family: 'Orbitron', sans-serif;
             font-size: 9px;
@@ -173,13 +154,7 @@
             text-transform: uppercase;
             margin-bottom: 12px;
         }
-
-        /* ── Theme swatches ── */
-        .theme-swatches {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-        }
+        .theme-swatches { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
         .theme-swatch {
             border-radius: 10px;
             padding: 10px 12px;
@@ -194,33 +169,20 @@
             font-weight: 700;
             letter-spacing: 1px;
         }
-        .theme-swatch:hover { transform: scale(1.03); }
-        .theme-swatch.active { border-color: rgba(255,255,255,0.55); }
+        .theme-swatch:hover { transform:scale(1.03); }
+        .theme-swatch.active { border-color:rgba(255,255,255,0.55); }
+        .theme-swatch[data-theme="theme-dark"]  { background:rgba(20,20,35,0.9);    color:rgba(255,255,255,0.7); }
+        .theme-swatch[data-theme="theme-light"] { background:rgba(240,240,248,0.9); color:rgba(30,30,50,0.8); }
+        .theme-swatch[data-theme="theme-red"]   { background:rgba(60,10,10,0.9);    color:rgba(255,140,140,0.9); }
+        .theme-swatch[data-theme="theme-blue"]  { background:rgba(10,20,60,0.9);    color:rgba(100,180,255,0.9); }
+        .swatch-dot { width:12px; height:12px; border-radius:50%; flex-shrink:0; }
+        .theme-swatch[data-theme="theme-dark"]  .swatch-dot { background:#7b7b9e; }
+        .theme-swatch[data-theme="theme-light"] .swatch-dot { background:#b0b0d0; }
+        .theme-swatch[data-theme="theme-red"]   .swatch-dot { background:#ee1b1b; }
+        .theme-swatch[data-theme="theme-blue"]  .swatch-dot { background:#0088ff; }
 
-        .theme-swatch[data-theme="theme-dark"]  { background: rgba(20,20,35,0.9);  color: rgba(255,255,255,0.7); }
-        .theme-swatch[data-theme="theme-light"] { background: rgba(240,240,248,0.9); color: rgba(30,30,50,0.8); }
-        .theme-swatch[data-theme="theme-red"]   { background: rgba(60,10,10,0.9);  color: rgba(255,140,140,0.9); }
-        .theme-swatch[data-theme="theme-blue"]  { background: rgba(10,20,60,0.9);  color: rgba(100,180,255,0.9); }
+        .drawer-divider { height:1px; background:rgba(255,255,255,0.06); margin:8px 20px; }
 
-        .swatch-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-        .theme-swatch[data-theme="theme-dark"]  .swatch-dot { background: #7b7b9e; }
-        .theme-swatch[data-theme="theme-light"] .swatch-dot { background: #b0b0d0; }
-        .theme-swatch[data-theme="theme-red"]   .swatch-dot { background: #ee1b1b; }
-        .theme-swatch[data-theme="theme-blue"]  .swatch-dot { background: #0088ff; }
-
-        /* ── Divider ── */
-        .drawer-divider {
-            height: 1px;
-            background: rgba(255,255,255,0.06);
-            margin: 8px 20px;
-        }
-
-        /* ── Toggle rows ── */
         .setting-row {
             display: flex;
             align-items: center;
@@ -229,29 +191,11 @@
             border-bottom: 1px solid rgba(255,255,255,0.04);
         }
         .setting-row:last-child { border-bottom: none; }
-        .setting-row-label {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            color: rgba(255,255,255,0.55);
-        }
-        .setting-row-desc {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 8px;
-            letter-spacing: 0.5px;
-            color: rgba(255,255,255,0.2);
-            margin-top: 2px;
-        }
+        .setting-row-label { font-family:'Orbitron',sans-serif; font-size:10px; font-weight:700; letter-spacing:1px; color:rgba(255,255,255,0.55); }
+        .setting-row-desc  { font-family:'Orbitron',sans-serif; font-size:8px; letter-spacing:0.5px; color:rgba(255,255,255,0.2); margin-top:2px; }
 
-        /* Pill toggle */
-        .pill-toggle {
-            position: relative;
-            width: 40px;
-            height: 22px;
-            flex-shrink: 0;
-        }
-        .pill-toggle input { opacity: 0; width: 0; height: 0; }
+        .pill-toggle { position:relative; width:40px; height:22px; flex-shrink:0; }
+        .pill-toggle input { opacity:0; width:0; height:0; }
         .pill-track {
             position: absolute;
             inset: 0;
@@ -273,18 +217,10 @@
             background: rgba(255,255,255,0.4);
             transition: left 0.25s, background 0.25s;
         }
-        .pill-toggle input:checked + .pill-track {
-            background: rgba(100, 220, 255, 0.25);
-            border-color: rgba(100,220,255,0.4);
-        }
-        .pill-toggle input:checked + .pill-track::after {
-            left: calc(100% - 17px);
-            background: #5ddcff;
-        }
+        .pill-toggle input:checked + .pill-track { background:rgba(100,220,255,0.25); border-color:rgba(100,220,255,0.4); }
+        .pill-toggle input:checked + .pill-track::after { left:calc(100% - 17px); background:#5ddcff; }
 
-        /* ── Card size slider ── */
         .size-slider {
-            -webkit-appearance: none;
             width: 100%;
             height: 4px;
             border-radius: 2px;
@@ -293,51 +229,18 @@
             margin-top: 10px;
             cursor: pointer;
         }
-        .size-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: #5ddcff;
-            box-shadow: 0 0 8px rgba(93,220,255,0.5);
-            cursor: pointer;
-        }
-        .size-slider::-moz-range-thumb {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: #5ddcff;
-            border: none;
-            cursor: pointer;
-        }
-        .slider-labels {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 5px;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 8px;
-            color: rgba(255,255,255,0.2);
-            letter-spacing: 0.5px;
-        }
+        .size-slider::-webkit-slider-thumb { -webkit-appearance:none; width:16px; height:16px; border-radius:50%; background:#5ddcff; box-shadow:0 0 8px rgba(93,220,255,0.5); cursor:pointer; }
+        .size-slider::-moz-range-thumb     { width:16px; height:16px; border-radius:50%; background:#5ddcff; border:none; cursor:pointer; }
+        .slider-labels { display:flex; justify-content:space-between; margin-top:5px; font-family:'Orbitron',sans-serif; font-size:8px; color:rgba(255,255,255,0.2); letter-spacing:0.5px; }
 
-        /* ── Accent colour pips ── */
-        .accent-pips {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-top: 2px;
-        }
-        .accent-pip {
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: transform 0.15s, border-color 0.15s;
-        }
-        .accent-pip:hover { transform: scale(1.2); }
-        .accent-pip.active { border-color: #fff; transform: scale(1.15); }
+        .accent-pips { display:flex; gap:8px; flex-wrap:wrap; margin-top:2px; }
+        .accent-pip { width:22px; height:22px; border-radius:50%; cursor:pointer; border:2px solid transparent; transition:transform 0.15s, border-color 0.15s; }
+        .accent-pip:hover { transform:scale(1.2); }
+        .accent-pip.active { border-color:#fff; transform:scale(1.15); }
 
+        /* ═══════════════════════════════════════
+           PAGE — RANK TITLE + GRID
+        ═══════════════════════════════════════ */
         .rank-title {
             text-align: center;
             margin: 30px auto 24px;
@@ -352,9 +255,7 @@
                 -3px -3px 0 #fff,  3px -3px 0 #fff,
                 -3px  3px 0 #fff,  3px  3px 0 #fff;
         }
-
         .rank-container { margin-bottom: 28px; }
-
         .rank-grid {
             display: flex;
             justify-content: center;
@@ -363,7 +264,6 @@
             flex-wrap: wrap;
             padding: 0 20px;
         }
-
         .rank-icon {
             width: 76px;
             height: 70px;
@@ -374,11 +274,86 @@
         }
         .rank-icon:hover    { transform: scale(1.15); }
         .rank-icon.selected { transform: scale(1.18); }
+
+        /* ═══════════════════════════════════════
+           POOL TOOLBAR  (search + sort)
+        ═══════════════════════════════════════ */
+        #poolToolbar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        #poolSearchWrap {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 6px 10px;
+            flex: 1;
+            min-width: 140px;
+        }
+        #poolSearch {
+            background: none;
+            border: none;
+            outline: none;
+            color: rgba(255,255,255,0.8);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 10px;
+            letter-spacing: 0.5px;
+            width: 100%;
+        }
+        #poolSearch::placeholder { color: rgba(255,255,255,0.2); }
+
+        #poolSearchClear {
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.3);
+            cursor: pointer;
+            font-size: 10px;
+            padding: 0;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            transition: color 0.15s;
+        }
+        #poolSearchClear:hover { color: rgba(255,255,255,0.7); }
+
+        #poolSortBtns {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+        .sort-btn {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            padding: 6px 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.04);
+            color: rgba(255,255,255,0.35);
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s, border-color 0.15s;
+            white-space: nowrap;
+        }
+        .sort-btn:hover { background:rgba(255,255,255,0.09); color:rgba(255,255,255,0.65); }
+        .sort-btn.sort-active {
+            background: rgba(255,255,255,0.12);
+            color: #fff;
+            border-color: rgba(255,255,255,0.25);
+        }
     </style>
 </head>
 
 <body class="theme-dark">
 
+    <!-- ── Glass nav bar ── -->
     <nav id="glassNav">
         <button id="navBack" onclick="goHome()">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -397,6 +372,7 @@
         </button>
     </nav>
 
+    <!-- ── Settings overlay & drawer ── -->
     <div id="settingsOverlay"></div>
 
     <aside id="settingsDrawer" role="dialog" aria-label="Settings">
@@ -412,18 +388,10 @@
         <div class="drawer-section">
             <div class="drawer-section-label">Theme</div>
             <div class="theme-swatches">
-                <div class="theme-swatch active" data-theme="theme-dark">
-                    <span class="swatch-dot"></span>Dark
-                </div>
-                <div class="theme-swatch" data-theme="theme-light">
-                    <span class="swatch-dot"></span>Light
-                </div>
-                <div class="theme-swatch" data-theme="theme-red">
-                    <span class="swatch-dot"></span>Red
-                </div>
-                <div class="theme-swatch" data-theme="theme-blue">
-                    <span class="swatch-dot"></span>Blue
-                </div>
+                <div class="theme-swatch active" data-theme="theme-dark"><span class="swatch-dot"></span>Dark</div>
+                <div class="theme-swatch" data-theme="theme-light"><span class="swatch-dot"></span>Light</div>
+                <div class="theme-swatch" data-theme="theme-red"><span class="swatch-dot"></span>Red</div>
+                <div class="theme-swatch" data-theme="theme-blue"><span class="swatch-dot"></span>Blue</div>
             </div>
         </div>
 
@@ -431,18 +399,16 @@
 
         <div class="drawer-section">
             <div class="drawer-section-label">Display</div>
-
             <div class="setting-row">
                 <div>
                     <div class="setting-row-label">Brawler Names</div>
-                    <div class="setting-row-desc">Show name below portrait</div>
+                    <div class="setting-row-desc">Name overlay on portrait</div>
                 </div>
                 <label class="pill-toggle">
                     <input type="checkbox" id="toggleNames">
                     <span class="pill-track"></span>
                 </label>
             </div>
-
             <div class="setting-row">
                 <div>
                     <div class="setting-row-label">Compact Mode</div>
@@ -453,7 +419,6 @@
                     <span class="pill-track"></span>
                 </label>
             </div>
-
             <div class="setting-row">
                 <div>
                     <div class="setting-row-label">Hover Tooltips</div>
@@ -471,11 +436,7 @@
         <div class="drawer-section">
             <div class="drawer-section-label">Card Size</div>
             <input type="range" class="size-slider" id="cardSizeSlider" min="44" max="96" value="64" step="4">
-            <div class="slider-labels">
-                <span>Small</span>
-                <span>Default</span>
-                <span>Large</span>
-            </div>
+            <div class="slider-labels"><span>Small</span><span>Default</span><span>Large</span></div>
         </div>
 
         <div class="drawer-divider"></div>
@@ -502,16 +463,12 @@
                     <div class="setting-row-label">Clear Custom List</div>
                     <div class="setting-row-desc">Reset your personal tier list</div>
                 </div>
-                <button id="clearDataBtn" style="
-                    font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;
-                    letter-spacing:1px;padding:6px 12px;border-radius:8px;cursor:pointer;
-                    background:rgba(255,60,60,0.1);border:1px solid rgba(255,60,60,0.2);
-                    color:rgba(255,100,100,0.8);transition:background 0.2s,color 0.2s;
-                ">RESET</button>
+                <button id="clearDataBtn" style="font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;padding:6px 12px;border-radius:8px;cursor:pointer;background:rgba(255,60,60,0.1);border:1px solid rgba(255,60,60,0.2);color:rgba(255,100,100,0.8);transition:background 0.2s,color 0.2s;">RESET</button>
             </div>
         </div>
     </aside>
 
+    <!-- ── Page content ── -->
     <h1 id="rankMainTitle" class="rank-title">Tier List</h1>
 
     <div class="rank-container">
@@ -545,202 +502,11 @@
         </div>
     </div>
 
+    <!-- Load order matters: navigation → data → tier logic → settings UI -->
     <script src="../scripts/navigation.js"></script>
     <script src="../scripts/brawlerData.js"></script>
     <script src="../scripts/tierManager.js"></script>
-
-    <script>
-    (function () {
-        const THEMES = ["theme-dark","theme-light","theme-red","theme-blue"];
-        const LS_SETTINGS = "bsTierSettings_v1";
-
-        // ── Load saved settings ──
-        let settings = { theme:"theme-dark", accent:"#5ddcff", cardSize:64, names:false, compact:false, tooltips:true };
-        try {
-            const s = JSON.parse(localStorage.getItem(LS_SETTINGS));
-            if (s) settings = Object.assign(settings, s);
-        } catch {}
-
-        function saveSettings() {
-            try { localStorage.setItem(LS_SETTINGS, JSON.stringify(settings)); } catch {}
-        }
-
-        // ── Apply accent colour ──
-        function applyAccent(color) {
-            document.documentElement.style.setProperty("--ui-accent", color);
-            const style = document.getElementById("accentStyle") || document.createElement("style");
-            style.id = "accentStyle";
-            style.textContent = `
-                .pill-toggle input:checked + .pill-track { background: ${color}33; border-color: ${color}66; }
-                .pill-toggle input:checked + .pill-track::after { background: ${color}; }
-                .size-slider::-webkit-slider-thumb { background: ${color}; box-shadow: 0 0 8px ${color}88; }
-                .size-slider::-moz-range-thumb { background: ${color}; }
-                .download-btn { color: ${color}aa !important; border-color: ${color}33 !important; }
-                .download-btn:hover { color: ${color} !important; border-color: ${color}66 !important; background: ${color}18 !important; }
-            `;
-            document.head.appendChild(style);
-        }
-
-        // ── Apply card size ──
-        function applyCardSize(px) {
-            const style = document.getElementById("cardSizeStyle") || document.createElement("style");
-            style.id = "cardSizeStyle";
-            style.textContent = `.brawler-card { width:${px}px !important; height:${px}px !important; }`;
-            document.head.appendChild(style);
-        }
-
-        // ── Apply names ──
-        function applyNames(on) {
-            const style = document.getElementById("namesStyle") || document.createElement("style");
-            style.id = "namesStyle";
-            if (on) {
-                style.textContent = `
-                    .brawler-card { height: auto !important; flex-direction: column; padding-bottom: 4px; }
-                    .brawler-card img { height: var(--card-img-h, 64px); width: 100%; }
-                    .brawler-card::before {
-                        content: attr(title);
-                        order: 1;
-                        font-family: 'Orbitron', sans-serif;
-                        font-size: 7px;
-                        font-weight: 700;
-                        letter-spacing: 0.3px;
-                        color: rgba(255,255,255,0.7);
-                        text-align: center;
-                        padding: 3px 2px 0;
-                        line-height: 1.2;
-                        word-break: break-word;
-                        max-width: 100%;
-                        pointer-events: none;
-                    }
-                `;
-            } else {
-                style.textContent = "";
-            }
-            document.head.appendChild(style);
-        }
-
-        // ── Apply compact ──
-        function applyCompact(on) {
-            if (on) {
-                document.getElementById("cardSizeSlider").value = 44;
-                applyCardSize(44);
-            } else {
-                const v = parseInt(document.getElementById("cardSizeSlider").value);
-                applyCardSize(v);
-            }
-        }
-
-        // ── Apply tooltips ──
-        function applyTooltips(on) {
-            const style = document.getElementById("tooltipStyle") || document.createElement("style");
-            style.id = "tooltipStyle";
-            style.textContent = on ? "" : `.brawler-card::after { display: none !important; }`;
-            document.head.appendChild(style);
-        }
-
-        // ── Apply all on load ──
-        function applyAll() {
-            THEMES.forEach(t => document.body.classList.remove(t));
-            document.body.classList.add(settings.theme);
-            applyAccent(settings.accent);
-            applyCardSize(settings.cardSize);
-            applyNames(settings.names);
-            applyTooltips(settings.tooltips);
-
-            // sync UI
-            document.querySelectorAll(".theme-swatch").forEach(el => {
-                el.classList.toggle("active", el.dataset.theme === settings.theme);
-            });
-            document.querySelectorAll(".accent-pip").forEach(el => {
-                el.classList.toggle("active", el.dataset.accent === settings.accent);
-            });
-            document.getElementById("cardSizeSlider").value = settings.cardSize;
-            document.getElementById("toggleNames").checked    = settings.names;
-            document.getElementById("toggleCompact").checked  = settings.compact;
-            document.getElementById("toggleTooltips").checked = settings.tooltips;
-        }
-
-        // ── Drawer open/close ──
-        const gear    = document.getElementById("navGear");
-        const drawer  = document.getElementById("settingsDrawer");
-        const overlay = document.getElementById("settingsOverlay");
-        const closeBtn = document.getElementById("drawerClose");
-
-        function openDrawer() {
-            drawer.classList.add("open");
-            overlay.classList.add("visible");
-            gear.classList.add("open");
-        }
-        function closeDrawer() {
-            drawer.classList.remove("open");
-            overlay.classList.remove("visible");
-            gear.classList.remove("open");
-        }
-
-        gear.addEventListener("click", () => drawer.classList.contains("open") ? closeDrawer() : openDrawer());
-        overlay.addEventListener("click", closeDrawer);
-        closeBtn.addEventListener("click", closeDrawer);
-
-        // ── Theme swatches ──
-        document.querySelectorAll(".theme-swatch").forEach(el => {
-            el.addEventListener("click", () => {
-                const t = el.dataset.theme;
-                THEMES.forEach(c => document.body.classList.remove(c));
-                document.body.classList.add(t);
-                document.querySelectorAll(".theme-swatch").forEach(s => s.classList.remove("active"));
-                el.classList.add("active");
-                settings.theme = t;
-                saveSettings();
-            });
-        });
-
-        // ── Accent pips ──
-        document.querySelectorAll(".accent-pip").forEach(pip => {
-            pip.addEventListener("click", () => {
-                document.querySelectorAll(".accent-pip").forEach(p => p.classList.remove("active"));
-                pip.classList.add("active");
-                settings.accent = pip.dataset.accent;
-                applyAccent(settings.accent);
-                saveSettings();
-            });
-        });
-
-        // ── Card size slider ──
-        document.getElementById("cardSizeSlider").addEventListener("input", function () {
-            settings.cardSize = parseInt(this.value);
-            applyCardSize(settings.cardSize);
-            saveSettings();
-        });
-
-        // ── Toggles ──
-        document.getElementById("toggleNames").addEventListener("change", function () {
-            settings.names = this.checked;
-            applyNames(settings.names);
-            saveSettings();
-        });
-        document.getElementById("toggleCompact").addEventListener("change", function () {
-            settings.compact = this.checked;
-            applyCompact(settings.compact);
-            saveSettings();
-        });
-        document.getElementById("toggleTooltips").addEventListener("change", function () {
-            settings.tooltips = this.checked;
-            applyTooltips(settings.tooltips);
-            saveSettings();
-        });
-
-        // ── Clear data ──
-        document.getElementById("clearDataBtn").addEventListener("click", () => {
-            if (!confirm("Reset your custom tier list? This cannot be undone.")) return;
-            try { localStorage.removeItem("bsTierCustom_v3"); } catch {}
-            location.reload();
-        });
-
-        // ── Init ──
-        document.addEventListener("DOMContentLoaded", applyAll);
-        if (document.readyState !== "loading") applyAll();
-    })();
-    </script>
+    <script src="../scripts/Tiersettings.js"></script>
 
 </body>
 </html>
