@@ -1301,21 +1301,25 @@ function renderRecs(){
             });
         }
 
-        if(cmode === "counters" || cmode === "both") {
-            // COUNTERS DB (manual entries)
-            const cRow = (typeof COUNTERS !== "undefined" && COUNTERS[b.id]) || {};
-            S.enemyPicks.forEach(enemy => {
-                offense += (cRow[enemy.id] || 0) * (profile.counterWeight || 1.0);
-            });
-            // Vulnerability from DB
-            if(typeof COUNTERS !== "undefined"){
-                Object.entries(COUNTERS).forEach(([cid, targets]) => {
-                    if(S.enemyPicks.some(ep => ep.id === cid) && targets[b.id]){
-                        vuln -= targets[b.id] * 0.8;
-                    }
-                });
-            }
-        }
+if (cmode === "counters" || cmode === "both") {
+
+    if (typeof COUNTERS !== "undefined") {
+
+        S.enemyPicks.forEach(enemy => {
+
+            // enemy row tells if we counter them
+            const eRow = COUNTERS[enemy.id] || {};
+            offense += (eRow[b.id] || 0) * (profile.counterWeight || 1.0);
+
+            // our row tells if they counter us
+            const bRow = COUNTERS[b.id] || {};
+            vuln -= (bRow[enemy.id] || 0) * 0.8;
+
+        });
+
+    }
+
+}
 
         // 3. Team synergy (always tag-based)
         const team = tagSynergyScore(b.id, S.allyPicks);

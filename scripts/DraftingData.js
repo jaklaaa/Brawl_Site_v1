@@ -87,7 +87,7 @@ const BRAWLER_ROLES = {
     "griff":         ["Anti-Tank", "Keeper", "Wallbreak"],
     "ash":           ["Anti-Tank", "Spawner"],
     "meg":           ["Tank", "Gem Mid"],
-    "lola":          ["Anti-Tank", ""],
+    "lola":          ["Anti-Tank",],
     "grom":          ["Anti-Tank"],
     "fang":          ["Dive", "Gem Clutcher", "Goal Scorer"],
     "eve":           ["Controller", "Spawner"],
@@ -145,7 +145,12 @@ function getRoles(brawlerId) {
 // COUNTERS[A][B] = bonus score for brawler A when brawler B is on the enemy team.
 // 0.5 = slight edge · 1.5 = solid counter · 2.5 = hard counter
 const COUNTERS = {
-    "mortis":      { "barley":2.0,},
+    "8-bit":     {"belle":2.5, "penny": 2.5, "mandy": 2.0, "piper": 2.0, "squeak": 2.5},
+    "alli":      {"bull":2.5, "draco": 2.5, "r-t":2.5, "doug": 2.3, "ash": 2.2},
+    "amber":     {"bonnie": 2.5, "carl": 2.5, "crow": 2.0, "piper": 1.5, "belle": 1.3},
+    "angelo":    {"kit": 2.5, "jae-yong": 2.3, "piper": 2.3, "max": 2.3, "nani": 2.5},
+    "ash":       {"frank": 2.5, "bull": 2.0, "amber": 2.5, "charlie": 1.5, "cordelius": 1.5},
+
 
 };
 
@@ -161,9 +166,8 @@ const DRAFT_MAPS = [
       classWeights:
         { 
           Tank: 1.1,
-          Dive: 0,
-          Aggro: 0,
-
+          Dive: 1.0,
+          Aggro: 1.3,
         } 
         },
   { id:"gg-crystal-arcade",    
@@ -211,8 +215,187 @@ const DRAFT_MAPS = [
           Tank: 0.9,
         } 
         },
-        
-];
+  { id:"gg-bridge-too-far",    
+      name:"Bridge Too Far",    
+      mode:"Heist",   
+      imageFile:"Bridge Too Far.png",
+      classWeights:
+        { 
+          Tank: 0.4,
+        } 
+        },
+  { id:"gg-hot-potato",    
+      name:"Hot Potato",    
+      mode:"Heist",   
+      imageFile:"Hot Potato.png",
+      classWeights:
+        { 
+          Tank: 0.4,
+        } 
+        },        
+  { id:"gg-kaboom-canyon",    
+      name:"Kaboom Canyon",    
+      mode:"Heist",   
+      imageFile:"Kaboom Canyon.png",
+      classWeights:
+        { 
+          Tank: 0.4,
+        } 
+        },        
+  { id:"gg-saze-zonde",    
+      name:"Safe Zone",    
+      mode:"Heist",   
+      imageFile:"Safe Zone.png",
+      classWeights:
+        { 
+          Tank: 0.4,
+        } 
+        },
+  { id:"gg-dry-season",    
+      name:"Dry Season",    
+      mode:"Bounty",   
+      imageFile:"Dry Season.png",
+      classWeights:
+        { 
+          Tank: 0.4,
+        } 
+        },
+  { id:"gg-hideout",    
+      name:"Hideout",    
+      mode:"Bounty",   
+      imageFile:"Hideout.png",
+      classWeights:
+        { 
+          Tank: 0.4,
+        } 
+        },
+  { id:"gg-layer-cake",    
+      name:"Layer Cake",    
+      mode:"Bounty",   
+      imageFile:"Layer Cake.png",
+      classWeights:
+        { 
+          Tank: 0.4,
+        } 
+        },
+  { id:"gg-shooting-star",    
+      name:"Shooting Star",    
+      mode:"Bounty",   
+      imageFile:"Shooting Star.png",
+      classWeights:
+        { 
+          Tank: 0.4,
+        } 
+        },
+  { id:"gg-center-stage",    
+      name:"Center Stage",    
+      mode:"Brawl Ball",   
+      imageFile:"Center Stage.png",
+      classWeights:
+        { 
+          Tank: 0.4,
+        } 
+        },
+  { id:"gg-pinball-dreams",    
+      name:"Pinball Dreams",    
+      mode:"Brawl Ball",   
+      imageFile:"Pinball Dreams.png",
+      classWeights:
+        { 
+          Tank: 0.4,
+        } 
+        },
+  { id:"gg-sneaky-fields",    
+      name:"Sneaky Fields",    
+      mode:"Brawl Ball",   
+      imageFile:"Sneaky Fields.png",
+      classWeights:
+        { 
+          Tank: 0.4,
+        } 
+        },
+  { id:"gg-triple-dribble",    
+      name:"Triple Dribble",    
+      mode:"Brawl Ball",   
+      imageFile:"Triple Dribble.png",
+      classWeights:
+        { 
+          Tank: 0.4,
+        } 
+        },
+  { id:"gg-dueling-beatles",    
+      name:"Dueling Beatles",    
+      mode:"Hot Zone",   
+      imageFile:"Dueling Beatles.png",
+      classWeights:
+        { 
+          Tank: 0.4,
+        } 
+        },
+  { id:"gg-open-business",    
+      name:"Open Business",    
+      mode:"Hot Zone",   
+      imageFile:"Open Business.png",
+      classWeights:
+        { 
+          Tank: 0.4,
+        } 
+        },
+  { id:"gg-parallel-plays",    
+      name:"Parallel Plays",    
+      mode:"Hot Zone",   
+      imageFile:"Parallel Plays.png",
+      classWeights:
+        { 
+          Tank: 0.4,
+        } 
+        },        
+  { id:"gg-ring-of-fire",    
+      name:"Ring of Fire",    
+      mode:"Hot Zone",   
+      imageFile:"Ring of Fire.png",
+      classWeights:
+        { 
+          Tank: 0.4,
+        } 
+        },
+  { id:"gg-belle-rock",    
+      name:"Belle's Rock",    
+      mode:"Knockout",   
+      imageFile:"Belle's Rock.png",
+      classWeights:
+        { 
+          Tank: 0.4,
+        } 
+        },
+  { id:"gg-flaring-phoenix",    
+      name:"Flaring Phoenix",    
+      mode:"Knockout",   
+      imageFile:"Flaring Phoenix.png",
+      classWeights:
+        { 
+          Tank: 0.4,
+        } 
+        },        
+  { id:"gg-new-horizons",    
+      name:"New Horizons",    
+      mode:"Knockout",   
+      imageFile:"New Horizons.png",
+      classWeights:
+        { 
+          Tank: 0.4,
+        } 
+        },
+  { id:"gg-out-in-the-open",    
+      name:"Out in the Open",    
+      mode:"Knockout",   
+      imageFile:"Out in the Open.png",
+      classWeights:
+        { 
+          Tank: 0.4,
+        } 
+        },
+      ];
 
 const DRAFT_RANK_PROFILES = [
     { id:"Mythic",      label:"Mythic",      range:"Mythic",      metaWeight:0.8, counterWeight:1.1 },
