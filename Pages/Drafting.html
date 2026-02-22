@@ -12,471 +12,541 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&display=swap" rel="stylesheet">
 
     <style>
-    /* ══════════════════════════════════════════════════════════
-       RESET & BASE
-    ══════════════════════════════════════════════════════════ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     .top-bar { display: none; }
-    body {
-        min-height: 100vh;
-        font-family: 'Orbitron', sans-serif;
-        background: #0d0d14;
-        color: #fff;
-        overflow-x: hidden;
-    }
+    body { min-height: 100vh; font-family: 'Orbitron', sans-serif; background: #0d0d14; color: #fff; overflow-x: hidden; }
 
-    /* ══════════════════════════════════════════════════════════
-       GLASS NAV
-    ══════════════════════════════════════════════════════════ */
+    /* ═══════════════════════════════════
+       NAV
+    ═══════════════════════════════════ */
     #glassNav {
         position: sticky; top: 0; z-index: 300;
         display: flex; align-items: center; justify-content: space-between;
-        padding: 0 18px; height: 54px;
-        background: rgba(8,8,18,0.80);
+        padding: 0 18px; height: 56px;
+        background: rgba(8,8,18,0.82);
         backdrop-filter: blur(20px) saturate(180%);
         border-bottom: 1px solid rgba(255,255,255,0.07);
-        box-shadow: 0 2px 20px rgba(0,0,0,0.5);
+        box-shadow: 0 2px 24px rgba(0,0,0,0.55);
     }
     #navBack {
-        display: flex; align-items: center; gap: 7px;
-        background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
-        border-radius: 10px; padding: 6px 14px 6px 10px;
-        color: rgba(255,255,255,0.7); font-size: 11px; font-weight: 700;
-        letter-spacing: 1px; cursor: pointer;
-        transition: background .18s, color .18s;
+        display:flex; align-items:center; gap:7px;
+        background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1);
+        border-radius:10px; padding:7px 15px 7px 11px;
+        color:rgba(255,255,255,0.7); font-size:11px; font-weight:700; letter-spacing:1px;
+        cursor:pointer; transition:background .18s,color .18s;
     }
-    #navBack:hover { background: rgba(255,255,255,0.12); color: #fff; }
-
+    #navBack:hover { background:rgba(255,255,255,0.12); color:#fff; }
     #navTitle {
-        font-size: 13px; font-weight: 700; letter-spacing: 3px;
-        color: rgba(255,255,255,0.82); text-transform: uppercase;
-        position: absolute; left: 50%; transform: translateX(-50%);
-        pointer-events: none;
+        font-size:13px; font-weight:700; letter-spacing:3px; color:rgba(255,255,255,0.82);
+        text-transform:uppercase; position:absolute; left:50%; transform:translateX(-50%); pointer-events:none;
     }
-
-    .nav-right { display: flex; align-items: center; gap: 8px; }
-
-    /* Rank badge */
+    .nav-right { display:flex; align-items:center; gap:8px; }
     #navRankBadge {
-        display: flex; align-items: center; gap: 7px;
-        background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
-        border-radius: 10px; padding: 5px 12px; cursor: pointer;
-        font-size: 10px; font-weight: 700; letter-spacing: 1px;
-        color: rgba(255,255,255,0.55); transition: background .18s, color .18s;
-        white-space: nowrap;
+        display:flex; align-items:center; gap:7px;
+        background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1);
+        border-radius:10px; padding:5px 12px; cursor:pointer;
+        font-size:10px; font-weight:700; letter-spacing:1px; color:rgba(255,255,255,0.55);
+        transition:background .18s,color .18s; white-space:nowrap;
     }
-    #navRankBadge:hover { background: rgba(255,255,255,0.1); color: #fff; }
-    #navRankImg { width: 22px; height: 22px; object-fit: contain; }
-
-    /* Reset */
+    #navRankBadge:hover { background:rgba(255,255,255,0.1); color:#fff; }
+    #navRankImg { width:22px; height:22px; object-fit:contain; }
+    #navSettings {
+        width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center;
+        background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1);
+        color:rgba(255,255,255,0.5); cursor:pointer; font-size:17px;
+        transition:background .18s,color .18s;
+    }
+    #navSettings:hover { background:rgba(255,255,255,0.11); color:#fff; }
     #navReset {
-        display: flex; align-items: center; gap: 5px;
-        background: rgba(220,50,50,0.08); border: 1px solid rgba(220,50,50,0.18);
-        border-radius: 10px; padding: 6px 12px;
-        color: rgba(255,110,110,0.8); font-size: 10px; font-weight: 700;
-        letter-spacing: 1px; cursor: pointer; transition: background .18s, color .18s;
+        display:flex; align-items:center; gap:5px;
+        background:rgba(220,50,50,0.08); border:1px solid rgba(220,50,50,0.18);
+        border-radius:10px; padding:7px 13px;
+        color:rgba(255,110,110,0.8); font-size:10px; font-weight:700; letter-spacing:1px;
+        cursor:pointer; transition:background .18s,color .18s;
     }
-    #navReset:hover { background: rgba(220,50,50,0.18); color: #ff9090; }
+    #navReset:hover { background:rgba(220,50,50,0.2); color:#ff9090; }
 
-    /* ══════════════════════════════════════════════════════════
-       MODALS — shared backdrop
-    ══════════════════════════════════════════════════════════ */
+    /* ═══════════════════════════════════
+       SHARED MODAL BACKDROP
+    ═══════════════════════════════════ */
     .modal-backdrop {
-        display: none; position: fixed; inset: 0; z-index: 500;
-        background: rgba(0,0,0,0.65); backdrop-filter: blur(6px);
-        align-items: center; justify-content: center;
+        display:none; position:fixed; inset:0; z-index:1000;
+        background:rgba(0,0,0,0.72); backdrop-filter:blur(8px);
+        align-items:center; justify-content:center;
     }
-    .modal-backdrop.open { display: flex; }
+    .modal-backdrop.open { display:flex; }
 
     /* Rank modal */
     #rankModalBox {
-        background: rgba(14,14,26,0.97); border: 1px solid rgba(255,255,255,0.1);
-        border-radius: 16px; padding: 22px; width: 340px; max-width: 92vw;
+        background:rgba(14,14,26,0.97); border:1px solid rgba(255,255,255,0.1);
+        border-radius:16px; padding:22px; width:340px; max-width:92vw; max-height:88vh; overflow-y:auto;
     }
-    .modal-heading {
-        font-size: 9px; font-weight: 700; letter-spacing: 2.5px;
-        color: rgba(255,255,255,0.28); text-transform: uppercase; margin-bottom: 14px;
-    }
+    .modal-heading { font-size:9px; font-weight:700; letter-spacing:2.5px; color:rgba(255,255,255,0.28); text-transform:uppercase; margin-bottom:14px; }
     .rank-opt {
-        display: flex; align-items: center; gap: 12px; padding: 10px 12px;
-        border-radius: 10px; cursor: pointer; border: 1px solid transparent;
-        transition: background .14s, border-color .14s; margin-bottom: 5px;
+        display:flex; align-items:center; gap:12px; padding:10px 12px;
+        border-radius:10px; cursor:pointer; border:1px solid transparent;
+        transition:background .14s,border-color .14s; margin-bottom:5px;
     }
-    .rank-opt:hover { background: rgba(255,255,255,0.07); }
-    .rank-opt.active { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
-    .rank-opt img { width: 32px; height: 32px; object-fit: contain; }
-    .rank-opt-label { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.75); }
-    .rank-opt-range { font-size: 9px; color: rgba(255,255,255,0.25); margin-top: 2px; }
+    .rank-opt:hover { background:rgba(255,255,255,0.07); }
+    .rank-opt.active { background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.2); }
+    .rank-opt img { width:32px; height:32px; object-fit:contain; }
+    .rank-opt-label { font-size:11px; font-weight:700; color:rgba(255,255,255,0.75); }
+    .rank-opt-range { font-size:9px; color:rgba(255,255,255,0.25); margin-top:2px; }
 
-    /* Map image modal */
+    /* ═══════════════════════════════════
+       MAP IMAGE MODAL — full-screen pop-up
+    ═══════════════════════════════════ */
+    #mapImgModal {
+        display:none; position:fixed; inset:0; z-index:1100;
+        background:rgba(0,0,0,0.88); backdrop-filter:blur(12px);
+        align-items:center; justify-content:center; padding:24px;
+    }
+    #mapImgModal.open { display:flex; }
     #mapImgModalInner {
-        background: rgba(12,12,22,0.98); border: 1px solid rgba(255,255,255,0.1);
-        border-radius: 16px; padding: 20px; max-width: 92vw;
-        display: flex; flex-direction: column; gap: 12px; align-items: center;
+        background:rgba(10,10,22,0.98); border:1px solid rgba(255,255,255,0.12);
+        border-radius:20px; padding:24px 24px 20px;
+        display:flex; flex-direction:column; gap:16px; align-items:center;
+        max-width:min(860px, 94vw); width:100%;
+        box-shadow:0 30px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04);
+        animation:modalPop .22s cubic-bezier(0.34,1.56,0.64,1);
     }
-    #mapImgTitle { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: rgba(255,255,255,0.75); }
+    @keyframes modalPop { from{transform:scale(0.88);opacity:0;} to{transform:scale(1);opacity:1;} }
+    #mapImgHeader {
+        display:flex; align-items:center; justify-content:space-between; width:100%;
+    }
+    #mapImgTitle {
+        font-size:12px; font-weight:700; letter-spacing:2.5px; color:rgba(255,255,255,0.82);
+        text-transform:uppercase;
+    }
+    #mapImgClose {
+        width:32px; height:32px; border-radius:8px; border:1px solid rgba(255,255,255,0.1);
+        background:rgba(255,255,255,0.06); color:rgba(255,255,255,0.5);
+        font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center;
+        transition:background .15s,color .15s; font-family:'Orbitron',sans-serif;
+    }
+    #mapImgClose:hover { background:rgba(255,255,255,0.14); color:#fff; }
     #mapImgEl {
-        max-width: 580px; max-height: 60vh; border-radius: 10px;
-        object-fit: contain; border: 1px solid rgba(255,255,255,0.08);
+        width:100%; max-height:70vh; border-radius:12px; object-fit:contain;
+        border:1px solid rgba(255,255,255,0.08);
+        background:rgba(255,255,255,0.03);
     }
-    .modal-close-btn {
-        padding: 7px 20px; border-radius: 9px; border: 1px solid rgba(255,255,255,0.1);
-        background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.55);
-        font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: 700;
-        letter-spacing: 1px; cursor: pointer; transition: background .15s, color .15s;
+    #mapImgFooter {
+        font-size:8px; color:rgba(255,255,255,0.2); letter-spacing:1px;
     }
-    .modal-close-btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
 
-    /* ══════════════════════════════════════════════════════════
-       MAP PANEL — slides in from right
-    ══════════════════════════════════════════════════════════ */
+    /* ═══════════════════════════════════
+       SETTINGS DRAWER
+    ═══════════════════════════════════ */
+    #settingsDrawer {
+        position:fixed; top:56px; right:0;
+        width:300px; max-width:92vw; height:calc(100vh - 56px);
+        z-index:400; background:rgba(10,10,22,0.98); backdrop-filter:blur(22px);
+        border-left:1px solid rgba(255,255,255,0.08); box-shadow:-10px 0 50px rgba(0,0,0,0.6);
+        display:flex; flex-direction:column;
+        transform:translateX(100%); transition:transform 0.32s cubic-bezier(0.22,1,0.36,1);
+        overflow:hidden;
+    }
+    #settingsDrawer.open { transform:translateX(0); }
+    .sdrawer-head {
+        display:flex; align-items:center; justify-content:space-between;
+        padding:16px 18px; border-bottom:1px solid rgba(255,255,255,0.07); flex-shrink:0;
+    }
+    .sdrawer-title { font-size:10px; font-weight:700; letter-spacing:2.5px; color:rgba(255,255,255,0.4); text-transform:uppercase; }
+    #sdClose { background:none; border:none; color:rgba(255,255,255,0.3); cursor:pointer; font-size:18px; padding:2px 6px; border-radius:5px; transition:color .15s; }
+    #sdClose:hover { color:#fff; }
+    .sdrawer-body { flex:1; overflow-y:auto; padding:18px 18px 30px; display:flex; flex-direction:column; gap:22px; }
+    .sd-sect-title { font-size:8px; font-weight:700; letter-spacing:2px; color:rgba(255,255,255,0.22); text-transform:uppercase; margin-bottom:10px; }
+    .sd-slider-row { display:flex; align-items:center; gap:10px; }
+    .sd-slider-row label { font-size:9px; color:rgba(255,255,255,0.45); min-width:80px; }
+    .sd-slider-row input[type=range] { flex:1; accent-color:#5ddcff; cursor:pointer; }
+    .sd-slider-val { font-size:9px; color:rgba(255,255,255,0.4); min-width:34px; text-align:right; }
+    .sd-pills { display:flex; gap:5px; flex-wrap:wrap; }
+    .sd-pill {
+        font-size:9px; font-weight:700; letter-spacing:0.5px; padding:5px 12px;
+        border-radius:8px; border:1px solid rgba(255,255,255,0.1);
+        background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.35);
+        cursor:pointer; transition:background .14s,color .14s;
+    }
+    .sd-pill:hover { background:rgba(255,255,255,0.09); color:rgba(255,255,255,0.7); }
+    .sd-pill.active { background:rgba(93,220,255,0.15); color:#5ddcff; border-color:rgba(93,220,255,0.3); }
+    .sd-toggle-row {
+        display:flex; align-items:center; justify-content:space-between;
+        padding:7px 0; border-bottom:1px solid rgba(255,255,255,0.04);
+    }
+    .sd-toggle-label { font-size:10px; color:rgba(255,255,255,0.5); }
+    .sd-toggle {
+        width:36px; height:20px; border-radius:10px; background:rgba(255,255,255,0.1);
+        border:none; cursor:pointer; position:relative; transition:background .2s; flex-shrink:0;
+    }
+    .sd-toggle.on { background:#5ddcff; }
+    .sd-toggle::after {
+        content:''; position:absolute; top:3px; left:3px;
+        width:14px; height:14px; border-radius:50%; background:#fff;
+        transition:left .2s; box-shadow:0 1px 4px rgba(0,0,0,0.4);
+    }
+    .sd-toggle.on::after { left:19px; }
+
+    /* Counter mode setting pills */
+    .counter-mode-label {
+        font-size:10px; color:rgba(255,255,255,0.5); margin-bottom:6px;
+    }
+    .counter-mode-desc {
+        font-size:8px; color:rgba(255,255,255,0.22); margin-top:6px; line-height:1.5;
+    }
+
+    /* ═══════════════════════════════════
+       MAP PANEL
+    ═══════════════════════════════════ */
     #mapPanel {
-        position: fixed; top: 54px; right: 0;
-        width: 310px; max-width: 92vw;
-        height: calc(100vh - 54px);
-        z-index: 250;
-        background: rgba(10,10,20,0.97);
-        backdrop-filter: blur(20px);
-        border-left: 1px solid rgba(255,255,255,0.08);
-        box-shadow: -8px 0 40px rgba(0,0,0,0.55);
-        display: flex; flex-direction: column;
-        transform: translateX(100%);
-        transition: transform 0.32s cubic-bezier(0.22,1,0.36,1);
+        position:fixed; top:56px; right:0; width:310px; max-width:92vw; height:calc(100vh - 56px);
+        z-index:350; background:rgba(10,10,20,0.98); backdrop-filter:blur(20px);
+        border-left:1px solid rgba(255,255,255,0.08); box-shadow:-8px 0 40px rgba(0,0,0,0.55);
+        display:flex; flex-direction:column;
+        transform:translateX(100%); transition:transform 0.32s cubic-bezier(0.22,1,0.36,1);
     }
-    #mapPanel.open { transform: translateX(0); }
-
+    #mapPanel.open { transform:translateX(0); }
     .map-panel-head {
-        display: flex; align-items: center; justify-content: space-between;
-        padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,0.07); flex-shrink: 0;
+        display:flex; align-items:center; justify-content:space-between;
+        padding:14px 16px; border-bottom:1px solid rgba(255,255,255,0.07); flex-shrink:0;
     }
-    .map-panel-title { font-size: 9px; font-weight: 700; letter-spacing: 2.5px; color: rgba(255,255,255,0.35); text-transform: uppercase; }
-    #mapPanelClose {
-        background: none; border: none; color: rgba(255,255,255,0.3);
-        cursor: pointer; font-size: 16px; padding: 2px 6px; border-radius: 5px; transition: color .15s;
-    }
-    #mapPanelClose:hover { color: #fff; }
-
-    #mapModeBar {
-        display: flex; gap: 4px; flex-wrap: wrap; padding: 10px 12px;
-        border-bottom: 1px solid rgba(255,255,255,0.05); flex-shrink: 0;
-    }
+    .map-panel-title { font-size:9px; font-weight:700; letter-spacing:2.5px; color:rgba(255,255,255,0.35); text-transform:uppercase; }
+    #mapPanelClose { background:none; border:none; color:rgba(255,255,255,0.3); cursor:pointer; font-size:16px; padding:2px 6px; border-radius:5px; transition:color .15s; }
+    #mapPanelClose:hover { color:#fff; }
+    #mapModeBar { display:flex; gap:4px; flex-wrap:wrap; padding:10px 12px; border-bottom:1px solid rgba(255,255,255,0.05); flex-shrink:0; }
     .mode-chip {
-        font-size: 8px; font-weight: 700; letter-spacing: 0.5px; padding: 4px 9px;
-        border-radius: 6px; border: 1px solid rgba(255,255,255,0.09);
-        background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.28);
-        cursor: pointer; transition: background .14s, color .14s;
+        font-size:8px; font-weight:700; padding:4px 9px; border-radius:6px;
+        border:1px solid rgba(255,255,255,0.09); background:rgba(255,255,255,0.03); color:rgba(255,255,255,0.28);
+        cursor:pointer; transition:background .14s,color .14s;
     }
-    .mode-chip:hover { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.6); }
-    .mode-chip.active { background: rgba(255,255,255,0.12); color: #fff; border-color: rgba(255,255,255,0.22); }
-
-    #mapListScroll { flex: 1; overflow-y: auto; padding: 8px 10px 20px; }
+    .mode-chip:hover { background:rgba(255,255,255,0.08); color:rgba(255,255,255,0.6); }
+    .mode-chip.active { background:rgba(255,255,255,0.12); color:#fff; border-color:rgba(255,255,255,0.22); }
+    #mapListScroll { flex:1; overflow-y:auto; padding:8px 10px 20px; }
     .map-row {
-        display: flex; align-items: center; justify-content: space-between;
-        padding: 8px 10px; border-radius: 8px; cursor: pointer;
-        border: 1px solid transparent; margin-bottom: 4px;
-        transition: background .13s, border-color .13s;
+        display:flex; align-items:center; justify-content:space-between;
+        padding:8px 10px; border-radius:8px; cursor:pointer;
+        border:1px solid transparent; margin-bottom:4px; transition:background .13s,border-color .13s;
     }
-    .map-row:hover { background: rgba(255,255,255,0.06); }
-    .map-row.active { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.18); }
-    .map-row-name { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.72); }
-    .map-row-mode { font-size: 8px; color: rgba(255,255,255,0.22); margin-top: 2px; }
+    .map-row:hover { background:rgba(255,255,255,0.06); }
+    .map-row.active { background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.18); }
+    .map-row-name { font-size:10px; font-weight:700; color:rgba(255,255,255,0.72); }
+    .map-row-mode { font-size:8px; color:rgba(255,255,255,0.22); margin-top:2px; }
+    .map-row-actions { display:flex; align-items:center; gap:4px; }
     .map-eye {
-        background: none; border: none; font-size: 13px; cursor: pointer; padding: 3px 6px;
-        border-radius: 5px; color: rgba(255,255,255,0.2); transition: color .14s;
+        background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1);
+        border-radius:6px; font-size:11px; cursor:pointer; padding:4px 7px;
+        color:rgba(255,255,255,0.4); transition:background .14s,color .14s;
     }
-    .map-eye:hover { color: rgba(255,255,255,0.7); }
+    .map-eye:hover { background:rgba(255,255,255,0.12); color:#fff; }
 
-    /* ══════════════════════════════════════════════════════════
-       PAGE — TWO-COLUMN LAYOUT
-    ══════════════════════════════════════════════════════════ */
-    #draftPage {
-        display: grid;
-        grid-template-columns: 1fr 316px;
-        height: calc(100vh - 54px);
-        overflow: hidden;
-    }
+    /* ═══════════════════════════════════
+       PAGE LAYOUT
+    ═══════════════════════════════════ */
+    #draftPage { display:grid; grid-template-columns:1fr 340px; height:calc(100vh - 56px); overflow:hidden; }
+    #draftLeft { display:flex; flex-direction:column; overflow:hidden; min-width:0; }
 
-    /* ── LEFT COLUMN ───────────────────────────────────────── */
-    #draftLeft {
-        display: flex; flex-direction: column; overflow: hidden;
-        min-width: 0;
-    }
-
-    /* VS BANNER */
+    /* ═══════════════════════════════════
+       VS BANNER — 50% of viewport height
+    ═══════════════════════════════════ */
     #vsBanner {
-        display: grid;
-        grid-template-columns: 1fr 120px 1fr;
-        align-items: stretch;
-        min-height: 140px; flex-shrink: 0;
-        position: relative;
-        background: #0d0d14;
-        overflow: hidden;
+        display:grid; grid-template-columns:1fr 260px 1fr;
+        align-items:stretch;
+        height:50vh;          /* ← FULL 50% of viewport */
+        min-height:320px;
+        flex-shrink:0;
+        position:relative; background:#0d0d14; overflow:visible;
     }
-    /* Blue team side */
     #vsBanner::before {
-        content: '';
-        position: absolute; inset: 0;
-        background: linear-gradient(105deg,
-            #0a3080 0%, #0e2060 35%,
-            transparent 50%,
-            #601010 65%, #8b1515 100%);
-        pointer-events: none;
+        content:''; position:absolute; inset:0; pointer-events:none;
+        background:linear-gradient(105deg, #0a3080 0%, #0e2060 35%, transparent 50%, #601010 65%, #8b1515 100%);
     }
-    /* Halftone dots texture overlay */
     #vsBanner::after {
-        content: '';
-        position: absolute; inset: 0;
-        background-image:
-            radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
-        background-size: 14px 14px;
-        pointer-events: none;
+        content:''; position:absolute; inset:0; pointer-events:none;
+        background-image:radial-gradient(circle, rgba(255,255,255,0.055) 1px, transparent 1px);
+        background-size:14px 14px;
     }
+    .team-side { display:flex; align-items:center; padding:20px 18px; gap:14px; flex-wrap:wrap; position:relative; z-index:2; }
+    .team-side.enemy-side { justify-content:flex-end; }
 
-    .team-side {
-        display: flex; align-items: center; padding: 14px 14px; gap: 8px;
-        flex-wrap: wrap; position: relative; z-index: 1;
+    /* Team slot — overflow:visible so remove btn sticks out */
+    .team-slot { position:relative; flex-shrink:0; overflow:visible; z-index:2; }
+    .team-slot-inner {
+        width:140px; height:140px; border-radius:16px;
+        border:2px dashed rgba(255,255,255,0.18); background:rgba(255,255,255,0.05);
+        display:flex; align-items:center; justify-content:center;
+        overflow:hidden; transition:border-color .2s,box-shadow .2s;
     }
-    .team-side.enemy-side { justify-content: flex-end; }
+    .team-slot.filled .team-slot-inner { border-style:solid; border-color:rgba(120,180,255,0.45); box-shadow:0 0 20px rgba(80,140,255,0.25); }
+    .team-slot.filled.enemy .team-slot-inner { border-color:rgba(255,100,100,0.45); box-shadow:0 0 20px rgba(255,80,80,0.25); }
+    .team-slot.active-turn .team-slot-inner {
+        border-color:rgba(255,220,0,0.85) !important;
+        box-shadow:0 0 28px rgba(255,200,0,0.45) !important;
+        animation:pulse-turn 1.4s ease-in-out infinite;
+    }
+    @keyframes pulse-turn { 0%,100%{box-shadow:0 0 20px rgba(255,200,0,0.3);}50%{box-shadow:0 0 38px rgba(255,200,0,0.65);} }
 
-    /* Individual team slots */
-    .team-slot {
-        width: 76px; height: 76px; border-radius: 11px;
-        border: 2px dashed rgba(255,255,255,0.18);
-        background: rgba(255,255,255,0.05);
-        display: flex; align-items: center; justify-content: center;
-        position: relative; flex-shrink: 0; overflow: hidden;
-        cursor: default; transition: border-color .2s, box-shadow .2s;
-    }
-    .team-slot.filled {
-        border-style: solid; border-color: rgba(120,180,255,0.45);
-        box-shadow: 0 0 14px rgba(80,140,255,0.2);
-    }
-    .team-slot.filled.enemy {
-        border-color: rgba(255,100,100,0.45);
-        box-shadow: 0 0 14px rgba(255,80,80,0.2);
-    }
-    .team-slot img.slot-portrait {
-        width: 100%; height: 100%; object-fit: cover; border-radius: 9px; display: block;
-        pointer-events: none;
-    }
+    .team-slot img.slot-portrait { width:100%; height:100%; object-fit:cover; display:block; pointer-events:none; }
     .slot-label {
-        position: absolute; bottom: 0; left: 0; right: 0;
-        font-size: 6.5px; font-weight: 700; text-align: center;
-        color: rgba(255,255,255,0.6); padding: 2px 2px 3px;
-        background: linear-gradient(transparent, rgba(0,0,0,0.7));
-        border-radius: 0 0 9px 9px; pointer-events: none; letter-spacing: 0.2px;
-        text-shadow: 0 1px 3px #000;
+        position:absolute; bottom:0; left:0; right:0;
+        font-size:7px; font-weight:700; text-align:center; color:rgba(255,255,255,0.8);
+        padding:4px 2px 5px; background:linear-gradient(transparent,rgba(0,0,0,0.8));
+        border-radius:0 0 12px 12px; pointer-events:none; letter-spacing:0.3px; text-shadow:0 1px 3px #000;
     }
-    .slot-remove {
-        position: absolute; top: -7px; right: -7px;
-        width: 19px; height: 19px; border-radius: 50%;
-        background: rgba(190,35,35,0.92); border: none; color: #fff;
-        font-size: 9px; cursor: pointer; display: none;
-        align-items: center; justify-content: center; font-weight: 700; z-index: 10;
-    }
-    .team-slot.filled:hover .slot-remove { display: flex; }
 
-    /* VS Centre */
+    /* Pick order badge */
+    .pick-order-badge {
+        position:absolute; top:-8px; left:-8px;
+        width:22px; height:22px; border-radius:50%;
+        background:rgba(20,20,40,0.95); border:1.5px solid rgba(255,255,255,0.25);
+        font-size:9px; font-weight:700; color:rgba(255,255,255,0.7);
+        display:flex; align-items:center; justify-content:center;
+        z-index:20; pointer-events:none;
+    }
+
+    /* Remove button — fixed z-index above everything */
+    .slot-remove {
+        position:absolute; top:-10px; right:-10px;
+        width:24px; height:24px; border-radius:50%;
+        background:rgba(200,30,30,0.96); border:2px solid rgba(255,255,255,0.3);
+        color:#fff; font-size:11px; line-height:1; cursor:pointer;
+        display:none; align-items:center; justify-content:center; font-weight:700;
+        z-index:9999;
+        pointer-events:all;
+        box-shadow:0 2px 8px rgba(0,0,0,0.6);
+    }
+    .team-slot.filled:hover .slot-remove { display:flex; }
+    /* Ban slot remove also visible on hover */
+    .ban-slot.filled:hover .slot-remove { display:flex !important; }
+
+    /* VS centre */
     #vsCentre {
-        display: flex; flex-direction: column;
-        align-items: center; justify-content: center;
-        gap: 7px; position: relative; z-index: 1; padding: 6px 0;
+        display:flex; flex-direction:column; align-items:center; justify-content:center;
+        gap:10px; position:relative; z-index:2; padding:8px 4px;
     }
     #vsLabel {
-        font-size: 38px; font-weight: 700; letter-spacing: 5px; line-height: 1;
-        color: #fff;
-        text-shadow:
-            -2px -2px 0 rgba(0,0,0,0.8),  2px -2px 0 rgba(0,0,0,0.8),
-            -2px  2px 0 rgba(0,0,0,0.8),  2px  2px 0 rgba(0,0,0,0.8),
-             0    0   16px rgba(255,255,255,0.15);
+        font-size:52px; font-weight:700; letter-spacing:6px; line-height:1; color:#fff;
+        text-shadow:-2px -2px 0 rgba(0,0,0,0.8), 2px -2px 0 rgba(0,0,0,0.8),
+                    -2px  2px 0 rgba(0,0,0,0.8), 2px  2px 0 rgba(0,0,0,0.8),
+                     0 0 24px rgba(255,255,255,0.12);
     }
 
-    /* Map pill under VS */
+    /* Draft-order bubbles */
+    #draftOrderRow { display:flex; gap:5px; align-items:center; }
+    .do-bubble {
+        width:26px; height:26px; border-radius:50%;
+        display:flex; align-items:center; justify-content:center;
+        font-size:9px; font-weight:700; transition:all .2s;
+    }
+    .do-bubble.team-a  { background:rgba(80,140,255,0.32); color:#a8c8ff; border:1.5px solid rgba(80,140,255,0.5); }
+    .do-bubble.team-b  { background:rgba(255,80,80,0.28);  color:#ffaaaa; border:1.5px solid rgba(255,80,80,0.45); }
+    .do-bubble.current { transform:scale(1.32); border-color:rgba(255,220,0,0.85) !important; color:#ffe060 !important; background:rgba(255,200,0,0.22) !important; }
+    .do-bubble.done    { opacity:0.28; }
+
+    /* Map pill */
     #mapPill {
-        display: flex; align-items: center; gap: 5px;
-        background: rgba(0,0,0,0.45); border: 1px solid rgba(255,255,255,0.15);
-        border-radius: 20px; padding: 4px 11px 4px 8px; cursor: pointer;
-        transition: background .18s; white-space: nowrap; max-width: 180px;
+        display:flex; align-items:center; gap:6px;
+        background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.18);
+        border-radius:22px; padding:6px 14px 6px 10px; cursor:pointer;
+        transition:background .18s,border-color .18s; white-space:nowrap; max-width:240px;
     }
-    #mapPill:hover { background: rgba(0,0,0,0.65); }
-    #mapPillText {
-        font-size: 9px; font-weight: 700; color: rgba(255,255,255,0.65);
-        letter-spacing: 0.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-    }
+    #mapPill:hover { background:rgba(0,0,0,0.7); border-color:rgba(255,255,255,0.3); }
+    #mapPillText { font-size:9px; font-weight:700; color:rgba(255,255,255,0.72); overflow:hidden; text-overflow:ellipsis; }
+
+    /* View map image button — always visible when a map is selected */
     #viewMapImgBtn {
-        font-size: 9px; font-weight: 700; letter-spacing: 0.3px;
-        color: rgba(255,255,255,0.3); background: none; border: none;
-        cursor: pointer; padding: 1px 4px; border-radius: 4px; transition: color .14s;
-        display: none;
+        display:none;
+        align-items:center; gap:5px;
+        background:rgba(93,220,255,0.1); border:1px solid rgba(93,220,255,0.25);
+        border-radius:10px; padding:6px 12px;
+        font-size:9px; font-weight:700; letter-spacing:0.5px; color:#5ddcff;
+        cursor:pointer; transition:background .15s,border-color .15s;
+        font-family:'Orbitron',sans-serif;
     }
-    #viewMapImgBtn:hover { color: rgba(255,255,255,0.7); }
+    #viewMapImgBtn.visible { display:flex; }
+    #viewMapImgBtn:hover { background:rgba(93,220,255,0.2); border-color:rgba(93,220,255,0.45); }
 
-    /* Ban strip */
-    #banStrip {
-        display: flex; align-items: center; gap: 6px;
-        padding: 6px 14px; flex-shrink: 0;
-        background: rgba(0,0,0,0.3);
-        border-bottom: 1px solid rgba(255,255,255,0.05);
+    /* ═══════════════════════════════════
+       BAN SLOTS
+    ═══════════════════════════════════ */
+    #banRowInner {
+        display:flex; flex-direction:row; align-items:center;
+        gap:6px; justify-content:center;
     }
-    .ban-strip-label {
-        font-size: 8px; font-weight: 700; letter-spacing: 1.5px;
-        color: rgba(255,90,90,0.5); margin-right: 2px; flex-shrink: 0;
-    }
+    #banSlotRow { display:flex; flex-direction:row; gap:7px; }
+    .ban-row-label { font-size:8px; font-weight:700; letter-spacing:1.5px; color:rgba(255,80,80,0.5); flex-shrink:0; margin-right:2px; }
+
     .ban-slot {
-        width: 38px; height: 38px; border-radius: 7px;
-        border: 1.5px dashed rgba(255,70,70,0.18);
-        background: rgba(255,30,30,0.04);
-        display: flex; align-items: center; justify-content: center;
-        position: relative; flex-shrink: 0; overflow: hidden;
+        width:50px; height:50px; border-radius:50%;
+        border:1.5px dashed rgba(255,70,70,0.25); background:rgba(255,30,30,0.05);
+        display:flex; align-items:center; justify-content:center;
+        position:relative; flex-shrink:0;
+        /* overflow:visible so remove btn is never clipped */
+        overflow:visible;
     }
-    .ban-slot.filled { border-style: solid; border-color: rgba(255,70,70,0.32); }
-    .ban-slot img {
-        width: 100%; height: 100%; object-fit: cover;
-        filter: grayscale(0.6) brightness(0.6);
+    .ban-slot.filled { border-style:solid; border-color:rgba(255,70,70,0.45); }
+    .ban-slot-img-wrap {
+        width:100%; height:100%; border-radius:50%; overflow:hidden;
+        position:relative; flex-shrink:0;
     }
+    .ban-slot img { width:100%; height:100%; object-fit:cover; filter:grayscale(0.7) brightness(0.55); display:block; }
     .ban-x {
-        position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-        font-size: 15px; color: rgba(255,65,65,0.8); font-weight: 700;
-        pointer-events: none; text-shadow: 0 0 4px rgba(0,0,0,0.9);
+        position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+        font-size:18px; color:rgba(255,60,60,0.9); font-weight:700;
+        pointer-events:none; text-shadow:0 0 6px rgba(0,0,0,0.9);
+        border-radius:50%;
     }
+    /* Ban slot remove button — positioned on the outer .ban-slot which has overflow:visible */
     .ban-slot .slot-remove {
-        top: -5px; right: -5px; width: 15px; height: 15px; font-size: 8px;
+        top:-8px; right:-8px; width:20px; height:20px; font-size:9px;
+        border-width:1.5px; z-index:9999; display:none;
     }
-    .ban-slot.filled:hover .slot-remove { display: flex; }
 
-    /* Control bar */
+    /* ═══════════════════════════════════
+       CONTROL BAR
+    ═══════════════════════════════════ */
     #controlBar {
-        display: flex; align-items: center; gap: 7px;
-        padding: 7px 14px; flex-shrink: 0; flex-wrap: wrap;
-        background: rgba(0,0,0,0.18);
-        border-bottom: 1px solid rgba(255,255,255,0.05);
+        display:flex; align-items:center; gap:8px; padding:8px 14px; flex-shrink:0; flex-wrap:wrap;
+        background:rgba(0,0,0,0.18); border-bottom:1px solid rgba(255,255,255,0.05);
     }
-    .ctrl-label { font-size: 8px; color: rgba(255,255,255,0.2); letter-spacing: 1px; }
+    .ctrl-label { font-size:8px; color:rgba(255,255,255,0.2); letter-spacing:1px; flex-shrink:0; }
 
-    .pick-btn {
-        padding: 6px 12px; border-radius: 8px; font-size: 9px; font-weight: 700;
-        letter-spacing: 0.8px; cursor: pointer; border: 1px solid rgba(255,255,255,0.1);
-        background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.28);
-        font-family: 'Orbitron', sans-serif;
-        transition: background .14s, color .14s, border-color .14s; white-space: nowrap;
+    #firstPickToggle {
+        display:flex; align-items:center; gap:0;
+        background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1);
+        border-radius:9px; overflow:hidden; flex-shrink:0;
     }
-    .pick-btn:hover { background: rgba(255,255,255,0.09); color: rgba(255,255,255,0.65); }
-    .pick-btn.ally-active  { background:rgba(50,190,100,0.14);  color:#80ffaa; border-color:rgba(50,190,100,0.3); }
-    .pick-btn.enemy-active { background:rgba(230,60,60,0.13);   color:#ff9090; border-color:rgba(230,60,60,0.3); }
-    .pick-btn.ban-active   { background:rgba(240,140,0,0.12);   color:#ffcc70; border-color:rgba(240,140,0,0.3); }
+    .fp-btn {
+        padding:6px 13px; font-size:9px; font-weight:700; letter-spacing:0.7px; cursor:pointer;
+        border:none; background:none; color:rgba(255,255,255,0.28);
+        font-family:'Orbitron',sans-serif; transition:background .14s,color .14s; white-space:nowrap;
+    }
+    .fp-btn.ally-active  { background:rgba(60,190,100,0.18); color:#80ffaa; }
+    .fp-btn.enemy-active { background:rgba(230,60,60,0.16);  color:#ff9090; }
+    .fp-btn:hover        { color:rgba(255,255,255,0.65); }
 
-    .ctrl-sep { width: 1px; height: 20px; background: rgba(255,255,255,0.08); flex-shrink: 0; }
+    #btnBan {
+        padding:6px 12px; border-radius:8px; font-size:9px; font-weight:700; letter-spacing:0.8px;
+        cursor:pointer; border:1px solid rgba(255,255,255,0.1);
+        background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.28);
+        font-family:'Orbitron',sans-serif; transition:background .14s,color .14s,border-color .14s; white-space:nowrap;
+    }
+    #btnBan:hover { background:rgba(255,255,255,0.09); color:rgba(255,255,255,0.65); }
+    #btnBan.ban-active { background:rgba(240,140,0,0.14); color:#ffcc70; border-color:rgba(240,140,0,0.32); }
 
-    /* Search */
+    .ctrl-sep { width:1px; height:20px; background:rgba(255,255,255,0.08); flex-shrink:0; }
+
     #searchWrap {
-        display: flex; align-items: center; gap: 6px; flex: 1; min-width: 100px;
-        background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.09);
-        border-radius: 9px; padding: 5px 10px;
+        display:flex; align-items:center; gap:6px; flex:1; min-width:100px;
+        background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.09);
+        border-radius:9px; padding:5px 10px;
     }
     #searchInput {
-        background: none; border: none; outline: none;
-        color: rgba(255,255,255,0.8); font-family: 'Orbitron', sans-serif;
-        font-size: 10px; letter-spacing: 0.4px; width: 100%;
+        background:none; border:none; outline:none; color:rgba(255,255,255,0.8);
+        font-family:'Orbitron',sans-serif; font-size:10px; letter-spacing:0.4px; width:100%;
     }
-    #searchInput::placeholder { color: rgba(255,255,255,0.17); }
-    #searchClear {
-        background: none; border: none; color: rgba(255,255,255,0.22);
-        cursor: pointer; font-size: 10px; padding: 0; display: none; transition: color .14s;
-    }
-    #searchClear:hover { color: rgba(255,255,255,0.6); }
-
+    #searchInput::placeholder { color:rgba(255,255,255,0.17); }
+    #searchClear { background:none; border:none; color:rgba(255,255,255,0.22); cursor:pointer; font-size:10px; padding:0; display:none; transition:color .14s; }
+    #searchClear:hover { color:rgba(255,255,255,0.6); }
     #rcHint {
-        font-size: 8px; color: rgba(255,255,255,0.15); letter-spacing: 0.3px;
-        background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
-        border-radius: 5px; padding: 3px 8px; white-space: nowrap; flex-shrink: 0;
+        font-size:8px; color:rgba(255,255,255,0.14); letter-spacing:0.3px;
+        background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06);
+        border-radius:5px; padding:3px 8px; white-space:nowrap; flex-shrink:0;
     }
 
-    /* Brawler picker grid */
-    #pickerWrap { flex: 1; overflow-y: auto; padding: 10px 12px 24px; }
-    #pickerGrid { display: flex; flex-wrap: wrap; gap: 6px; align-content: flex-start; }
+    /* ═══════════════════════════════════
+       TAG FILTER BAR
+    ═══════════════════════════════════ */
+    #tagFilterBar {
+        display:flex; align-items:center; gap:5px; padding:6px 14px;
+        flex-shrink:0; flex-wrap:wrap;
+        background:rgba(0,0,0,0.12); border-bottom:1px solid rgba(255,255,255,0.04);
+    }
+    .tag-filter-clear {
+        font-size:8px; font-weight:700; letter-spacing:0.5px; padding:4px 10px;
+        border-radius:7px; border:1px solid rgba(255,255,255,0.1);
+        background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.28);
+        cursor:pointer; transition:background .14s,color .14s; flex-shrink:0; white-space:nowrap;
+        font-family:'Orbitron',sans-serif;
+    }
+    .tag-filter-clear:hover { background:rgba(255,255,255,0.09); color:rgba(255,255,255,0.7); }
+    .tag-filter-clear.hasActive { background:rgba(255,100,100,0.12); color:#ff9090; border-color:rgba(255,100,100,0.25); }
+    .tag-chip {
+        font-size:8px; font-weight:700; padding:4px 9px; border-radius:6px; white-space:nowrap;
+        border:1px solid rgba(255,255,255,0.09); background:rgba(255,255,255,0.03); color:rgba(255,255,255,0.3);
+        cursor:pointer; transition:background .13s,color .13s,border-color .13s; flex-shrink:0;
+        font-family:'Orbitron',sans-serif;
+    }
+    .tag-chip:hover { background:rgba(255,255,255,0.08); color:rgba(255,255,255,0.65); }
+    .tag-chip.active { background:rgba(93,220,255,0.14); color:#5ddcff; border-color:rgba(93,220,255,0.32); }
+    .tag-chip[data-tag="Tank"].active          { background:rgba(255,160,50,0.16);  color:#ffa032; border-color:rgba(255,160,50,0.35); }
+    .tag-chip[data-tag="Anti-Tank"].active     { background:rgba(255,220,80,0.14);  color:#ffe050; border-color:rgba(255,220,80,0.32); }
+    .tag-chip[data-tag="Dive"].active          { background:rgba(220,70,255,0.15);  color:#dc46ff; border-color:rgba(220,70,255,0.32); }
+    .tag-chip[data-tag="Anti-Dive"].active     { background:rgba(160,70,255,0.15);  color:#a046ff; border-color:rgba(160,70,255,0.32); }
+    .tag-chip[data-tag="Aggro"].active         { background:rgba(255,80,80,0.16);   color:#ff6060; border-color:rgba(255,80,80,0.32); }
+    .tag-chip[data-tag="Anti-Aggro"].active    { background:rgba(255,130,130,0.14); color:#ffaaaa; border-color:rgba(255,130,130,0.32); }
+    .tag-chip[data-tag="Controller"].active    { background:rgba(50,180,255,0.15);  color:#32b4ff; border-color:rgba(50,180,255,0.32); }
+    .tag-chip[data-tag="Sniper"].active        { background:rgba(80,255,200,0.13);  color:#50ffc8; border-color:rgba(80,255,200,0.30); }
+    .tag-chip[data-tag="Support"].active       { background:rgba(100,255,100,0.13); color:#64ff64; border-color:rgba(100,255,100,0.30); }
+    .tag-chip[data-tag="Healer"].active        { background:rgba(80,255,150,0.13);  color:#50ff96; border-color:rgba(80,255,150,0.30); }
+    .tag-chip[data-tag="Cheese"].active        { background:rgba(255,200,0,0.14);   color:#ffc800; border-color:rgba(255,200,0,0.30); }
+    .tag-chip[data-tag="Buffied"].active       { background:rgba(255,100,200,0.14); color:#ff64c8; border-color:rgba(255,100,200,0.30); }
+    .tag-chip[data-tag="First Pick"].active    { background:rgba(0,220,180,0.14);   color:#00dcb4; border-color:rgba(0,220,180,0.30); }
+    .tag-chip[data-tag="Last Pick"].active     { background:rgba(180,100,255,0.14); color:#b464ff; border-color:rgba(180,100,255,0.30); }
+    .tag-chip[data-tag="Gem Mid"].active       { background:rgba(0,200,255,0.14);   color:#00c8ff; border-color:rgba(0,200,255,0.30); }
+    .tag-chip[data-tag="Gem Clutcher"].active  { background:rgba(0,160,220,0.14);   color:#00a0dc; border-color:rgba(0,160,220,0.30); }
+
+    /* ═══════════════════════════════════
+       PICKER GRID
+    ═══════════════════════════════════ */
+    :root { --card-size: 72px; }
+    #pickerWrap { flex:1; overflow-y:auto; padding:10px 12px 24px; }
+    #pickerGrid { display:flex; flex-wrap:wrap; gap:6px; align-content:flex-start; }
 
     .picker-card {
-        width: 68px; display: flex; flex-direction: column; align-items: center;
-        cursor: pointer; border-radius: 10px; border: 2px solid transparent;
-        transition: transform .12s, opacity .15s; flex-shrink: 0; position: relative;
+        width:var(--card-size); display:flex; flex-direction:column; align-items:center;
+        cursor:pointer; border-radius:10px; border:2px solid transparent;
+        transition:transform .12s,opacity .15s; flex-shrink:0; position:relative;
     }
-    .picker-card:hover { transform: scale(1.1); z-index: 4; }
+    .picker-card:hover { transform:scale(1.1); z-index:4; }
     .picker-card img.pc-portrait {
-        width: 68px; height: 68px; object-fit: cover; border-radius: 8px; display: block;
-        border: 2px solid rgba(255,255,255,0.08); pointer-events: none;
-        background: rgba(255,255,255,0.06);
+        width:var(--card-size); height:var(--card-size);
+        object-fit:cover; border-radius:8px; display:block;
+        border:2px solid rgba(255,255,255,0.08); pointer-events:none; background:rgba(255,255,255,0.06);
     }
     .picker-card .pc-name {
-        font-size: 7px; font-weight: 700; color: rgba(255,255,255,0.42);
-        letter-spacing: 0.2px; text-align: center; margin-top: 4px;
-        max-width: 68px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-        pointer-events: none;
+        font-size:calc(var(--card-size) * 0.105); font-weight:700; color:rgba(255,255,255,0.42);
+        text-align:center; margin-top:4px; max-width:var(--card-size);
+        overflow:hidden; text-overflow:ellipsis; white-space:nowrap; pointer-events:none;
     }
-    .picker-card.unavailable { opacity: 0.18; pointer-events: none; }
-    .picker-card.banned      { opacity: 0.25; pointer-events: none; }
-    /* Red ban overlay on banned cards */
+    .picker-card.unavailable { opacity:0.18; pointer-events:none; }
+    .picker-card.banned { opacity:0.25; pointer-events:none; }
     .ban-overlay {
-        position: absolute; top: 0; left: 0; width: 68px; height: 68px;
-        border-radius: 8px; background: rgba(200,30,30,0.32);
-        display: flex; align-items: center; justify-content: center;
-        font-size: 24px; color: rgba(255,60,60,0.85); pointer-events: none;
-        font-weight: 700;
+        position:absolute; top:0; left:0; width:var(--card-size); height:var(--card-size);
+        border-radius:8px; background:rgba(200,30,30,0.32);
+        display:flex; align-items:center; justify-content:center;
+        font-size:calc(var(--card-size) * 0.36); color:rgba(255,60,60,0.85); pointer-events:none; font-weight:700;
     }
+    .empty-hint { color:rgba(255,255,255,0.14); font-size:11px; letter-spacing:1px; padding:30px 0; text-align:center; width:100%; }
 
-    .empty-hint {
-        color: rgba(255,255,255,0.14); font-size: 11px; letter-spacing: 1px;
-        padding: 30px 0; text-align: center; width: 100%;
-    }
+    /* ═══════════════════════════════════
+       RIGHT COL — recommendations
+    ═══════════════════════════════════ */
+    #draftRight { border-left:1px solid rgba(255,255,255,0.07); display:flex; flex-direction:column; background:rgba(0,0,0,0.22); overflow:hidden; }
+    #recHead { padding:14px 16px 10px; flex-shrink:0; border-bottom:1px solid rgba(255,255,255,0.06); }
+    .rec-head-label { font-size:9px; font-weight:700; letter-spacing:2px; color:rgba(255,255,255,0.25); text-transform:uppercase; }
+    .rec-head-sub { font-size:8px; color:rgba(255,255,255,0.14); margin-top:3px; }
+    #recommendList { flex:1; overflow-y:auto; padding:8px 10px 24px; display:flex; flex-direction:column; gap:5px; }
 
-    /* ── RIGHT COLUMN — recommendations ────────────────────── */
-    #draftRight {
-        border-left: 1px solid rgba(255,255,255,0.07);
-        display: flex; flex-direction: column;
-        background: rgba(0,0,0,0.22); overflow: hidden;
-    }
-    #recHead {
-        padding: 12px 14px 8px; flex-shrink: 0;
-        border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-    .rec-head-label {
-        font-size: 9px; font-weight: 700; letter-spacing: 2px;
-        color: rgba(255,255,255,0.25); text-transform: uppercase;
-    }
-    .rec-head-sub {
-        font-size: 8px; color: rgba(255,255,255,0.14); letter-spacing: 0.3px; margin-top: 3px;
-    }
-
-    #recommendList {
-        flex: 1; overflow-y: auto; padding: 7px 9px 24px;
-        display: flex; flex-direction: column; gap: 5px;
-    }
-
-    /* Rec card */
     .rec-card {
-        display: flex; align-items: center; gap: 9px; padding: 7px 9px;
-        border-radius: 10px; background: rgba(255,255,255,0.03);
-        border: 1px solid rgba(255,255,255,0.06);
-        cursor: pointer; position: relative;
-        transition: background .14s, border-color .14s;
+        display:flex; align-items:center; gap:10px; padding:8px 10px;
+        border-radius:10px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06);
+        cursor:pointer; position:relative; transition:background .14s,border-color .14s;
     }
-    .rec-card:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.13); }
-    .rec-card.top { border-color: rgba(255,210,0,0.25); background: rgba(255,195,0,0.04); }
-
-    .rec-portrait {
-        width: 44px; height: 44px; border-radius: 8px;
-        object-fit: cover; flex-shrink: 0; background: rgba(255,255,255,0.06);
-    }
-    .rec-info { flex: 1; min-width: 0; }
-    .rec-name {
-        font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.82);
-        letter-spacing: 0.3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-
-    /* Tier badge */
-    .tier-badge {
-        display: inline-block; font-size: 7px; font-weight: 700;
-        padding: 1px 5px; border-radius: 4px; letter-spacing: 0.5px; margin-top: 3px;
-    }
+    .rec-card:hover { background:rgba(255,255,255,0.07); border-color:rgba(255,255,255,0.13); }
+    .rec-card.top { border-color:rgba(255,210,0,0.25); background:rgba(255,195,0,0.04); }
+    .rec-portrait { width:46px; height:46px; border-radius:8px; object-fit:cover; flex-shrink:0; background:rgba(255,255,255,0.06); }
+    .rec-info { flex:1; min-width:0; }
+    .rec-name { font-size:10px; font-weight:700; color:rgba(255,255,255,0.82); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .tier-badge { display:inline-block; font-size:7px; font-weight:700; padding:1px 5px; border-radius:4px; letter-spacing:0.5px; margin-top:3px; }
     .tier-S { background:rgba(235,25,25,0.22); color:#ff7070; border:1px solid rgba(235,25,25,0.3); }
     .tier-A { background:rgba(220,135,30,0.22); color:#ffba60; border:1px solid rgba(220,135,30,0.3); }
     .tier-B { background:rgba(245,222,20,0.18); color:#fef068; border:1px solid rgba(245,222,20,0.24); }
@@ -484,52 +554,32 @@
     .tier-D { background:rgba(8,198,198,0.18);  color:#78eaea; border:1px solid rgba(8,198,198,0.24); }
     .tier-F { background:rgba(75,75,140,0.22);  color:#a0a0d0; border:1px solid rgba(75,75,140,0.3); }
     .tier-\? { background:rgba(255,255,255,0.05); color:rgba(255,255,255,0.22); border:1px solid rgba(255,255,255,0.09); }
+    .rec-bar-wrap { height:3px; border-radius:2px; background:rgba(255,255,255,0.07); overflow:hidden; margin-top:5px; }
+    .rec-bar { height:100%; border-radius:2px; background:linear-gradient(90deg,#f5a723,#ffe080); transition:width .35s; }
+    .rec-bar.blue { background:linear-gradient(90deg,#5ddcff,#a8f0ff); }
+    .rec-score-num { font-size:9px; color:rgba(255,255,255,0.28); margin-top:2px; }
+    .rec-breakdown { display:none; font-size:8px; margin-top:3px; }
+    .rec-card:hover .rec-breakdown { display:block; }
+    .bd-pos { color:rgba(110,255,145,0.75); }
+    .bd-neg { color:rgba(255,110,110,0.75); }
+    .rec-rank-num { font-size:10px; font-weight:700; color:rgba(255,210,0,0.65); letter-spacing:1px; flex-shrink:0; min-width:22px; text-align:right; }
 
-    /* Score bar */
-    .rec-bar-wrap {
-        height: 3px; border-radius: 2px;
-        background: rgba(255,255,255,0.07); overflow: hidden; margin-top: 5px;
-    }
-    .rec-bar {
-        height: 100%; border-radius: 2px;
-        background: linear-gradient(90deg, #f5a723, #ffe080);
-        transition: width .35s;
-    }
-    .rec-bar.blue { background: linear-gradient(90deg, #5ddcff, #a8f0ff); }
-    .rec-score-num { font-size: 9px; color: rgba(255,255,255,0.28); margin-top: 2px; }
+    ::-webkit-scrollbar { width:4px; height:4px; }
+    ::-webkit-scrollbar-track { background:transparent; }
+    ::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.1); border-radius:2px; }
 
-    /* Breakdown on hover */
-    .rec-breakdown { display: none; font-size: 8px; margin-top: 3px; letter-spacing: 0.2px; }
-    .rec-card:hover .rec-breakdown { display: block; }
-    .bd-pos { color: rgba(110,255,145,0.75); }
-    .bd-neg { color: rgba(255,110,110,0.75); }
-
-    /* Rank badge #1 #2 #3 */
-    .rec-rank-num {
-        font-size: 10px; font-weight: 700; color: rgba(255,210,0,0.65);
-        letter-spacing: 1px; flex-shrink: 0; min-width: 22px; text-align: right;
-    }
-
-    /* ══════════════════════════════════════════════════════════
-       SCROLLBARS
-    ══════════════════════════════════════════════════════════ */
-    ::-webkit-scrollbar { width: 4px; height: 4px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
-
-    /* ══════════════════════════════════════════════════════════
-       RESPONSIVE
-    ══════════════════════════════════════════════════════════ */
-    @media (max-width: 820px) {
-        #draftPage { grid-template-columns: 1fr; height: auto; overflow: visible; }
-        #draftRight { border-left: none; border-top: 1px solid rgba(255,255,255,0.07); height: 400px; }
-        #mapPanel { width: 100%; }
+    @media (max-width:860px) {
+        #draftPage { grid-template-columns:1fr; height:auto; overflow:visible; }
+        #draftRight { border-left:none; border-top:1px solid rgba(255,255,255,0.07); height:440px; }
+        #mapPanel, #settingsDrawer { width:100%; }
+        #vsBanner { height:auto; min-height:260px; }
+        .team-slot-inner { width:90px; height:90px; }
     }
     </style>
 </head>
 <body class="theme-dark">
 
-<!-- ══ NAV ══════════════════════════════════════════════════ -->
+<!-- NAV -->
 <nav id="glassNav">
     <button id="navBack" onclick="goHome()">
         <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
@@ -541,8 +591,9 @@
     <div class="nav-right">
         <div id="navRankBadge">
             <img id="navRankImg" src="" alt="" onerror="this.style.display='none'">
-            <span id="navRankLabel">Trophies</span>
+            <span id="navRankLabel">Mythic</span>
         </div>
+        <button id="navSettings" title="Settings">⚙</button>
         <button id="navReset">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
                 <polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.51"/>
@@ -552,7 +603,7 @@
     </div>
 </nav>
 
-<!-- ══ RANK MODAL ════════════════════════════════════════════ -->
+<!-- RANK MODAL -->
 <div id="rankModal" class="modal-backdrop">
     <div id="rankModalBox">
         <div class="modal-heading">Select Your Rank</div>
@@ -560,16 +611,74 @@
     </div>
 </div>
 
-<!-- ══ MAP IMAGE MODAL ═══════════════════════════════════════ -->
-<div id="mapImgModal" class="modal-backdrop">
+<!-- MAP IMAGE MODAL -->
+<div id="mapImgModal">
     <div id="mapImgModalInner">
-        <div id="mapImgTitle">MAP</div>
+        <div id="mapImgHeader">
+            <div id="mapImgTitle">MAP</div>
+            <button id="mapImgClose">✕</button>
+        </div>
         <img id="mapImgEl" src="" alt="Map">
-        <button class="modal-close-btn" id="mapImgClose">CLOSE</button>
+        <div id="mapImgFooter">Click outside or press ESC to close</div>
     </div>
 </div>
 
-<!-- ══ MAP PANEL ═════════════════════════════════════════════ -->
+<!-- SETTINGS DRAWER -->
+<div id="settingsDrawer">
+    <div class="sdrawer-head">
+        <span class="sdrawer-title">Settings</span>
+        <button id="sdClose">✕</button>
+    </div>
+    <div class="sdrawer-body">
+        <div>
+            <div class="sd-sect-title">Icon Size</div>
+            <div class="sd-slider-row">
+                <label>Card size</label>
+                <input type="range" id="sdCardSize" min="48" max="112" step="4" value="72">
+                <span class="sd-slider-val" id="sdCardSizeVal">72px</span>
+            </div>
+        </div>
+        <div>
+            <div class="sd-sect-title">Sort Order</div>
+            <div class="sd-pills" id="sdSortPills">
+                <div class="sd-pill active" data-sort="default">Default</div>
+                <div class="sd-pill" data-sort="az">A → Z</div>
+                <div class="sd-pill" data-sort="za">Z → A</div>
+                <div class="sd-pill" data-sort="rarity">Rarity</div>
+                <div class="sd-pill" data-sort="meta">Meta Score</div>
+            </div>
+        </div>
+        <div>
+            <div class="sd-sect-title">Scoring Mode</div>
+            <div class="counter-mode-label">Counter logic source</div>
+            <div class="sd-pills" id="sdCounterMode">
+                <div class="sd-pill active" data-cmode="tags">Tags Only</div>
+                <div class="sd-pill" data-cmode="both">Tags + Counters DB</div>
+                <div class="sd-pill" data-cmode="counters">Counters DB Only</div>
+            </div>
+            <div class="counter-mode-desc" id="counterModeDesc">
+                Uses role tags and the counter logic rules to score brawlers.
+            </div>
+        </div>
+        <div>
+            <div class="sd-sect-title">Display Options</div>
+            <div class="sd-toggle-row">
+                <span class="sd-toggle-label">Show brawler names</span>
+                <button class="sd-toggle on" id="tdNames"></button>
+            </div>
+            <div class="sd-toggle-row">
+                <span class="sd-toggle-label">Show pick-order numbers</span>
+                <button class="sd-toggle on" id="tdOrderBadge"></button>
+            </div>
+            <div class="sd-toggle-row">
+                <span class="sd-toggle-label">Highlight active turn</span>
+                <button class="sd-toggle on" id="tdHighlight"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MAP PANEL -->
 <div id="mapPanel">
     <div class="map-panel-head">
         <span class="map-panel-title">Select Map</span>
@@ -579,38 +688,37 @@
     <div id="mapListScroll"></div>
 </div>
 
-<!-- ══ PAGE ══════════════════════════════════════════════════ -->
+<!-- PAGE -->
 <div id="draftPage">
-
-    <!-- LEFT -->
     <div id="draftLeft">
 
         <!-- VS Banner -->
         <div id="vsBanner">
-            <div class="team-side" id="allySlots"></div>
+            <div class="team-side"              id="allySlots"></div>
             <div id="vsCentre">
                 <div id="vsLabel">VS</div>
+                <div id="draftOrderRow"></div>
                 <div id="mapPill">
-                    <span style="font-size:13px;">🗺</span>
+                    <span style="font-size:15px">🗺</span>
                     <span id="mapPillText">Select Map</span>
                 </div>
-                <button id="viewMapImgBtn">View Image</button>
+                <button id="viewMapImgBtn">🖼 View Map</button>
+                <div id="banRowInner">
+                    <span class="ban-row-label">BANS</span>
+                    <div id="banSlotRow"></div>
+                </div>
             </div>
-            <div class="team-side enemy-side" id="enemySlots"></div>
+            <div class="team-side enemy-side"   id="enemySlots"></div>
         </div>
 
-        <!-- Ban strip -->
-        <div id="banStrip">
-            <span class="ban-strip-label">BANS</span>
-            <div id="banSlotRow"></div>
-        </div>
-
-        <!-- Control bar -->
+        <!-- Controls -->
         <div id="controlBar">
-            <span class="ctrl-label">ADD TO →</span>
-            <button class="pick-btn ally-active"  id="btnAlly">▲ Your Team</button>
-            <button class="pick-btn"              id="btnEnemy">▼ Enemy</button>
-            <button class="pick-btn"              id="btnBan">🚫 Ban</button>
+            <span class="ctrl-label">FIRST PICK →</span>
+            <div id="firstPickToggle">
+                <button class="fp-btn ally-active" id="fpAlly">▲ Your Team</button>
+                <button class="fp-btn"             id="fpEnemy">▼ Enemy</button>
+            </div>
+            <button id="btnBan">🚫 Ban</button>
             <div class="ctrl-sep"></div>
             <div id="searchWrap">
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="2.5" stroke-linecap="round">
@@ -622,17 +730,17 @@
             <span id="rcHint">Right-click = Ban</span>
         </div>
 
-        <!-- Picker grid -->
-        <div id="pickerWrap">
-            <div id="pickerGrid"></div>
-        </div>
+        <!-- Tag Filter Bar -->
+        <div id="tagFilterBar"></div>
+
+        <!-- Picker -->
+        <div id="pickerWrap"><div id="pickerGrid"></div></div>
     </div>
 
-    <!-- RIGHT -->
     <div id="draftRight">
         <div id="recHead">
             <div class="rec-head-label">Recommendations</div>
-            <div class="rec-head-sub">Hover for breakdown · Click to pick for your team</div>
+            <div class="rec-head-sub">Hover for breakdown · Click to add to your team</div>
         </div>
         <div id="recommendList"></div>
     </div>
@@ -642,452 +750,657 @@
 <script src="../scripts/brawlerData.js"></script>
 <script src="../scripts/draftingData.js"></script>
 <script src="../scripts/draftingEngine.js"></script>
-
 <script>
-(function () {
-    "use strict";
+(function(){
+"use strict";
 
-    const MAX_TEAM = 3, MAX_BANS = 6;
+const MAX_TEAM = 3, MAX_BANS = 6;
+const PICK_ORDER = ["a","b","b","a","a","b"];
 
-    // ── State ────────────────────────────────────────────────
-    function freshState() {
-        return {
-            rankId:     RANKS[0].key,
-            mapId:      null,
-            modeFilter: "all",
-            allyPicks:  [],
-            enemyPicks: [],
-            bannedIds:  new Set(),
-            pickMode:   "ally",
-            search:     "",
-        };
-    }
-    let S = freshState();
+// ─── All tags (no "Goal Keeper") ──────────────────────────────────────────────
+const ALL_TAGS = [
+    "First Pick","Last Pick","Buffied",
+    "Gem Mid","Gem Clutcher","Heist Offense","Heist Defense",
+    "Goal Scorer","Keeper",
+    "Tank","Anti-Tank","Dive","Anti-Dive","Aggro","Anti-Aggro",
+    "Controller","Sniper","Support","Healer","Anti-Healer",
+    "Spawner","Anti-Group","Wallbreak","Cheese","Slow Paced"
+];
 
-    function getMap()   { return DRAFT_MAPS.find(m => m.id === S.mapId) || null; }
-    function getRank()  { return RANKS.find(r => r.key === S.rankId) || RANKS[0]; }
-    function allUsed()  {
-        return new Set([
-            ...S.allyPicks.map(b => b.id),
-            ...S.enemyPicks.map(b => b.id),
-            ...S.bannedIds,
-        ]);
-    }
+// ─── Counter mode descriptions ─────────────────────────────────────────────────
+const COUNTER_MODE_DESCS = {
+    tags:     "Uses role tags and the built-in role-relationship rules to calculate counter scores. No manual counter DB needed.",
+    both:     "Combines tag-based role rules AND any manual entries in the COUNTERS database for the most precise scoring.",
+    counters: "Uses ONLY the manual COUNTERS database entries. Tags are ignored for counter scoring."
+};
 
-    // ── Nav rank badge ───────────────────────────────────────
-    function syncNavRank() {
-        const r = getRank();
-        document.getElementById("navRankLabel").textContent = r.label;
-        const img = document.getElementById("navRankImg");
-        img.src   = rankLogoUrl(r.logoFile);
-        img.style.display = "";
-    }
+/* ── Settings ─────────────────────────────── */
+let cfg = (()=>{ try{ return JSON.parse(localStorage.getItem("draftCfg_v1"))||{}; }catch{ return {}; } })();
+function saveCfg(){ localStorage.setItem("draftCfg_v1", JSON.stringify(cfg)); }
+function get(k,d){ return cfg[k]!==undefined ? cfg[k] : d; }
 
-    // ── Rank modal ───────────────────────────────────────────
-    function buildRankModal() {
-        const list = document.getElementById("rankOptionsList");
-        list.innerHTML = "";
-        RANKS.forEach(r => {
-            const el = document.createElement("div");
-            el.className = "rank-opt" + (r.key === S.rankId ? " active" : "");
-            el.innerHTML = `
-                <img src="${rankLogoUrl(r.logoFile)}" onerror="this.style.display='none'" alt="">
-                <div>
-                    <div class="rank-opt-label">${r.label}</div>
-                    <div class="rank-opt-range">${DRAFT_RANK_PROFILES.find(p=>p.id===r.key)?.range||""}</div>
-                </div>`;
-            el.addEventListener("click", () => {
-                S.rankId = r.key;
-                closeModal("rankModal");
-                syncNavRank();
-                buildRankModal();
-                refresh();
-            });
-            list.appendChild(el);
-        });
-    }
-    document.getElementById("navRankBadge").addEventListener("click", () => {
-        buildRankModal();
-        openModal("rankModal");
-    });
-    document.getElementById("rankModal").addEventListener("click", e => {
-        if (e.target === e.currentTarget) closeModal("rankModal");
-    });
+/* ── State ────────────────────────────────── */
+function fresh(){
+    return { rankId:"Mythic", mapId:null, modeFilter:"all",
+             allyPicks:[], enemyPicks:[], bannedIds:new Set(),
+             firstPick:"ally", banMode:false, search:"", activeTags:new Set() };
+}
+let S = fresh();
 
-    // ── Modal helpers ────────────────────────────────────────
-    function openModal(id)  { document.getElementById(id).classList.add("open"); }
-    function closeModal(id) { document.getElementById(id).classList.remove("open"); }
+function getMap(){ return DRAFT_MAPS.find(m=>m.id===S.mapId)||null; }
+function getRank(){ return RANKS.find(r=>r.key===S.rankId)||RANKS.find(r=>r.key==="Mythic")||RANKS[0]; }
+function allUsed(){ return new Set([...S.allyPicks.map(b=>b.id),...S.enemyPicks.map(b=>b.id),...S.bannedIds]); }
+function picksDone(){ return S.allyPicks.length + S.enemyPicks.length; }
 
-    // ── Map panel ────────────────────────────────────────────
-    function buildMapPanel() {
-        // Mode chips
-        const bar = document.getElementById("mapModeBar");
-        bar.innerHTML = "";
-        const modes = ["all", ...new Set(DRAFT_MAPS.map(m => m.mode))];
-        modes.forEach(mode => {
-            const c = document.createElement("div");
-            c.className = "mode-chip" + (S.modeFilter === mode ? " active" : "");
-            c.textContent = mode === "all" ? "All" : mode;
-            c.addEventListener("click", () => {
-                S.modeFilter = mode;
-                bar.querySelectorAll(".mode-chip").forEach(x => x.classList.remove("active"));
-                c.classList.add("active");
-                renderMapList();
-            });
-            bar.appendChild(c);
-        });
-        renderMapList();
-    }
+function letterToTeam(letter){
+    if(S.firstPick==="ally") return letter==="a"?"ally":"enemy";
+    return letter==="a"?"enemy":"ally";
+}
+function currentTurnTeam(){
+    if(picksDone()>=MAX_TEAM*2) return null;
+    return letterToTeam(PICK_ORDER[picksDone()]);
+}
 
-    function renderMapList() {
-        const scroll = document.getElementById("mapListScroll");
-        scroll.innerHTML = "";
-        const maps = S.modeFilter === "all" ? DRAFT_MAPS : DRAFT_MAPS.filter(m => m.mode === S.modeFilter);
-        maps.forEach(map => {
-            const row = document.createElement("div");
-            row.className = "map-row" + (S.mapId === map.id ? " active" : "");
-            row.innerHTML = `
-                <div>
-                    <div class="map-row-name">${map.name}</div>
-                    <div class="map-row-mode">${map.mode}</div>
-                </div>
-                <button class="map-eye" title="View map image">🗺</button>`;
-            row.addEventListener("click", e => {
-                if (e.target.closest(".map-eye")) return;
-                S.mapId = map.id;
-                document.getElementById("mapPanel").classList.remove("open");
-                syncMapPill();
-                renderMapList();
-                refresh();
-            });
-            row.querySelector(".map-eye").addEventListener("click", () => showMapImage(map));
-            scroll.appendChild(row);
-        });
-    }
+/* ── Tag-based counter scoring ────────────────────────────────────────────────
+   Returns a bonus score for `candidateId` given the enemy team tags.
+   Based on the rules described in the design doc.
+   ─────────────────────────────────────────────────────────────────────────── */
+function tagCounterScore(candidateId, enemyPicks) {
+    if(!enemyPicks.length) return 0;
+    const myRoles = getRoles(candidateId);
+    let bonus = 0;
 
-    function syncMapPill() {
-        const map = getMap();
-        document.getElementById("mapPillText").textContent = map ? map.name : "Select Map";
-        document.getElementById("viewMapImgBtn").style.display = map ? "" : "none";
-    }
+    enemyPicks.forEach(enemy => {
+        const eRoles = getRoles(enemy.id);
 
-    document.getElementById("mapPill").addEventListener("click", () => {
-        buildMapPanel();
-        document.getElementById("mapPanel").classList.add("open");
-    });
-    document.getElementById("mapPanelClose").addEventListener("click", () => {
-        document.getElementById("mapPanel").classList.remove("open");
-    });
-    document.getElementById("viewMapImgBtn").addEventListener("click", () => {
-        const map = getMap();
-        if (map) showMapImage(map);
-    });
-
-    // ── Map image modal ──────────────────────────────────────
-    function showMapImage(map) {
-        document.getElementById("mapPanel").classList.remove("open");
-        document.getElementById("mapImgTitle").textContent = `${map.name}  ·  ${map.mode}`;
-        const img = document.getElementById("mapImgEl");
-        img.src   = draftMapImageUrl(map.imageFile);
-        img.onerror = () => { img.alt = "Image not available."; };
-        openModal("mapImgModal");
-    }
-    document.getElementById("mapImgClose").addEventListener("click", () => closeModal("mapImgModal"));
-    document.getElementById("mapImgModal").addEventListener("click", e => {
-        if (e.target === e.currentTarget) closeModal("mapImgModal");
-    });
-
-    // ── VS Banner slots ──────────────────────────────────────
-    function renderBanner() {
-        renderTeamSide("allySlots",  S.allyPicks,  "ally");
-        renderTeamSide("enemySlots", S.enemyPicks, "enemy");
-    }
-
-    function renderTeamSide(cId, picks, team) {
-        const c = document.getElementById(cId);
-        c.innerHTML = "";
-        for (let i = 0; i < MAX_TEAM; i++) {
-            const b    = picks[i];
-            const slot = document.createElement("div");
-            slot.className = "team-slot" + (b ? " filled" + (team==="enemy" ? " enemy" : "") : "");
-
-            if (b) {
-                const img = document.createElement("img");
-                img.className = "slot-portrait";
-                img.src = portraitUrl(b.key);
-                img.alt = b.name;
-                img.onerror = () => { img.style.display = "none"; };
-                slot.appendChild(img);
-
-                const lbl = document.createElement("div");
-                lbl.className = "slot-label";
-                lbl.textContent = b.name.toUpperCase().slice(0, 10);
-                slot.appendChild(lbl);
-
-                const rem = document.createElement("button");
-                rem.className = "slot-remove";
-                rem.textContent = "✕";
-                rem.addEventListener("click", () => {
-                    if (team === "ally")  S.allyPicks  = S.allyPicks.filter(x => x.id !== b.id);
-                    if (team === "enemy") S.enemyPicks = S.enemyPicks.filter(x => x.id !== b.id);
-                    refresh();
-                });
-                slot.appendChild(rem);
+        // Anti-{X} counters {X}
+        myRoles.forEach(r => {
+            if(r.startsWith("Anti-")) {
+                const target = r.slice(5); // e.g. "Anti-Tank" → "Tank"
+                if(eRoles.includes(target)) bonus += 1.5;
             }
-            c.appendChild(slot);
-        }
-    }
-
-    // ── Ban strip ────────────────────────────────────────────
-    function renderBans() {
-        const row = document.getElementById("banSlotRow");
-        row.innerHTML = "";
-        const bannedArr = [...S.bannedIds]
-            .map(id => BRAWLERS.find(b => b.id === id))
-            .filter(Boolean);
-
-        for (let i = 0; i < MAX_BANS; i++) {
-            const b    = bannedArr[i];
-            const slot = document.createElement("div");
-            slot.className = "ban-slot" + (b ? " filled" : "");
-
-            if (b) {
-                const img = document.createElement("img");
-                img.src = portraitUrl(b.key);
-                img.onerror = () => {};
-                slot.appendChild(img);
-
-                const x = document.createElement("div");
-                x.className = "ban-x";
-                x.textContent = "✕";
-                slot.appendChild(x);
-
-                const rem = document.createElement("button");
-                rem.className = "slot-remove";
-                rem.textContent = "✕";
-                rem.addEventListener("click", () => {
-                    S.bannedIds.delete(b.id);
-                    refresh();
-                });
-                slot.appendChild(rem);
-            }
-            row.appendChild(slot);
-        }
-    }
-
-    // ── Pick mode buttons ────────────────────────────────────
-    function initPickBtns() {
-        [["btnAlly","ally"],["btnEnemy","enemy"],["btnBan","ban"]].forEach(([id, mode]) => {
-            document.getElementById(id).addEventListener("click", () => {
-                S.pickMode = mode;
-                syncPickBtns();
-            });
-        });
-    }
-    function syncPickBtns() {
-        [["btnAlly","ally"],["btnEnemy","enemy"],["btnBan","ban"]].forEach(([id, mode]) => {
-            const btn = document.getElementById(id);
-            btn.classList.remove("ally-active","enemy-active","ban-active");
-            if (S.pickMode === mode) btn.classList.add(mode + "-active");
-        });
-    }
-
-    // ── Picker grid ──────────────────────────────────────────
-    function renderGrid() {
-        const grid = document.getElementById("pickerGrid");
-        const used = allUsed();
-        const q    = S.search.toLowerCase().trim();
-
-        const list = q ? BRAWLERS.filter(b => b.name.toLowerCase().includes(q)) : BRAWLERS;
-        grid.innerHTML = "";
-        if (list.length === 0) {
-            grid.innerHTML = `<div class="empty-hint">No brawlers match.</div>`;
-            return;
-        }
-
-        list.forEach(b => {
-            const picked = used.has(b.id) && !S.bannedIds.has(b.id);
-            const banned = S.bannedIds.has(b.id);
-
-            const card = document.createElement("div");
-            card.className = "picker-card" + (picked ? " unavailable" : banned ? " banned" : "");
-            card.title = b.name;
-
-            const img = document.createElement("img");
-            img.className = "pc-portrait";
-            img.src = portraitUrl(b.key);
-            img.alt = b.name;
-            img.draggable = false;
-            img.onerror = () => {
-                img.style.background = "rgba(255,255,255,0.07)";
-                img.style.display = "block";
-            };
-
-            const name = document.createElement("div");
-            name.className = "pc-name";
-            name.textContent = b.name;
-
-            card.appendChild(img);
-            if (banned) {
-                const ov = document.createElement("div");
-                ov.className = "ban-overlay";
-                ov.textContent = "✕";
-                card.appendChild(ov);
-            }
-            card.appendChild(name);
-
-            card.addEventListener("click",       () => addBrawler(b));
-            card.addEventListener("contextmenu", e  => { e.preventDefault(); quickBan(b); });
-            grid.appendChild(card);
-        });
-    }
-
-    // ── Add / quick-ban ──────────────────────────────────────
-    function addBrawler(b) {
-        if (allUsed().has(b.id)) return;
-        if (S.pickMode === "ally"  && S.allyPicks.length  < MAX_TEAM) S.allyPicks.push(b);
-        else if (S.pickMode === "enemy" && S.enemyPicks.length < MAX_TEAM) S.enemyPicks.push(b);
-        else if (S.pickMode === "ban"   && S.bannedIds.size    < MAX_BANS)  S.bannedIds.add(b.id);
-        refresh();
-    }
-
-    function quickBan(b) {
-        if (allUsed().has(b.id)) return;
-        if (S.bannedIds.size < MAX_BANS) {
-            S.bannedIds.add(b.id);
-            refresh();
-        }
-    }
-
-    // ── Recommendations ──────────────────────────────────────
-    function renderRecs() {
-        const list    = document.getElementById("recommendList");
-        const results = DraftEngine.scoreBrawlers({
-            allyPicks:  S.allyPicks,
-            enemyPicks: S.enemyPicks,
-            bannedIds:  S.bannedIds,
-            map:        getMap(),
-            rankId:     S.rankId,
         });
 
-        list.innerHTML = "";
-        if (!results.length) {
-            list.innerHTML = `<div class="empty-hint">No candidates available.</div>`;
-            return;
+        // Tank counters Dive
+        if(myRoles.includes("Tank") && eRoles.includes("Dive")) bonus += 1.0;
+        // Controller counters Aggro + Tanks
+        if(myRoles.includes("Controller") && eRoles.includes("Aggro")) bonus += 1.0;
+        if(myRoles.includes("Controller") && eRoles.includes("Tank")) bonus += 0.8;
+        // Dive counters Controller, Support, Healer, Sniper
+        if(myRoles.includes("Dive")) {
+            if(eRoles.includes("Controller")) bonus += 1.2;
+            if(eRoles.includes("Support"))    bonus += 1.0;
+            if(eRoles.includes("Healer"))     bonus += 1.0;
+            if(eRoles.includes("Sniper"))     bonus += 0.8;
         }
-
-        const top      = results.slice(0, 20);
-        const maxScore = Math.max(top[0].score, 0.01);
-
-        top.forEach((r, idx) => {
-            const { brawler:b, score, tierLabel, breakdown } = r;
-            const pct   = Math.round((score / maxScore) * 100);
-            const isTop = idx < 3;
-
-            const card = document.createElement("div");
-            card.className = "rec-card" + (isTop ? " top" : "");
-
-            // Portrait
-            const img = document.createElement("img");
-            img.className = "rec-portrait";
-            img.src = portraitUrl(b.key);
-            img.alt = b.name;
-            img.onerror = () => { img.style.opacity = "0"; };
-            card.appendChild(img);
-
-            // Info
-            const info = document.createElement("div");
-            info.className = "rec-info";
-
-            // Score breakdown string
-            const bd = breakdown;
-            const bdHtml = [
-                bd.meta    > 0 ? `<span class="bd-pos">Meta +${bd.meta}</span>` : "",
-                bd.offense > 0 ? `<span class="bd-pos">Counter +${bd.offense}</span>` : "",
-                bd.vuln    < 0 ? `<span class="bd-neg">Vuln ${bd.vuln}</span>` : "",
-                bd.map !== 0   ? `<span class="${bd.map>0?"bd-pos":"bd-neg"}">Map ${bd.map>0?"+":""}${bd.map}</span>` : "",
-                bd.team    > 0 ? `<span class="bd-pos">Team +${bd.team}</span>` : "",
-            ].filter(Boolean).join(" ");
-
-            info.innerHTML = `
-                <div class="rec-name">${b.name}</div>
-                <div><span class="tier-badge tier-${tierLabel}">${tierLabel} Tier</span></div>
-                <div class="rec-bar-wrap">
-                    <div class="rec-bar${isTop?"":" blue"}" style="width:${pct}%"></div>
-                </div>
-                <div class="rec-score-num">Score: ${Math.round(score)}</div>
-                <div class="rec-breakdown">${bdHtml}</div>`;
-            card.appendChild(info);
-
-            if (isTop) {
-                const rk = document.createElement("div");
-                rk.className = "rec-rank-num";
-                rk.textContent = `#${idx + 1}`;
-                card.appendChild(rk);
-            }
-
-            card.addEventListener("click", () => {
-                const used = allUsed();
-                if (!used.has(b.id) && S.allyPicks.length < MAX_TEAM) {
-                    S.allyPicks.push(b);
-                    refresh();
-                }
-            });
-
-            list.appendChild(card);
-        });
-    }
-
-    // ── Search ────────────────────────────────────────────────
-    document.getElementById("searchInput").addEventListener("input", function () {
-        S.search = this.value;
-        document.getElementById("searchClear").style.display = this.value ? "block" : "none";
-        renderGrid();
-    });
-    document.getElementById("searchClear").addEventListener("click", () => {
-        S.search = "";
-        document.getElementById("searchInput").value = "";
-        document.getElementById("searchClear").style.display = "none";
-        renderGrid();
+        // Sniper is good into Support, Healer, Tank
+        if(myRoles.includes("Sniper")) {
+            if(eRoles.includes("Support")) bonus += 1.0;
+            if(eRoles.includes("Healer"))  bonus += 1.0;
+            if(eRoles.includes("Tank"))    bonus += 0.8;
+        }
+        // Anti-Group counters Spawners (hard) + Support/Healer (soft)
+        if(myRoles.includes("Anti-Group")) {
+            if(eRoles.includes("Spawner")) bonus += 2.0;
+            if(eRoles.includes("Support")) bonus += 0.6;
+            if(eRoles.includes("Healer"))  bonus += 0.6;
+        }
+        // Spawner counters Slow Paced
+        if(myRoles.includes("Spawner") && eRoles.includes("Slow Paced")) bonus += 1.0;
+        // Heist Defense hard counters Heist Offense
+        if(myRoles.includes("Heist Defense") && eRoles.includes("Heist Offense")) bonus += 2.5;
     });
 
-    // ── Reset ─────────────────────────────────────────────────
-    document.getElementById("navReset").addEventListener("click", () => {
-        if (!confirm("Reset the draft? All picks and bans will be cleared.")) return;
-        const { rankId, mapId, modeFilter } = S;
-        S = freshState();
-        S.rankId = rankId; S.mapId = mapId; S.modeFilter = modeFilter;
-        syncMapPill();
-        refresh();
+    return bonus / enemyPicks.length; // normalise by enemy count
+}
+
+/* ── Tag-based team synergy scoring ──────────────────────────────────────────
+   Returns a bonus for `candidateId` given already picked ally tags.
+   ─────────────────────────────────────────────────────────────────────────── */
+function tagSynergyScore(candidateId, allyPicks) {
+    if(!allyPicks.length) return 0;
+    const myRoles = getRoles(candidateId);
+    let bonus = 0;
+
+    allyPicks.forEach(ally => {
+        const aRoles = getRoles(ally.id);
+
+        // Healer synergises with Tank + Aggro
+        if(myRoles.includes("Healer")) {
+            if(aRoles.includes("Tank"))  bonus += 0.8;
+            if(aRoles.includes("Aggro")) bonus += 0.8;
+        }
+        if(aRoles.includes("Healer")) {
+            if(myRoles.includes("Tank"))  bonus += 0.8;
+            if(myRoles.includes("Aggro")) bonus += 0.8;
+        }
+        // Support synergises with Aggro + Controller
+        if(myRoles.includes("Support")) {
+            if(aRoles.includes("Aggro"))      bonus += 0.7;
+            if(aRoles.includes("Controller")) bonus += 0.7;
+        }
+        if(aRoles.includes("Support")) {
+            if(myRoles.includes("Aggro"))      bonus += 0.7;
+            if(myRoles.includes("Controller")) bonus += 0.7;
+        }
+        // Gem Clutcher synergises with Gem Mid
+        if(myRoles.includes("Gem Clutcher") && aRoles.includes("Gem Mid")) bonus += 0.8;
+        if(aRoles.includes("Gem Clutcher") && myRoles.includes("Gem Mid")) bonus += 0.8;
     });
 
-    // ── Theme ─────────────────────────────────────────────────
-    (function () {
-        try {
-            const s = JSON.parse(localStorage.getItem("bsTierSettings_v1"));
-            if (s?.theme) {
-                ["theme-dark","theme-light","theme-red","theme-blue"].forEach(t => document.body.classList.remove(t));
-                document.body.classList.add(s.theme);
-            }
-        } catch {}
-    })();
+    return bonus / allyPicks.length;
+}
 
-    // ── Full refresh ──────────────────────────────────────────
-    function refresh() {
-        renderBanner();
-        renderBans();
-        renderGrid();
-        renderRecs();
-        syncPickBtns();
-    }
-
-    // ── Init ──────────────────────────────────────────────────
-    initPickBtns();
-    syncNavRank();
-    syncMapPill();
-    buildMapPanel();
-    buildRankModal();
+/* ── Add brawler ──────────────────────────── */
+function addBrawler(b){
+    if(allUsed().has(b.id)) return;
+    if(S.banMode){ if(S.bannedIds.size<MAX_BANS){ S.bannedIds.add(b.id); refresh(); } return; }
+    const team = currentTurnTeam();
+    if(!team) return;
+    if(team==="ally"  && S.allyPicks.length <MAX_TEAM) S.allyPicks.push(b);
+    if(team==="enemy" && S.enemyPicks.length<MAX_TEAM) S.enemyPicks.push(b);
     refresh();
+}
+function quickBan(b){
+    if(allUsed().has(b.id)||S.bannedIds.size>=MAX_BANS) return;
+    S.bannedIds.add(b.id); refresh();
+}
+
+/* ── Modal helpers ────────────────────────── */
+function openModal(id){ document.getElementById(id).classList.add("open"); }
+function closeModal(id){ document.getElementById(id).classList.remove("open"); }
+
+/* ── Map image modal ──────────────────────── */
+function showMapImage(map){
+    document.getElementById("mapPanel").classList.remove("open");
+    document.getElementById("mapImgTitle").textContent = `${map.name}  ·  ${map.mode}`;
+    const img = document.getElementById("mapImgEl");
+    img.src = draftMapImageUrl(map.imageFile);
+    img.onerror = () => { img.alt = "Image not available"; };
+    document.getElementById("mapImgModal").classList.add("open");
+}
+document.getElementById("mapImgClose").addEventListener("click", () => {
+    document.getElementById("mapImgModal").classList.remove("open");
+});
+document.getElementById("mapImgModal").addEventListener("click", e => {
+    if(e.target === e.currentTarget) document.getElementById("mapImgModal").classList.remove("open");
+});
+document.addEventListener("keydown", e => {
+    if(e.key === "Escape") document.getElementById("mapImgModal").classList.remove("open");
+});
+
+/* ── Nav rank badge ───────────────────────── */
+function syncNavRank(){
+    const r=getRank();
+    document.getElementById("navRankLabel").textContent=r.label;
+    const img=document.getElementById("navRankImg");
+    img.src=rankLogoUrl(r.logoFile); img.style.display="";
+}
+
+/* ── Rank modal ───────────────────────────── */
+function buildRankModal(){
+    const list=document.getElementById("rankOptionsList"); list.innerHTML="";
+    RANKS.forEach(r=>{
+        if(["Trophies","Brawl Arena","Diamond"].includes(r.key)) return;
+        const el=document.createElement("div");
+        el.className="rank-opt"+(r.key===S.rankId?" active":"");
+        el.innerHTML=`<img src="${rankLogoUrl(r.logoFile)}" onerror="this.style.display='none'" alt="">
+            <div><div class="rank-opt-label">${r.label}</div>
+            <div class="rank-opt-range">${DRAFT_RANK_PROFILES.find(p=>p.id===r.key)?.range||""}</div></div>`;
+        el.addEventListener("click",()=>{ S.rankId=r.key; closeModal("rankModal"); syncNavRank(); buildRankModal(); refresh(); });
+        list.appendChild(el);
+    });
+}
+document.getElementById("navRankBadge").addEventListener("click",()=>{ buildRankModal(); openModal("rankModal"); });
+document.getElementById("rankModal").addEventListener("click",e=>{ if(e.target===e.currentTarget) closeModal("rankModal"); });
+
+/* ── Settings drawer ──────────────────────── */
+function initSettings(){
+    // Card size
+    const sl=document.getElementById("sdCardSize"), sv=document.getElementById("sdCardSizeVal");
+    const sz=get("cardSize",72); sl.value=sz; sv.textContent=sz+"px"; applyCardSize(sz);
+    sl.addEventListener("input",()=>{
+        const v=parseInt(sl.value); sv.textContent=v+"px"; cfg.cardSize=v; saveCfg(); applyCardSize(v);
+    });
+
+    // Sort
+    const sortPills=document.querySelectorAll("#sdSortPills .sd-pill");
+    const savedSort=get("sort","default");
+    sortPills.forEach(p=>{
+        p.classList.toggle("active", p.dataset.sort===savedSort);
+        p.addEventListener("click",()=>{
+            sortPills.forEach(x=>x.classList.remove("active")); p.classList.add("active");
+            cfg.sort=p.dataset.sort; saveCfg(); renderGrid();
+        });
+    });
+
+    // Counter mode
+    const cmodePills=document.querySelectorAll("#sdCounterMode .sd-pill");
+    const savedCmode=get("counterMode","tags");
+    syncCounterModeDesc(savedCmode);
+    cmodePills.forEach(p=>{
+        p.classList.toggle("active", p.dataset.cmode===savedCmode);
+        p.addEventListener("click",()=>{
+            cmodePills.forEach(x=>x.classList.remove("active")); p.classList.add("active");
+            cfg.counterMode=p.dataset.cmode; saveCfg();
+            syncCounterModeDesc(p.dataset.cmode);
+            refresh();
+        });
+    });
+
+    // Toggles
+    [["tdNames","showNames",true],["tdOrderBadge","showOrderBadge",true],["tdHighlight","showHighlight",true]].forEach(([id,key,def])=>{
+        const btn=document.getElementById(id); const val=get(key,def);
+        btn.classList.toggle("on",val);
+        btn.addEventListener("click",()=>{
+            const next=!btn.classList.contains("on"); btn.classList.toggle("on",next);
+            cfg[key]=next; saveCfg(); refresh();
+        });
+    });
+
+    // Open/close
+    document.getElementById("navSettings").addEventListener("click",()=>{ document.getElementById("settingsDrawer").classList.toggle("open"); });
+    document.getElementById("sdClose").addEventListener("click",()=>{ document.getElementById("settingsDrawer").classList.remove("open"); });
+}
+
+function syncCounterModeDesc(mode){
+    document.getElementById("counterModeDesc").textContent = COUNTER_MODE_DESCS[mode]||"";
+}
+
+function applyCardSize(px){ document.documentElement.style.setProperty("--card-size",px+"px"); }
+
+function getSortedBrawlers(){
+    const sort=get("sort","default"), list=[...BRAWLERS];
+    if(sort==="az") list.sort((a,b)=>a.name.localeCompare(b.name));
+    if(sort==="za") list.sort((a,b)=>b.name.localeCompare(a.name));
+    if(sort==="rarity"){
+        const O=["starter","rare","super rare","epic","mythic","legendary","ultra legendary"];
+        list.sort((a,b)=>O.indexOf(a.rarity)-O.indexOf(b.rarity));
+    }
+    if(sort==="meta") list.sort((a,b)=>metaForRank(b.id,S.rankId)-metaForRank(a.id,S.rankId));
+    return list;
+}
+
+/* ── Tag filter bar ───────────────────────── */
+function buildTagBar(){
+    const bar = document.getElementById("tagFilterBar");
+    bar.innerHTML = "";
+
+    const clearBtn = document.createElement("button");
+    clearBtn.className = "tag-filter-clear" + (S.activeTags.size > 0 ? " hasActive" : "");
+    clearBtn.textContent = S.activeTags.size === 0 ? "ALL" : "CLEAR";
+    clearBtn.addEventListener("click", ()=>{ S.activeTags.clear(); buildTagBar(); renderGrid(); });
+    bar.appendChild(clearBtn);
+
+    ALL_TAGS.forEach(tag => {
+        const chip = document.createElement("div");
+        chip.className = "tag-chip" + (S.activeTags.has(tag) ? " active" : "");
+        chip.dataset.tag = tag;
+        chip.textContent = tag;
+        chip.addEventListener("click", ()=>{
+            if(S.activeTags.has(tag)) S.activeTags.delete(tag);
+            else S.activeTags.add(tag);
+            buildTagBar(); renderGrid();
+        });
+        bar.appendChild(chip);
+    });
+}
+
+/* ── Map panel ────────────────────────────── */
+function buildMapPanel(){
+    const bar=document.getElementById("mapModeBar"); bar.innerHTML="";
+    const modes=["all",...new Set(DRAFT_MAPS.map(m=>m.mode))];
+    modes.forEach(mode=>{
+        const c=document.createElement("div");
+        c.className="mode-chip"+(S.modeFilter===mode?" active":"");
+        c.textContent=mode==="all"?"All":mode;
+        c.addEventListener("click",()=>{ S.modeFilter=mode; bar.querySelectorAll(".mode-chip").forEach(x=>x.classList.remove("active")); c.classList.add("active"); renderMapList(); });
+        bar.appendChild(c);
+    });
+    renderMapList();
+}
+function renderMapList(){
+    const scroll=document.getElementById("mapListScroll"); scroll.innerHTML="";
+    const maps=S.modeFilter==="all"?DRAFT_MAPS:DRAFT_MAPS.filter(m=>m.mode===S.modeFilter);
+    maps.forEach(map=>{
+        const row=document.createElement("div");
+        row.className="map-row"+(S.mapId===map.id?" active":"");
+        row.innerHTML=`<div><div class="map-row-name">${map.name}</div><div class="map-row-mode">${map.mode}</div></div>
+            <div class="map-row-actions"><button class="map-eye" title="View map image">🖼</button></div>`;
+        row.addEventListener("click",e=>{
+            if(e.target.closest(".map-eye")) return;
+            S.mapId=map.id;
+            document.getElementById("mapPanel").classList.remove("open");
+            syncMapPill(); renderMapList(); refresh();
+        });
+        row.querySelector(".map-eye").addEventListener("click",()=>showMapImage(map));
+        scroll.appendChild(row);
+    });
+}
+function syncMapPill(){
+    const map=getMap();
+    document.getElementById("mapPillText").textContent=map?map.name:"Select Map";
+    const vBtn = document.getElementById("viewMapImgBtn");
+    if(map){ vBtn.classList.add("visible"); }
+    else   { vBtn.classList.remove("visible"); }
+}
+document.getElementById("mapPill").addEventListener("click",()=>{ buildMapPanel(); document.getElementById("mapPanel").classList.add("open"); });
+document.getElementById("mapPanelClose").addEventListener("click",()=>{ document.getElementById("mapPanel").classList.remove("open"); });
+document.getElementById("viewMapImgBtn").addEventListener("click",()=>{ const m=getMap(); if(m) showMapImage(m); });
+
+/* ── VS Banner ────────────────────────────── */
+function renderBanner(){
+    renderTeamSide("allySlots",S.allyPicks,"ally");
+    renderTeamSide("enemySlots",S.enemyPicks,"enemy");
+    renderDraftOrder();
+}
+
+function renderTeamSide(cId,picks,team){
+    const c=document.getElementById(cId);
+    const turnNow=currentTurnTeam();
+    const showBadge=get("showOrderBadge",true), showHL=get("showHighlight",true);
+    c.innerHTML="";
+
+    for(let si=0;si<MAX_TEAM;si++){
+        const b=picks[si];
+
+        let globalIdx=-1, tc=0;
+        for(let pi=0;pi<PICK_ORDER.length;pi++){
+            if(letterToTeam(PICK_ORDER[pi])===team){ if(tc===si){globalIdx=pi;break;} tc++; }
+        }
+
+        const isActive=showHL&&!b&&turnNow===team&&
+            (team==="ally"?S.allyPicks.length===si:S.enemyPicks.length===si);
+
+        const slot=document.createElement("div");
+        slot.className="team-slot"+(b?" filled"+(team==="enemy"?" enemy":""):"")+(isActive?" active-turn":"");
+
+        const inner=document.createElement("div");
+        inner.className="team-slot-inner";
+
+        if(b){
+            const img=document.createElement("img");
+            img.className="slot-portrait"; img.src=portraitUrl(b.key); img.alt=b.name;
+            img.onerror=()=>{ img.style.display="none"; };
+            inner.appendChild(img);
+            const lbl=document.createElement("div");
+            lbl.className="slot-label"; lbl.textContent=b.name.toUpperCase().slice(0,10);
+            inner.appendChild(lbl);
+        }
+        slot.appendChild(inner);
+
+        if(showBadge&&globalIdx>=0){
+            const badge=document.createElement("div");
+            badge.className="pick-order-badge"; badge.textContent=globalIdx+1;
+            slot.appendChild(badge);
+        }
+
+        if(b){
+            const rem=document.createElement("button");
+            rem.className="slot-remove"; rem.textContent="✕";
+            rem.addEventListener("click",()=>{
+                if(team==="ally")  S.allyPicks =S.allyPicks.filter(x=>x.id!==b.id);
+                if(team==="enemy") S.enemyPicks=S.enemyPicks.filter(x=>x.id!==b.id);
+                refresh();
+            });
+            slot.appendChild(rem);
+        }
+        c.appendChild(slot);
+    }
+}
+
+/* ── Draft order bubbles ──────────────────── */
+function renderDraftOrder(){
+    const row=document.getElementById("draftOrderRow"); row.innerHTML="";
+    const done=picksDone();
+    PICK_ORDER.forEach((letter,i)=>{
+        const team=letterToTeam(letter);
+        const bub=document.createElement("div");
+        bub.className="do-bubble";
+        bub.textContent=i+1;
+        if(i<done)        bub.classList.add("done",team==="ally"?"team-a":"team-b");
+        else if(i===done) bub.classList.add("current");
+        else              bub.classList.add(team==="ally"?"team-a":"team-b");
+        row.appendChild(bub);
+    });
+}
+
+/* ── Ban row ──────────────────────────────── */
+function renderBans(){
+    const row=document.getElementById("banSlotRow"); row.innerHTML="";
+    const arr=[...S.bannedIds].map(id=>BRAWLERS.find(b=>b.id===id)).filter(Boolean);
+    for(let i=0;i<MAX_BANS;i++){
+        const b=arr[i];
+        const slot=document.createElement("div");
+        slot.className="ban-slot"+(b?" filled":"");
+
+        if(b){
+            // Image wrapper (clipped circle)
+            const wrap=document.createElement("div");
+            wrap.className="ban-slot-img-wrap";
+            const img=document.createElement("img"); img.src=portraitUrl(b.key); img.onerror=()=>{};
+            wrap.appendChild(img);
+            const x=document.createElement("div"); x.className="ban-x"; x.textContent="✕";
+            wrap.appendChild(x);
+            slot.appendChild(wrap);
+
+            // Remove button sits on .ban-slot (overflow:visible) so it's never clipped
+            const rem=document.createElement("button");
+            rem.className="slot-remove"; rem.textContent="✕";
+            rem.addEventListener("click",()=>{ S.bannedIds.delete(b.id); refresh(); });
+            slot.appendChild(rem);
+        }
+        row.appendChild(slot);
+    }
+}
+
+/* ── First-pick toggle ────────────────────── */
+function initFirstPickToggle(){
+    document.getElementById("fpAlly").addEventListener("click",()=>{ S.firstPick="ally"; syncFirstPickToggle(); refresh(); });
+    document.getElementById("fpEnemy").addEventListener("click",()=>{ S.firstPick="enemy"; syncFirstPickToggle(); refresh(); });
+}
+function syncFirstPickToggle(){
+    const a=document.getElementById("fpAlly"), b=document.getElementById("fpEnemy");
+    a.classList.remove("ally-active","enemy-active"); b.classList.remove("ally-active","enemy-active");
+    if(S.firstPick==="ally") a.classList.add("ally-active"); else b.classList.add("enemy-active");
+}
+
+/* ── Ban button ───────────────────────────── */
+function initBanBtn(){
+    document.getElementById("btnBan").addEventListener("click",()=>{ S.banMode=!S.banMode; syncBanBtn(); });
+}
+function syncBanBtn(){
+    const btn=document.getElementById("btnBan");
+    btn.classList.toggle("ban-active",S.banMode);
+    btn.textContent=S.banMode?"🚫 Ban Mode ON":"🚫 Ban";
+}
+
+/* ── Tag filter ───────────────────────────── */
+function brawlerMatchesTags(b){
+    if(S.activeTags.size === 0) return true;
+    const roles = getRoles(b.id);
+    for(const tag of S.activeTags){
+        if(!roles.includes(tag)) return false;
+    }
+    return true;
+}
+
+/* ── Picker grid ──────────────────────────── */
+function renderGrid(){
+    const grid=document.getElementById("pickerGrid");
+    const used=allUsed(), q=S.search.toLowerCase().trim();
+    const showNames=get("showNames",true);
+    const list=getSortedBrawlers().filter(b=>{
+        if(q && !b.name.toLowerCase().includes(q)) return false;
+        if(!brawlerMatchesTags(b)) return false;
+        return true;
+    });
+    grid.innerHTML="";
+    if(!list.length){ grid.innerHTML=`<div class="empty-hint">No brawlers match.</div>`; return; }
+    list.forEach(b=>{
+        const picked=used.has(b.id)&&!S.bannedIds.has(b.id), banned=S.bannedIds.has(b.id);
+        const card=document.createElement("div");
+        card.className="picker-card"+(picked?" unavailable":banned?" banned":"");
+        card.title=b.name;
+        const img=document.createElement("img");
+        img.className="pc-portrait"; img.src=portraitUrl(b.key); img.alt=b.name; img.draggable=false;
+        img.onerror=()=>{ img.style.background="rgba(255,255,255,0.07)"; };
+        card.appendChild(img);
+        if(banned){ const ov=document.createElement("div"); ov.className="ban-overlay"; ov.textContent="✕"; card.appendChild(ov); }
+        if(showNames){ const nm=document.createElement("div"); nm.className="pc-name"; nm.textContent=b.name; card.appendChild(nm); }
+        card.addEventListener("click",()=>addBrawler(b));
+        card.addEventListener("contextmenu",e=>{ e.preventDefault(); quickBan(b); });
+        grid.appendChild(card);
+    });
+}
+
+/* ── Recommendations ──────────────────────── */
+function renderRecs(){
+    const list=document.getElementById("recommendList");
+    const cmode = get("counterMode","tags");
+
+    // Score each available brawler
+    const used = allUsed();
+    const candidates = BRAWLERS.filter(b => !used.has(b.id));
+
+    if(!candidates.length){ list.innerHTML=`<div class="empty-hint">No candidates available.</div>`; return; }
+
+    const profile = DRAFT_RANK_PROFILES.find(p=>p.id===S.rankId) || DRAFT_RANK_PROFILES[0];
+    const map = getMap();
+
+    const scored = candidates.map(b => {
+        // 1. Meta score
+        const meta   = metaForRank(b.id, S.rankId) * (profile.metaWeight || 1.0);
+        const tlabel = tierLabelForRank(b.id, S.rankId);
+
+        // 2. Counter score (depends on mode)
+        let offense = 0;
+        let vuln    = 0;
+
+        if(cmode === "tags" || cmode === "both") {
+            offense += tagCounterScore(b.id, S.enemyPicks) * (profile.counterWeight || 1.0);
+            // Vulnerability: how much do enemy picks counter us via tags?
+            vuln -= tagCounterScore(b.id, S.allyPicks.map(()=>null).concat(S.enemyPicks)
+                // re-score candidate as if it were enemy
+                // simpler: how many enemy tags counter candidate's roles
+            );
+            // Simple vulnerability: enemy roles that counter candidate
+            const myRoles = getRoles(b.id);
+            S.enemyPicks.forEach(enemy => {
+                const eRoles = getRoles(enemy.id);
+                eRoles.forEach(er => {
+                    if(er.startsWith("Anti-")){
+                        if(myRoles.includes(er.slice(5))) vuln -= 1.2;
+                    }
+                });
+                if(eRoles.includes("Dive") && myRoles.includes("Controller")) vuln -= 0.8;
+                if(eRoles.includes("Dive") && myRoles.includes("Support"))    vuln -= 0.7;
+                if(eRoles.includes("Dive") && myRoles.includes("Sniper"))     vuln -= 0.7;
+                if(eRoles.includes("Anti-Group") && myRoles.includes("Spawner")) vuln -= 1.5;
+                if(eRoles.includes("Heist Defense") && myRoles.includes("Heist Offense")) vuln -= 2.0;
+            });
+        }
+
+        if(cmode === "counters" || cmode === "both") {
+            // COUNTERS DB (manual entries)
+            const cRow = (typeof COUNTERS !== "undefined" && COUNTERS[b.id]) || {};
+            S.enemyPicks.forEach(enemy => {
+                offense += (cRow[enemy.id] || 0) * (profile.counterWeight || 1.0);
+            });
+            // Vulnerability from DB
+            if(typeof COUNTERS !== "undefined"){
+                Object.entries(COUNTERS).forEach(([cid, targets]) => {
+                    if(S.enemyPicks.some(ep => ep.id === cid) && targets[b.id]){
+                        vuln -= targets[b.id] * 0.8;
+                    }
+                });
+            }
+        }
+
+        // 3. Team synergy (always tag-based)
+        const team = tagSynergyScore(b.id, S.allyPicks);
+
+        // 4. Map weight
+        let mapScore = 0;
+        if(map && map.classWeights){
+            const myRoles = getRoles(b.id);
+            myRoles.forEach(r => {
+                const w = map.classWeights[r];
+                if(w !== undefined) mapScore += (w - 1.0) * 5;
+            });
+        }
+
+        // 5. Buffied bonus
+        const roles = getRoles(b.id);
+        const buffBonus = roles.includes("Buffied") ? 1.5 : 0;
+
+        const score = meta + offense + vuln + team + mapScore + buffBonus;
+        return { brawler:b, score, tierLabel:tlabel,
+            breakdown:{ meta:+(meta.toFixed(1)), offense:+(offense.toFixed(1)),
+                        vuln:+(vuln.toFixed(1)), map:+(mapScore.toFixed(1)), team:+(team.toFixed(1)) } };
+    });
+
+    scored.sort((a,b)=>b.score-a.score);
+    list.innerHTML="";
+
+    const top=scored.slice(0,20), maxScore=Math.max(top[0].score,0.01);
+    top.forEach((r,idx)=>{
+        const {brawler:b,score,tierLabel,breakdown:bd}=r;
+        const pct=Math.round((score/maxScore)*100), isTop=idx<3;
+        const card=document.createElement("div");
+        card.className="rec-card"+(isTop?" top":"");
+        const img=document.createElement("img");
+        img.className="rec-portrait"; img.src=portraitUrl(b.key); img.alt=b.name; img.onerror=()=>{ img.style.opacity="0"; };
+        card.appendChild(img);
+        const bdHtml=[
+            bd.meta>0?`<span class="bd-pos">Meta +${bd.meta}</span>`:"",
+            bd.offense>0?`<span class="bd-pos">Counter +${bd.offense}</span>`:"",
+            bd.vuln<0?`<span class="bd-neg">Vuln ${bd.vuln}</span>`:"",
+            bd.map!==0?`<span class="${bd.map>0?"bd-pos":"bd-neg"}">Map ${bd.map>0?"+":""}${bd.map}</span>`:"",
+            bd.team>0?`<span class="bd-pos">Synergy +${bd.team}</span>`:"",
+        ].filter(Boolean).join(" ");
+        const info=document.createElement("div"); info.className="rec-info";
+        info.innerHTML=`<div class="rec-name">${b.name}</div>
+            <div><span class="tier-badge tier-${tierLabel}">${tierLabel} Tier</span></div>
+            <div class="rec-bar-wrap"><div class="rec-bar${isTop?"":" blue"}" style="width:${pct}%"></div></div>
+            <div class="rec-score-num">Score: ${Math.round(score)}</div>
+            <div class="rec-breakdown">${bdHtml}</div>`;
+        card.appendChild(info);
+        if(isTop){ const rk=document.createElement("div"); rk.className="rec-rank-num"; rk.textContent=`#${idx+1}`; card.appendChild(rk); }
+        card.addEventListener("click",()=>{
+            const used=allUsed();
+            if(!used.has(b.id)&&S.allyPicks.length<MAX_TEAM){ S.allyPicks.push(b); refresh(); }
+        });
+        list.appendChild(card);
+    });
+}
+
+/* ── Search ───────────────────────────────── */
+document.getElementById("searchInput").addEventListener("input",function(){
+    S.search=this.value; document.getElementById("searchClear").style.display=this.value?"block":"none"; renderGrid();
+});
+document.getElementById("searchClear").addEventListener("click",()=>{
+    S.search=""; document.getElementById("searchInput").value=""; document.getElementById("searchClear").style.display="none"; renderGrid();
+});
+
+/* ── Reset ────────────────────────────────── */
+document.getElementById("navReset").addEventListener("click",()=>{
+    if(!confirm("Reset the draft? All picks and bans will be cleared.")) return;
+    const {rankId,mapId,modeFilter,firstPick}=S;
+    S=fresh(); S.rankId=rankId; S.mapId=mapId; S.modeFilter=modeFilter; S.firstPick=firstPick;
+    syncMapPill(); syncFirstPickToggle(); syncBanBtn(); buildTagBar(); refresh();
+});
+
+/* ── Apply saved theme ────────────────────── */
+(()=>{ try{ const s=JSON.parse(localStorage.getItem("bsTierSettings_v1")); if(s?.theme){ ["theme-dark","theme-light","theme-red","theme-blue"].forEach(t=>document.body.classList.remove(t)); document.body.classList.add(s.theme); } }catch{} })();
+
+/* ── Full refresh ─────────────────────────── */
+function refresh(){ renderBanner(); renderBans(); renderGrid(); renderRecs(); syncBanBtn(); }
+
+/* ── Init ─────────────────────────────────── */
+initFirstPickToggle(); initBanBtn(); initSettings();
+syncNavRank(); syncMapPill(); syncFirstPickToggle();
+buildMapPanel(); buildRankModal(); buildTagBar(); refresh();
 
 })();
 </script>
