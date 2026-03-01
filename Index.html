@@ -7,295 +7,15 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="styles/base.css">
-    <link rel="stylesheet" href="styles/layout.css">
-    <link rel="stylesheet" href="styles/components.css">
-    <link rel="stylesheet" href="styles/themes.css">
-
-    <style>
-        /* ── Hide old top-bar ── */
-        .top-bar { display: none; }
-
-        /* ═══════════════════════════════════════
-           GLASS NAV BAR
-        ═══════════════════════════════════════ */
-        #glassNav {
-            position: sticky;
-            top: 0;
-            z-index: 200;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
-            height: 58px;
-            background: rgba(10, 10, 20, 0.55);
-            backdrop-filter: blur(18px) saturate(180%);
-            -webkit-backdrop-filter: blur(18px) saturate(180%);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-            box-shadow: 0 4px 32px rgba(0, 0, 0, 0.4);
-        }
-
-        /* Left spacer — mirrors gear button width so title stays centred */
-        #navSpacer {
-            width: 40px;
-            height: 40px;
-            flex-shrink: 0;
-        }
-
-        /* Centre — logo/title */
-        #navTitle {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 15px;
-            font-weight: 700;
-            letter-spacing: 3px;
-            color: rgba(255,255,255,0.85);
-            text-transform: uppercase;
-            user-select: none;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        /* Right — gear */
-        #navGear {
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 10px;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: background 0.2s, transform 0.4s, border-color 0.2s;
-            color: rgba(255,255,255,0.65);
-            flex-shrink: 0;
-        }
-        #navGear:hover {
-            background: rgba(255,255,255,0.12);
-            color: #fff;
-            border-color: rgba(255,255,255,0.22);
-        }
-        #navGear.open {
-            transform: rotate(60deg);
-            background: rgba(255,255,255,0.12);
-            color: #fff;
-        }
-
-        /* ═══════════════════════════════════════
-           SETTINGS DRAWER
-        ═══════════════════════════════════════ */
-        #settingsOverlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 190;
-            background: rgba(0,0,0,0);
-            transition: background 0.3s;
-        }
-        #settingsOverlay.visible {
-            display: block;
-            background: rgba(0,0,0,0.35);
-        }
-
-        #settingsDrawer {
-            position: fixed;
-            top: 0;
-            right: 0;
-            height: 100vh;
-            width: 300px;
-            max-width: 88vw;
-            z-index: 195;
-            background: rgba(14, 14, 26, 0.82);
-            backdrop-filter: blur(24px) saturate(160%);
-            -webkit-backdrop-filter: blur(24px) saturate(160%);
-            border-left: 1px solid rgba(255,255,255,0.08);
-            box-shadow: -8px 0 48px rgba(0,0,0,0.6);
-            transform: translateX(100%);
-            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-        }
-        #settingsDrawer.open { transform: translateX(0); }
-
-        .drawer-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 18px 20px 14px;
-            border-bottom: 1px solid rgba(255,255,255,0.07);
-        }
-        .drawer-header-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            color: rgba(255,255,255,0.7);
-        }
-        #drawerClose {
-            background: none;
-            border: none;
-            color: rgba(255,255,255,0.4);
-            cursor: pointer;
-            padding: 4px;
-            border-radius: 6px;
-            transition: color 0.2s, background 0.2s;
-            display: flex;
-            align-items: center;
-        }
-        #drawerClose:hover { color: #fff; background: rgba(255,255,255,0.08); }
-
-        .drawer-section {
-            padding: 20px 20px 4px;
-        }
-        .drawer-section-label {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 9px;
-            font-weight: 700;
-            letter-spacing: 2.5px;
-            color: rgba(255,255,255,0.25);
-            text-transform: uppercase;
-            margin-bottom: 12px;
-        }
-
-        /* ── Theme swatches ── */
-        .theme-swatches {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-        }
-        .theme-swatch {
-            border-radius: 10px;
-            padding: 10px 12px;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: border-color 0.2s, transform 0.15s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-        .theme-swatch:hover { transform: scale(1.03); }
-        .theme-swatch.active { border-color: rgba(255,255,255,0.55); }
-
-        .theme-swatch[data-theme="theme-dark"]  { background: rgba(20,20,35,0.9);    color: rgba(255,255,255,0.7); }
-        .theme-swatch[data-theme="theme-light"] { background: rgba(240,240,248,0.9); color: rgba(30,30,50,0.8); }
-        .theme-swatch[data-theme="theme-red"]   { background: rgba(60,10,10,0.9);    color: rgba(255,140,140,0.9); }
-        .theme-swatch[data-theme="theme-blue"]  { background: rgba(10,20,60,0.9);    color: rgba(100,180,255,0.9); }
-
-        .swatch-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-        .theme-swatch[data-theme="theme-dark"]  .swatch-dot { background: #7b7b9e; }
-        .theme-swatch[data-theme="theme-light"] .swatch-dot { background: #b0b0d0; }
-        .theme-swatch[data-theme="theme-red"]   .swatch-dot { background: #ee1b1b; }
-        .theme-swatch[data-theme="theme-blue"]  .swatch-dot { background: #0088ff; }
-
-        /* ── Divider ── */
-        .drawer-divider {
-            height: 1px;
-            background: rgba(255,255,255,0.06);
-            margin: 8px 20px;
-        }
-
-        /* ── Toggle rows ── */
-        .setting-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 11px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.04);
-        }
-        .setting-row:last-child { border-bottom: none; }
-        .setting-row-label {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            color: rgba(255,255,255,0.55);
-        }
-        .setting-row-desc {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 8px;
-            letter-spacing: 0.5px;
-            color: rgba(255,255,255,0.2);
-            margin-top: 2px;
-        }
-
-        /* Pill toggle */
-        .pill-toggle {
-            position: relative;
-            width: 40px;
-            height: 22px;
-            flex-shrink: 0;
-        }
-        .pill-toggle input { opacity: 0; width: 0; height: 0; }
-        .pill-track {
-            position: absolute;
-            inset: 0;
-            border-radius: 11px;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.12);
-            cursor: pointer;
-            transition: background 0.25s;
-        }
-        .pill-track::after {
-            content: '';
-            position: absolute;
-            left: 3px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.4);
-            transition: left 0.25s, background 0.25s;
-        }
-        .pill-toggle input:checked + .pill-track {
-            background: rgba(93,220,255,0.25);
-            border-color: rgba(93,220,255,0.4);
-        }
-        .pill-toggle input:checked + .pill-track::after {
-            left: calc(100% - 17px);
-            background: #5ddcff;
-        }
-
-        /* ── Accent pips ── */
-        .accent-pips {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-top: 2px;
-        }
-        .accent-pip {
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: transform 0.15s, border-color 0.15s;
-        }
-        .accent-pip:hover { transform: scale(1.2); }
-        .accent-pip.active { border-color: #fff; transform: scale(1.15); }
-    </style>
+    <link rel="stylesheet" href="StyleCSS/Themes.css">
+    <link rel="stylesheet" href="StyleCSS/Index.css">
 </head>
 
 <body class="theme-dark">
 
-    <!-- ── Glass nav bar ── -->
     <nav id="glassNav">
-        <!-- Spacer mirrors gear width so title is truly centred -->
         <div id="navSpacer"></div>
-
         <span id="navTitle">MetaLock</span>
-
         <button id="navGear" aria-label="Settings" title="Settings">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="3"/>
@@ -304,7 +24,6 @@
         </button>
     </nav>
 
-    <!-- ── Settings overlay & drawer ── -->
     <div id="settingsOverlay"></div>
 
     <aside id="settingsDrawer" role="dialog" aria-label="Settings">
@@ -317,7 +36,6 @@
             </button>
         </div>
 
-        <!-- Theme -->
         <div class="drawer-section">
             <div class="drawer-section-label">Theme</div>
             <div class="theme-swatches">
@@ -338,7 +56,6 @@
 
         <div class="drawer-divider"></div>
 
-        <!-- Display -->
         <div class="drawer-section">
             <div class="drawer-section-label">Display</div>
 
@@ -367,23 +84,6 @@
 
         <div class="drawer-divider"></div>
 
-        <!-- Accent colour -->
-        <div class="drawer-section">
-            <div class="drawer-section-label">UI Accent</div>
-            <div class="accent-pips" id="accentPips">
-                <div class="accent-pip active" data-accent="#5ddcff" style="background:#5ddcff"></div>
-                <div class="accent-pip" data-accent="#ff5daa" style="background:#ff5daa"></div>
-                <div class="accent-pip" data-accent="#5dff8a" style="background:#5dff8a"></div>
-                <div class="accent-pip" data-accent="#ffbe5d" style="background:#ffbe5d"></div>
-                <div class="accent-pip" data-accent="#c05dff" style="background:#c05dff"></div>
-                <div class="accent-pip" data-accent="#ff5d5d" style="background:#ff5d5d"></div>
-                <div class="accent-pip" data-accent="#ffffff" style="background:#ffffff"></div>
-            </div>
-        </div>
-
-        <div class="drawer-divider"></div>
-
-        <!-- About -->
         <div class="drawer-section">
             <div class="drawer-section-label">About</div>
             <div class="setting-row">
@@ -395,37 +95,79 @@
         </div>
     </aside>
 
-    <!-- ── Dashboard ── -->
+    <section class="hero-section">
+        <p class="hero-greeting">Welcome to MetaLock</p>
+        <h1 class="hero-title">Your Brawl Stars<br>Competitive Edge</h1>
+        <p class="hero-subtitle">
+            Draft smarter, climb faster, become the master.
+        </p>
+        <p>beta v0.2.0</p>
+        <div class="hero-divider"></div>
+    </section>
+
     <main class="dashboard-grid">
+
         <div class="feature-card">
+            <div class="card-icon">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14.5 17.5L3 6V3h3l11.5 11.5"/>
+                    <path d="M13 19l6-6"/>
+                    <path d="M16 16l4 4"/>
+                    <path d="M19 21l2-2"/>
+                </svg>
+            </div>
             <h2>Drafting</h2>
-            <p>Advanced drafting assistant for ranked and competitive play.</p>
-            <button class="primary-btn" onclick="goToDrafting()">Enter</button>
+            <p>Advanced drafting assistant for ranked and competitive play. Pick counters, synergies, and meta brawlers in seconds.</p>
+            <button class="primary-btn" onclick="goToDrafting()">
+                Enter
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
         </div>
 
         <div class="feature-card">
+            <div class="card-icon">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                </svg>
+            </div>
             <h2>Guides</h2>
-            <p>Brawler guides and best build</p>
-            <button class="primary-btn">Explore</button>
+            <p>In-depth brawler guides, best builds, gadgets, star powers, and hypercharge tips curated for every playstyle.</p>
+            <button class="primary-btn" onclick="goToGuides()">
+                Explore
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
         </div>
 
         <div class="feature-card">
+            <div class="card-icon">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+                    <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+                    <path d="M4 22h16"/>
+                    <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/>
+                    <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/>
+                    <path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/>
+                </svg>
+            </div>
             <h2>Tier Lists</h2>
-            <p>Ranked and competitive tier rankings.</p>
-            <button class="primary-btn" onclick="goToTierLists()">View</button>
+            <p>Up-to-date ranked and competitive tier rankings. See which brawlers dominate the current meta per map and mode.</p>
+            <button class="primary-btn" onclick="goToTierLists()">
+                View
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
         </div>
+
     </main>
 
-    <script src="scripts/themeManager.js"></script>
-    <script src="scripts/app.js"></script>
-    <script src="scripts/navigation.js"></script>
+    <script src="JS_scripts/ThemeManager.js"></script>
+    <script src="JS_scripts/Navigation.js"></script>
 
     <script>
     (function () {
-        const THEMES    = ["theme-dark","theme-light","theme-red","theme-blue"];
-        const LS_KEY    = "bsTierSettings_v1"; // shared key with tier-lists page
+        const THEMES = ["theme-dark","theme-light","theme-red","theme-blue"];
+        const LS_KEY = "bsTierSettings_v1";
 
-        // ── Load settings (shared with tier-lists page) ──
         let settings = { theme:"theme-dark", accent:"#5ddcff", compact:false, motion:false };
         try {
             const s = JSON.parse(localStorage.getItem(LS_KEY));
@@ -436,7 +178,6 @@
             try { localStorage.setItem(LS_KEY, JSON.stringify(settings)); } catch {}
         }
 
-        // ── Apply accent ──
         function applyAccent(color) {
             const style = document.getElementById("accentStyle") || document.createElement("style");
             style.id = "accentStyle";
@@ -444,22 +185,15 @@
                 .pill-toggle input:checked + .pill-track { background:${color}33; border-color:${color}66; }
                 .pill-toggle input:checked + .pill-track::after { background:${color}; }
                 .primary-btn { border-color: ${color}44; }
-                .primary-btn:hover { box-shadow: 0 0 16px ${color}55; }
+                .primary-btn:hover { box-shadow: 0 0 22px ${color}66, 0 0 45px ${color}28; border-color: ${color}99; }
             `;
             document.head.appendChild(style);
         }
 
-        // ── Apply compact ──
         function applyCompact(on) {
-            const style = document.getElementById("compactStyle") || document.createElement("style");
-            style.id = "compactStyle";
-            style.textContent = on
-                ? `.feature-card { padding: 16px 18px !important; } .feature-card h2 { font-size: 1.1rem !important; } .feature-card p { font-size: 0.82rem !important; }`
-                : "";
-            document.head.appendChild(style);
+            document.body.classList.toggle("compact-mode", on);
         }
 
-        // ── Apply reduced motion ──
         function applyMotion(on) {
             const style = document.getElementById("motionStyle") || document.createElement("style");
             style.id = "motionStyle";
@@ -467,7 +201,6 @@
             document.head.appendChild(style);
         }
 
-        // ── Apply all ──
         function applyAll() {
             THEMES.forEach(t => document.body.classList.remove(t));
             document.body.classList.add(settings.theme);
@@ -475,16 +208,12 @@
             applyCompact(settings.compact);
             applyMotion(settings.motion);
 
-            // Sync drawer UI
             document.querySelectorAll(".theme-swatch").forEach(el =>
                 el.classList.toggle("active", el.dataset.theme === settings.theme));
-            document.querySelectorAll(".accent-pip").forEach(el =>
-                el.classList.toggle("active", el.dataset.accent === settings.accent));
             document.getElementById("toggleCompact").checked = settings.compact;
             document.getElementById("toggleMotion").checked  = settings.motion;
         }
 
-        // ── Drawer open/close ──
         const gear    = document.getElementById("navGear");
         const drawer  = document.getElementById("settingsDrawer");
         const overlay = document.getElementById("settingsOverlay");
@@ -497,7 +226,6 @@
         overlay.addEventListener("click", closeDrawer);
         closeBtn.addEventListener("click", closeDrawer);
 
-        // ── Theme swatches ──
         document.querySelectorAll(".theme-swatch").forEach(el => {
             el.addEventListener("click", () => {
                 THEMES.forEach(t => document.body.classList.remove(t));
@@ -509,30 +237,18 @@
             });
         });
 
-        // ── Accent pips ──
-        document.querySelectorAll(".accent-pip").forEach(pip => {
-            pip.addEventListener("click", () => {
-                document.querySelectorAll(".accent-pip").forEach(p => p.classList.remove("active"));
-                pip.classList.add("active");
-                settings.accent = pip.dataset.accent;
-                applyAccent(settings.accent);
-                saveSettings();
-            });
-        });
-
-        // ── Toggles ──
         document.getElementById("toggleCompact").addEventListener("change", function () {
             settings.compact = this.checked;
             applyCompact(this.checked);
             saveSettings();
         });
+
         document.getElementById("toggleMotion").addEventListener("change", function () {
             settings.motion = this.checked;
             applyMotion(this.checked);
             saveSettings();
         });
 
-        // ── Init ──
         if (document.readyState === "loading") {
             document.addEventListener("DOMContentLoaded", applyAll);
         } else {

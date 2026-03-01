@@ -1,17 +1,3 @@
-/**
- * draftingEngine.js
- * ─────────────────────────────────────────────────────────────────────────────
- * Pure scoring logic — zero DOM access.
- * Depends on: brawlerData.js, draftingData.js
- *
- * SCORE(B) =
- *   meta(B, rank)              × profile.metaWeight
- * + counterOffense(B, enemies) × profile.counterWeight   (B beats enemies)
- * − counterVuln(B, enemies)    × profile.counterWeight   (enemies beat B)
- * + mapSynergy(B, map)
- * + teamSynergy(B, allies)
- * ─────────────────────────────────────────────────────────────────────────────
- */
 (function () {
     "use strict";
 

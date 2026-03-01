@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drafting — Prodigy</title>
+
+    <link rel="stylesheet" href="../StyleCSS/Drafting.css">
+    <link rel="stylesheet" href="../StyleCSS/Themes.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&display=swap" rel="stylesheet">
+
+</head>
+<body class="theme-dark">
+
+<nav id="glassNav">
+    <button id="navBack" onclick="goHome()">
+        <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
+            <path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        BACK
+    </button>
+    <span id="navTitle">Drafting</span>
+    <div class="nav-right">
+        <div id="navRankBadge">
+            <img id="navRankImg" src="" alt="" onerror="this.style.display='none'">
+            <span id="navRankLabel">Mythic</span>
+        </div>
+        <button id="navSettings" title="Settings">⚙</button>
+        <button id="navReset">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                <polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.51"/>
+            </svg>
+            RESET
+        </button>
+    </div>
+</nav>
+
+<div id="rankModal" class="modal-backdrop">
+    <div id="rankModalBox">
+        <div class="modal-heading">Select Your Rank</div>
+        <div id="rankOptionsList"></div>
+    </div>
+</div>
+
+<div id="mapImgModal">
+    <div id="mapImgModalInner">
+        <div id="mapImgHeader">
+            <div id="mapImgTitle">MAP</div>
+            <button id="mapImgClose">✕</button>
+        </div>
+        <img id="mapImgEl" src="" alt="Map">
+        <div id="mapImgFooter">Click outside or press ESC to close</div>
+    </div>
+</div>
+
+<div id="settingsDrawer">
+    <div class="sdrawer-head">
+        <span class="sdrawer-title">Settings</span>
+        <button id="sdClose">✕</button>
+    </div>
+    <div class="sdrawer-body">
+        <div>
+            <div class="sd-sect-title">Icon Size</div>
+            <div class="sd-slider-row">
+                <label>Card size</label>
+                <input type="range" id="sdCardSize" min="48" max="112" step="4" value="72">
+                <span class="sd-slider-val" id="sdCardSizeVal">72px</span>
+            </div>
+        </div>
+        <div>
+            <div class="sd-sect-title">Sort Order</div>
+            <div class="sd-pills" id="sdSortPills">
+                <div class="sd-pill active" data-sort="default">Default</div>
+                <div class="sd-pill" data-sort="az">A → Z</div>
+                <div class="sd-pill" data-sort="za">Z → A</div>
+                <div class="sd-pill" data-sort="rarity">Rarity</div>
+                <div class="sd-pill" data-sort="meta">Meta Score</div>
+            </div>
+        </div>
+        <div>
+            <div class="sd-sect-title">Scoring Mode</div>
+            <div class="counter-mode-label">Counter logic source</div>
+            <div class="sd-pills" id="sdCounterMode">
+                <div class="sd-pill active" data-cmode="tags">Tags Only</div>
+                <div class="sd-pill" data-cmode="both">Tags + Counters DB</div>
+                <div class="sd-pill" data-cmode="counters">Counters DB Only</div>
+            </div>
+            <div class="counter-mode-desc" id="counterModeDesc">
+                Uses role tags and the counter logic rules to score brawlers.
+            </div>
+        </div>
+        <div>
+            <div class="sd-sect-title">Display Options</div>
+            <div class="sd-toggle-row">
+                <span class="sd-toggle-label">Show brawler names</span>
+                <button class="sd-toggle on" id="tdNames"></button>
+            </div>
+            <div class="sd-toggle-row">
+                <span class="sd-toggle-label">Show pick-order numbers</span>
+                <button class="sd-toggle on" id="tdOrderBadge"></button>
+            </div>
+            <div class="sd-toggle-row">
+                <span class="sd-toggle-label">Highlight active turn</span>
+                <button class="sd-toggle on" id="tdHighlight"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="mapPanel">
+    <div class="map-panel-head">
+        <span class="map-panel-title">Select Map</span>
+        <button id="mapPanelClose">✕</button>
+    </div>
+    <div id="mapModeBar"></div>
+    <div id="mapListScroll"></div>
+</div>
+
+<div id="draftPage">
+    <div id="draftLeft">
+
+        <div id="vsBanner">
+            <div class="team-side"              id="allySlots"></div>
+            <div id="vsCentre">
+                <div id="vsLabel">VS</div>
+                <div id="draftOrderRow"></div>
+                <div id="mapPill">
+                    <span style="font-size:15px">🗺</span>
+                    <span id="mapPillText">Select Map</span>
+                </div>
+                <button id="viewMapImgBtn">🖼 View Map</button>
+                <div id="banRowInner">
+                    <span class="ban-row-label">BANS</span>
+                    <div id="banSlotRow"></div>
+                </div>
+            </div>
+            <div class="team-side enemy-side"   id="enemySlots"></div>
+        </div>
+
+        <div id="controlBar">
+            <span class="ctrl-label">FIRST PICK →</span>
+            <div id="firstPickToggle">
+                <button class="fp-btn ally-active" id="fpAlly">▲ Your Team</button>
+                <button class="fp-btn"             id="fpEnemy">▼ Enemy</button>
+            </div>
+            <button id="btnBan">🚫 Ban</button>
+            <div class="ctrl-sep"></div>
+            <div id="searchWrap">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="2.5" stroke-linecap="round">
+                    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+                <input id="searchInput" type="text" placeholder="Search brawler…" autocomplete="off" spellcheck="false">
+                <button id="searchClear">✕</button>
+            </div>
+            <span id="rcHint">Right-click = Ban</span>
+        </div>
+
+        <div id="tagFilterBar"></div>
+
+        <div id="pickerWrap"><div id="pickerGrid"></div></div>
+    </div>
+
+    <div id="draftRight">
+        <div id="recHead">
+            <div class="rec-head-label">Recommendations</div>
+            <div class="rec-head-sub">Hover for breakdown · Click to add to your team</div>
+        </div>
+        <div id="recommendList"></div>
+    </div>
+</div>
+
+<script src="../JS_scripts/Navigation.js"></script>
+<script src="../JS_scripts/Brawlerdata.js"></script>
+<script src="../JS_scripts/DraftingData.js"></script>
+<script src="../JS_scripts/DraftingEngine.js"></script>
+<script>
+(function(){
+"use strict";
+
+const MAX_TEAM = 3, MAX_BANS = 6;
+const PICK_ORDER = ["a","b","b","a","a","b"];
+
+const ALL_TAGS = [
+    "First Pick","Last Pick","Buffied",
+    "Gem Mid","Gem Clutcher","Heist Offense","Heist Defense",
+    "Goal Scorer","Keeper",
+    "Tank","Anti-Tank","Dive","Anti-Dive","Aggro","Anti-Aggro",
+    "Controller","Sniper","Support","Healer","Anti-Healer",
+    "Spawner","Anti-Group","Wallbreak","Cheese","Slow Paced"
+];
+
+const COUNTER_MODE_DESCS = {
+    tags:     "Uses role tags and the built-in role-relationship rules to calculate counter scores. No manual counter DB needed.",
+    both:     "Combines tag-based role rules AND any manual entries in the COUNTERS database for the most precise scoring.",
+    counters: "Uses ONLY the manual COUNTERS database entries. Tags are ignored for counter scoring."
+};
+
+let cfg = (()=>{ try{ return JSON.parse(localStorage.getItem("draftCfg_v1"))||{}; }catch{ return {}; } })();
+function saveCfg(){ localStorage.setItem("draftCfg_v1", JSON.stringify(cfg)); }
+function get(k,d){ return cfg[k]!==undefined ? cfg[k] : d; }
+
+function fresh(){
+    return { rankId:"Mythic", mapId:null, modeFilter:"all",
+             allyPicks:[], enemyPicks:[], bannedIds:new Set(),
+             firstPick:"ally", banMode:false, search:"", activeTags:new Set() };
+}
+let S = fresh();
+
+function getMap(){ return DRAFT_MAPS.find(m=>m.id===S.mapId)||null; }
+function getRank(){ return RANKS.find(r=>r.key===S.rankId)||RANKS.find(r=>r.key==="Mythic")||RANKS[0]; }
+function allUsed(){ return new Set([...S.allyPicks.map(b=>b.id),...S.enemyPicks.map(b=>b.id),...S.bannedIds]); }
+function picksDone(){ return S.allyPicks.length + S.enemyPicks.length; }
+
+function letterToTeam(letter){
+    if(S.firstPick==="ally") return letter==="a"?"ally":"enemy";
+    return letter==="a"?"enemy":"ally";
+}
+function currentTurnTeam(){
+    if(picksDone()>=MAX_TEAM*2) return null;
+    return letterToTeam(PICK_ORDER[picksDone()]);
+}
+
+function tagCounterScore(candidateId, enemyPicks) {
+    if(!enemyPicks.length) return 0;
+    const myRoles = getRoles(candidateId);
+    let bonus = 0;
+
+    enemyPicks.forEach(enemy => {
+        const eRoles = getRoles(enemy.id);
+
+        myRoles.forEach(r => {
+            if(r.startsWith("Anti-")) {
+                const target = r.slice(5); 
+                if(eRoles.includes(target)) bonus += 1.5;
+            }
+        });
+
+        if(myRoles.includes("Tank") && eRoles.includes("Dive")) bonus += 1.0;
+        if(myRoles.includes("Controller") && eRoles.includes("Aggro")) bonus += 1.0;
+        if(myRoles.includes("Controller") && eRoles.includes("Tank")) bonus += 0.8;
+        if(myRoles.includes("Dive")) {
+            if(eRoles.includes("Controller")) bonus += 1.2;
+            if(eRoles.includes("Support"))    bonus += 1.0;
+            if(eRoles.includes("Healer"))     bonus += 1.0;
+            if(eRoles.includes("Sniper"))     bonus += 0.8;
+        }
+        if(myRoles.includes("Sniper")) {
+            if(eRoles.includes("Support")) bonus += 1.0;
+            if(eRoles.includes("Healer"))  bonus += 1.0;
+            if(eRoles.includes("Tank"))    bonus += 0.8;
+        }
+        if(myRoles.includes("Anti-Group")) {
+            if(eRoles.includes("Spawner")) bonus += 2.0;
+            if(eRoles.includes("Support")) bonus += 0.6;
+            if(eRoles.includes("Healer"))  bonus += 0.6;
+        }
+        if(myRoles.includes("Spawner") && eRoles.includes("Slow Paced")) bonus += 1.0;
+        if(myRoles.includes("Heist Defense") && eRoles.includes("Heist Offense")) bonus += 2.5;
+    });
+
+    return bonus / enemyPicks.length; 
+}
+
+function tagSynergyScore(candidateId, allyPicks) {
+    if(!allyPicks.length) return 0;
+    const myRoles = getRoles(candidateId);
+    let bonus = 0;
+
+    allyPicks.forEach(ally => {
+        const aRoles = getRoles(ally.id);
+
+        if(myRoles.includes("Healer")) {
+            if(aRoles.includes("Tank"))  bonus += 0.8;
+            if(aRoles.includes("Aggro")) bonus += 0.8;
+        }
+        if(aRoles.includes("Healer")) {
+            if(myRoles.includes("Tank"))  bonus += 0.8;
+            if(myRoles.includes("Aggro")) bonus += 0.8;
+        }
+        if(myRoles.includes("Support")) {
+            if(aRoles.includes("Aggro"))      bonus += 0.7;
+            if(aRoles.includes("Controller")) bonus += 0.7;
+        }
+        if(aRoles.includes("Support")) {
+            if(myRoles.includes("Aggro"))      bonus += 0.7;
+            if(myRoles.includes("Controller")) bonus += 0.7;
+        }
+        if(myRoles.includes("Gem Clutcher") && aRoles.includes("Gem Mid")) bonus += 0.8;
+        if(aRoles.includes("Gem Clutcher") && myRoles.includes("Gem Mid")) bonus += 0.8;
+    });
+
+    return bonus / allyPicks.length;
+}
+
+function addBrawler(b){
+    if(allUsed().has(b.id)) return;
+    if(S.banMode){ if(S.bannedIds.size<MAX_BANS){ S.bannedIds.add(b.id); refresh(); } return; }
+    const team = currentTurnTeam();
+    if(!team) return;
+    if(team==="ally"  && S.allyPicks.length <MAX_TEAM) S.allyPicks.push(b);
+    if(team==="enemy" && S.enemyPicks.length<MAX_TEAM) S.enemyPicks.push(b);
+    refresh();
+}
+function quickBan(b){
+    if(allUsed().has(b.id)||S.bannedIds.size>=MAX_BANS) return;
+    S.bannedIds.add(b.id); refresh();
+}
+
+function openModal(id){ document.getElementById(id).classList.add("open"); }
+function closeModal(id){ document.getElementById(id).classList.remove("open"); }
+
+function showMapImage(map){
+    document.getElementById("mapPanel").classList.remove("open");
+    document.getElementById("mapImgTitle").textContent = `${map.name}  ·  ${map.mode}`;
+    const img = document.getElementById("mapImgEl");
+    img.src = draftMapImageUrl(map.imageFile);
+    img.onerror = () => { img.alt = "Image not available"; };
+    document.getElementById("mapImgModal").classList.add("open");
+}
+document.getElementById("mapImgClose").addEventListener("click", () => {
+    document.getElementById("mapImgModal").classList.remove("open");
+});
+document.getElementById("mapImgModal").addEventListener("click", e => {
+    if(e.target === e.currentTarget) document.getElementById("mapImgModal").classList.remove("open");
+});
+document.addEventListener("keydown", e => {
+    if(e.key === "Escape") document.getElementById("mapImgModal").classList.remove("open");
+});
+
+function syncNavRank(){
+    const r=getRank();
+    document.getElementById("navRankLabel").textContent=r.label;
+    const img=document.getElementById("navRankImg");
+    img.src=rankLogoUrl(r.logoFile); img.style.display="";
+}
+
+function buildRankModal(){
+    const list=document.getElementById("rankOptionsList"); list.innerHTML="";
+    RANKS.forEach(r=>{
+        if(["Trophies","Brawl Arena","Diamond"].includes(r.key)) return;
+        const el=document.createElement("div");
+        el.className="rank-opt"+(r.key===S.rankId?" active":"");
+        el.innerHTML=`<img src="${rankLogoUrl(r.logoFile)}" onerror="this.style.display='none'" alt="">
+            <div><div class="rank-opt-label">${r.label}</div>
+            <div class="rank-opt-range">${DRAFT_RANK_PROFILES.find(p=>p.id===r.key)?.range||""}</div></div>`;
+        el.addEventListener("click",()=>{ S.rankId=r.key; closeModal("rankModal"); syncNavRank(); buildRankModal(); refresh(); });
+        list.appendChild(el);
+    });
+}
+document.getElementById("navRankBadge").addEventListener("click",()=>{ buildRankModal(); openModal("rankModal"); });
+document.getElementById("rankModal").addEventListener("click",e=>{ if(e.target===e.currentTarget) closeModal("rankModal"); });
+
+function initSettings(){
+    const sl=document.getElementById("sdCardSize"), sv=document.getElementById("sdCardSizeVal");
+    const sz=get("cardSize",72); sl.value=sz; sv.textContent=sz+"px"; applyCardSize(sz);
+    sl.addEventListener("input",()=>{
+        const v=parseInt(sl.value); sv.textContent=v+"px"; cfg.cardSize=v; saveCfg(); applyCardSize(v);
+    });
+
+    const sortPills=document.querySelectorAll("#sdSortPills .sd-pill");
+    const savedSort=get("sort","default");
+    sortPills.forEach(p=>{
+        p.classList.toggle("active", p.dataset.sort===savedSort);
+        p.addEventListener("click",()=>{
+            sortPills.forEach(x=>x.classList.remove("active")); p.classList.add("active");
+            cfg.sort=p.dataset.sort; saveCfg(); renderGrid();
+        });
+    });
+
+    const cmodePills=document.querySelectorAll("#sdCounterMode .sd-pill");
+    const savedCmode=get("counterMode","tags");
+    syncCounterModeDesc(savedCmode);
+    cmodePills.forEach(p=>{
+        p.classList.toggle("active", p.dataset.cmode===savedCmode);
+        p.addEventListener("click",()=>{
+            cmodePills.forEach(x=>x.classList.remove("active")); p.classList.add("active");
+            cfg.counterMode=p.dataset.cmode; saveCfg();
+            syncCounterModeDesc(p.dataset.cmode);
+            refresh();
+        });
+    });
+
+    [["tdNames","showNames",true],["tdOrderBadge","showOrderBadge",true],["tdHighlight","showHighlight",true]].forEach(([id,key,def])=>{
+        const btn=document.getElementById(id); const val=get(key,def);
+        btn.classList.toggle("on",val);
+        btn.addEventListener("click",()=>{
+            const next=!btn.classList.contains("on"); btn.classList.toggle("on",next);
+            cfg[key]=next; saveCfg(); refresh();
+        });
+    });
+
+    document.getElementById("navSettings").addEventListener("click",()=>{ document.getElementById("settingsDrawer").classList.toggle("open"); });
+    document.getElementById("sdClose").addEventListener("click",()=>{ document.getElementById("settingsDrawer").classList.remove("open"); });
+}
+
+function syncCounterModeDesc(mode){
+    document.getElementById("counterModeDesc").textContent = COUNTER_MODE_DESCS[mode]||"";
+}
+
+function applyCardSize(px){ document.documentElement.style.setProperty("--card-size",px+"px"); }
+
+function getSortedBrawlers(){
+    const sort=get("sort","default"), list=[...BRAWLERS];
+    if(sort==="az") list.sort((a,b)=>a.name.localeCompare(b.name));
+    if(sort==="za") list.sort((a,b)=>b.name.localeCompare(a.name));
+    if(sort==="rarity"){
+        const O=["starter","rare","super rare","epic","mythic","legendary","ultra legendary"];
+        list.sort((a,b)=>O.indexOf(a.rarity)-O.indexOf(b.rarity));
+    }
+    if(sort==="meta") list.sort((a,b)=>metaForRank(b.id,S.rankId)-metaForRank(a.id,S.rankId));
+    return list;
+}
+
+function buildTagBar(){
+    const bar = document.getElementById("tagFilterBar");
+    bar.innerHTML = "";
+
+    const clearBtn = document.createElement("button");
+    clearBtn.className = "tag-filter-clear" + (S.activeTags.size > 0 ? " hasActive" : "");
+    clearBtn.textContent = S.activeTags.size === 0 ? "ALL" : "CLEAR";
+    clearBtn.addEventListener("click", ()=>{ S.activeTags.clear(); buildTagBar(); renderGrid(); });
+    bar.appendChild(clearBtn);
+
+    ALL_TAGS.forEach(tag => {
+        const chip = document.createElement("div");
+        chip.className = "tag-chip" + (S.activeTags.has(tag) ? " active" : "");
+        chip.dataset.tag = tag;
+        chip.textContent = tag;
+        chip.addEventListener("click", ()=>{
+            if(S.activeTags.has(tag)) S.activeTags.delete(tag);
+            else S.activeTags.add(tag);
+            buildTagBar(); renderGrid();
+        });
+        bar.appendChild(chip);
+    });
+}
+
+function buildMapPanel(){
+    const bar=document.getElementById("mapModeBar"); bar.innerHTML="";
+    const modes=["all",...new Set(DRAFT_MAPS.map(m=>m.mode))];
+    modes.forEach(mode=>{
+        const c=document.createElement("div");
+        c.className="mode-chip"+(S.modeFilter===mode?" active":"");
+        c.textContent=mode==="all"?"All":mode;
+        c.addEventListener("click",()=>{ S.modeFilter=mode; bar.querySelectorAll(".mode-chip").forEach(x=>x.classList.remove("active")); c.classList.add("active"); renderMapList(); });
+        bar.appendChild(c);
+    });
+    renderMapList();
+}
+function renderMapList(){
+    const scroll=document.getElementById("mapListScroll"); scroll.innerHTML="";
+    const maps=S.modeFilter==="all"?DRAFT_MAPS:DRAFT_MAPS.filter(m=>m.mode===S.modeFilter);
+    maps.forEach(map=>{
+        const row=document.createElement("div");
+        row.className="map-row"+(S.mapId===map.id?" active":"");
+        row.innerHTML=`<div><div class="map-row-name">${map.name}</div><div class="map-row-mode">${map.mode}</div></div>
+            <div class="map-row-actions"><button class="map-eye" title="View map image">🖼</button></div>`;
+        row.addEventListener("click",e=>{
+            if(e.target.closest(".map-eye")) return;
+            S.mapId=map.id;
+            document.getElementById("mapPanel").classList.remove("open");
+            syncMapPill(); renderMapList(); refresh();
+        });
+        row.querySelector(".map-eye").addEventListener("click",()=>showMapImage(map));
+        scroll.appendChild(row);
+    });
+}
+function syncMapPill(){
+    const map=getMap();
+    document.getElementById("mapPillText").textContent=map?map.name:"Select Map";
+    const vBtn = document.getElementById("viewMapImgBtn");
+    if(map){ vBtn.classList.add("visible"); }
+    else   { vBtn.classList.remove("visible"); }
+}
+document.getElementById("mapPill").addEventListener("click",()=>{ buildMapPanel(); document.getElementById("mapPanel").classList.add("open"); });
+document.getElementById("mapPanelClose").addEventListener("click",()=>{ document.getElementById("mapPanel").classList.remove("open"); });
+document.getElementById("viewMapImgBtn").addEventListener("click",()=>{ const m=getMap(); if(m) showMapImage(m); });
+
+function renderBanner(){
+    renderTeamSide("allySlots",S.allyPicks,"ally");
+    renderTeamSide("enemySlots",S.enemyPicks,"enemy");
+    renderDraftOrder();
+}
+
+function renderTeamSide(cId,picks,team){
+    const c=document.getElementById(cId);
+    const turnNow=currentTurnTeam();
+    const showBadge=get("showOrderBadge",true), showHL=get("showHighlight",true);
+    c.innerHTML="";
+
+    for(let si=0;si<MAX_TEAM;si++){
+        const b=picks[si];
+
+        let globalIdx=-1, tc=0;
+        for(let pi=0;pi<PICK_ORDER.length;pi++){
+            if(letterToTeam(PICK_ORDER[pi])===team){ if(tc===si){globalIdx=pi;break;} tc++; }
+        }
+
+        const isActive=showHL&&!b&&turnNow===team&&
+            (team==="ally"?S.allyPicks.length===si:S.enemyPicks.length===si);
+
+        const slot=document.createElement("div");
+        slot.className="team-slot"+(b?" filled"+(team==="enemy"?" enemy":""):"")+(isActive?" active-turn":"");
+
+        const inner=document.createElement("div");
+        inner.className="team-slot-inner";
+
+        if(b){
+            const img=document.createElement("img");
+            img.className="slot-portrait"; img.src=portraitUrl(b.key); img.alt=b.name;
+            img.onerror=()=>{ img.style.display="none"; };
+            inner.appendChild(img);
+            const lbl=document.createElement("div");
+            lbl.className="slot-label"; lbl.textContent=b.name.toUpperCase().slice(0,10);
+            inner.appendChild(lbl);
+        }
+        slot.appendChild(inner);
+
+        if(showBadge&&globalIdx>=0){
+            const badge=document.createElement("div");
+            badge.className="pick-order-badge"; badge.textContent=globalIdx+1;
+            slot.appendChild(badge);
+        }
+
+        if(b){
+            const rem=document.createElement("button");
+            rem.className="slot-remove"; rem.textContent="✕";
+            rem.addEventListener("click",()=>{
+                if(team==="ally")  S.allyPicks =S.allyPicks.filter(x=>x.id!==b.id);
+                if(team==="enemy") S.enemyPicks=S.enemyPicks.filter(x=>x.id!==b.id);
+                refresh();
+            });
+            slot.appendChild(rem);
+        }
+        c.appendChild(slot);
+    }
+}
+
+function renderDraftOrder(){
+    const row=document.getElementById("draftOrderRow"); row.innerHTML="";
+    const done=picksDone();
+    PICK_ORDER.forEach((letter,i)=>{
+        const team=letterToTeam(letter);
+        const bub=document.createElement("div");
+        bub.className="do-bubble";
+        bub.textContent=i+1;
+        if(i<done)        bub.classList.add("done",team==="ally"?"team-a":"team-b");
+        else if(i===done) bub.classList.add("current");
+        else              bub.classList.add(team==="ally"?"team-a":"team-b");
+        row.appendChild(bub);
+    });
+}
+
+function renderBans(){
+    const row=document.getElementById("banSlotRow"); row.innerHTML="";
+    const arr=[...S.bannedIds].map(id=>BRAWLERS.find(b=>b.id===id)).filter(Boolean);
+    for(let i=0;i<MAX_BANS;i++){
+        const b=arr[i];
+        const slot=document.createElement("div");
+        slot.className="ban-slot"+(b?" filled":"");
+
+        if(b){
+            const wrap=document.createElement("div");
+            wrap.className="ban-slot-img-wrap";
+            const img=document.createElement("img"); img.src=portraitUrl(b.key); img.onerror=()=>{};
+            wrap.appendChild(img);
+            const x=document.createElement("div"); x.className="ban-x"; x.textContent="✕";
+            wrap.appendChild(x);
+            slot.appendChild(wrap);
+
+            const rem=document.createElement("button");
+            rem.className="slot-remove"; rem.textContent="✕";
+            rem.addEventListener("click",()=>{ S.bannedIds.delete(b.id); refresh(); });
+            slot.appendChild(rem);
+        }
+        row.appendChild(slot);
+    }
+}
+
+function initFirstPickToggle(){
+    document.getElementById("fpAlly").addEventListener("click",()=>{ S.firstPick="ally"; syncFirstPickToggle(); refresh(); });
+    document.getElementById("fpEnemy").addEventListener("click",()=>{ S.firstPick="enemy"; syncFirstPickToggle(); refresh(); });
+}
+function syncFirstPickToggle(){
+    const a=document.getElementById("fpAlly"), b=document.getElementById("fpEnemy");
+    a.classList.remove("ally-active","enemy-active"); b.classList.remove("ally-active","enemy-active");
+    if(S.firstPick==="ally") a.classList.add("ally-active"); else b.classList.add("enemy-active");
+}
+
+function initBanBtn(){
+    document.getElementById("btnBan").addEventListener("click",()=>{ S.banMode=!S.banMode; syncBanBtn(); });
+}
+function syncBanBtn(){
+    const btn=document.getElementById("btnBan");
+    btn.classList.toggle("ban-active",S.banMode);
+    btn.textContent=S.banMode?"🚫 Ban Mode ON":"🚫 Ban";
+}
+
+function brawlerMatchesTags(b){
+    if(S.activeTags.size === 0) return true;
+    const roles = getRoles(b.id);
+    for(const tag of S.activeTags){
+        if(!roles.includes(tag)) return false;
+    }
+    return true;
+}
+
+function renderGrid(){
+    const grid=document.getElementById("pickerGrid");
+    const used=allUsed(), q=S.search.toLowerCase().trim();
+    const showNames=get("showNames",true);
+    const list=getSortedBrawlers().filter(b=>{
+        if(q && !b.name.toLowerCase().includes(q)) return false;
+        if(!brawlerMatchesTags(b)) return false;
+        return true;
+    });
+    grid.innerHTML="";
+    if(!list.length){ grid.innerHTML=`<div class="empty-hint">No brawlers match.</div>`; return; }
+    list.forEach(b=>{
+        const picked=used.has(b.id)&&!S.bannedIds.has(b.id), banned=S.bannedIds.has(b.id);
+        const card=document.createElement("div");
+        card.className="picker-card"+(picked?" unavailable":banned?" banned":"");
+        card.title=b.name;
+        const img=document.createElement("img");
+        img.className="pc-portrait"; img.src=portraitUrl(b.key); img.alt=b.name; img.draggable=false;
+        img.onerror=()=>{ img.style.background="rgba(255,255,255,0.07)"; };
+        card.appendChild(img);
+        if(banned){ const ov=document.createElement("div"); ov.className="ban-overlay"; ov.textContent="✕"; card.appendChild(ov); }
+        if(showNames){ const nm=document.createElement("div"); nm.className="pc-name"; nm.textContent=b.name; card.appendChild(nm); }
+        card.addEventListener("click",()=>addBrawler(b));
+        card.addEventListener("contextmenu",e=>{ e.preventDefault(); quickBan(b); });
+        grid.appendChild(card);
+    });
+}
+
+function renderRecs(){
+    const list=document.getElementById("recommendList");
+    const cmode = get("counterMode","tags");
+
+    const used = allUsed();
+    const candidates = BRAWLERS.filter(b => !used.has(b.id));
+
+    if(!candidates.length){ list.innerHTML=`<div class="empty-hint">No candidates available.</div>`; return; }
+
+    const profile = DRAFT_RANK_PROFILES.find(p=>p.id===S.rankId) || DRAFT_RANK_PROFILES[0];
+    const map = getMap();
+
+    const scored = candidates.map(b => {
+        const meta   = metaForRank(b.id, S.rankId) * (profile.metaWeight || 1.0);
+        const tlabel = tierLabelForRank(b.id, S.rankId);
+
+        let offense = 0;
+        let vuln    = 0;
+
+        if(cmode === "tags" || cmode === "both") {
+            offense += tagCounterScore(b.id, S.enemyPicks) * (profile.counterWeight || 1.0);
+            vuln -= tagCounterScore(b.id, S.allyPicks.map(()=>null).concat(S.enemyPicks)
+                
+            );
+            const myRoles = getRoles(b.id);
+            S.enemyPicks.forEach(enemy => {
+                const eRoles = getRoles(enemy.id);
+                eRoles.forEach(er => {
+                    if(er.startsWith("Anti-")){
+                        if(myRoles.includes(er.slice(5))) vuln -= 1.2;
+                    }
+                });
+                if(eRoles.includes("Dive") && myRoles.includes("Controller")) vuln -= 0.8;
+                if(eRoles.includes("Dive") && myRoles.includes("Support"))    vuln -= 0.7;
+                if(eRoles.includes("Dive") && myRoles.includes("Sniper"))     vuln -= 0.7;
+                if(eRoles.includes("Anti-Group") && myRoles.includes("Spawner")) vuln -= 1.5;
+                if(eRoles.includes("Heist Defense") && myRoles.includes("Heist Offense")) vuln -= 2.0;
+            });
+        }
+
+if (cmode === "counters" || cmode === "both") {
+
+    if (typeof COUNTERS !== "undefined") {
+
+        S.enemyPicks.forEach(enemy => {
+
+            const eRow = COUNTERS[enemy.id] || {};
+            offense += (eRow[b.id] || 0) * (profile.counterWeight || 1.0);
+
+            const bRow = COUNTERS[b.id] || {};
+            vuln -= (bRow[enemy.id] || 0) * 0.8;
+
+        });
+
+    }
+
+}
+
+        const team = tagSynergyScore(b.id, S.allyPicks);
+
+        let mapScore = 0;
+        if(map && map.classWeights){
+            const myRoles = getRoles(b.id);
+            myRoles.forEach(r => {
+                const w = map.classWeights[r];
+                if(w !== undefined) mapScore += (w - 1.0) * 5;
+            });
+        }
+
+        const roles = getRoles(b.id);
+        const buffBonus = roles.includes("Buffied") ? 1.15 : 0;
+
+        const score = meta + offense + vuln + team + mapScore + buffBonus;
+        return { brawler:b, score, tierLabel:tlabel,
+            breakdown:{ meta:+(meta.toFixed(1)), offense:+(offense.toFixed(1)),
+                        vuln:+(vuln.toFixed(1)), map:+(mapScore.toFixed(1)), team:+(team.toFixed(1)) } };
+    });
+
+    scored.sort((a,b)=>b.score-a.score);
+    list.innerHTML="";
+
+    const top=scored.slice(0,20), maxScore=Math.max(top[0].score,0.01);
+    top.forEach((r,idx)=>{
+        const {brawler:b,score,tierLabel,breakdown:bd}=r;
+        const pct=Math.round((score/maxScore)*100), isTop=idx<5;
+        const card=document.createElement("div");
+        const rankClass = idx < 5 ? ` rank-${idx+1}` : "";
+        card.className = "rec-card" + (isTop ? " top" : "") + rankClass;
+        const img=document.createElement("img");
+        img.className="rec-portrait"; img.src=portraitUrl(b.key); img.alt=b.name; img.onerror=()=>{ img.style.opacity="0"; };
+        card.appendChild(img);
+        const bdHtml=[
+            bd.meta>0?`<span class="bd-pos">Meta +${bd.meta}</span>`:"",
+            bd.offense>0?`<span class="bd-pos">Counter +${bd.offense}</span>`:"",
+            bd.vuln<0?`<span class="bd-neg">Vuln ${bd.vuln}</span>`:"",
+            bd.map!==0?`<span class="${bd.map>0?"bd-pos":"bd-neg"}">Map ${bd.map>0?"+":""}${bd.map}</span>`:"",
+            bd.team>0?`<span class="bd-pos">Synergy +${bd.team}</span>`:"",
+        ].filter(Boolean).join(" ");
+        const info=document.createElement("div"); info.className="rec-info";
+info.innerHTML=`<div class="rec-name">${b.name}</div>
+    <div><span class="tier-badge tier-${tierLabel}">${tierLabel} Tier</span></div>
+    <div class="rec-bar-wrap"><div class="rec-bar rank-${idx+1}" style="width:${pct}%"></div></div>
+    <div class="rec-score-num">Score: ${Math.round(score)}</div>
+    <div class="rec-breakdown">${bdHtml}</div>`;
+        card.appendChild(info);
+        if(isTop){ const rk=document.createElement("div"); rk.className="rec-rank-num"; rk.textContent=`#${idx+1}`; card.appendChild(rk); }
+        card.addEventListener("click",()=>{
+            const used=allUsed();
+            if(!used.has(b.id)&&S.allyPicks.length<MAX_TEAM){ S.allyPicks.push(b); refresh(); }
+        });
+        list.appendChild(card);
+    });
+}
+
+document.getElementById("searchInput").addEventListener("input",function(){
+    S.search=this.value; document.getElementById("searchClear").style.display=this.value?"block":"none"; renderGrid();
+});
+document.getElementById("searchClear").addEventListener("click",()=>{
+    S.search=""; document.getElementById("searchInput").value=""; document.getElementById("searchClear").style.display="none"; renderGrid();
+});
+
+document.getElementById("navReset").addEventListener("click",()=>{
+    if(!confirm("Reset the draft? All picks and bans will be cleared.")) return;
+    const {rankId,mapId,modeFilter,firstPick}=S;
+    S=fresh(); S.rankId=rankId; S.mapId=mapId; S.modeFilter=modeFilter; S.firstPick=firstPick;
+    syncMapPill(); syncFirstPickToggle(); syncBanBtn(); buildTagBar(); refresh();
+});
+
+(()=>{ try{ const s=JSON.parse(localStorage.getItem("bsTierSettings_v1")); if(s?.theme){ ["theme-dark","theme-light","theme-red","theme-blue"].forEach(t=>document.body.classList.remove(t)); document.body.classList.add(s.theme); } }catch{} })();
+
+function refresh(){ renderBanner(); renderBans(); renderGrid(); renderRecs(); syncBanBtn(); }
+
+initFirstPickToggle(); initBanBtn(); initSettings();
+syncNavRank(); syncMapPill(); syncFirstPickToggle();
+buildMapPanel(); buildRankModal(); buildTagBar(); refresh();
+
+})();
+</script>
+</body>
+</html>

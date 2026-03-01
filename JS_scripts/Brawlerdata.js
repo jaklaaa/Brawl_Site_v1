@@ -28,7 +28,7 @@ const BRAWLERS = [
     { id: "tick", name: "Tick", key: "Tick", rarity: "super rare" },
     { id: "8-bit", name: "8-Bit", key: "8-Bit", rarity: "super rare" },
     { id: "sandy", name: "Sandy", key: "Sandy", rarity: "legendary" },
-    { id: "emz", name: "EMZ", key: "EMZ", rarity: "epic" },
+    { id: "emz", name: "Emz", key: "Emz", rarity: "epic" },
     { id: "bea", name: "Bea", key: "Bea", rarity: "epic" },
     { id: "max", name: "Max", key: "Max", rarity: "mythic" },
     { id: "mr. p", name: "Mr. P", key: "Mr. P", rarity: "mythic" },
@@ -97,7 +97,8 @@ const BRAWLERS = [
     { id: "ziggy", name: "Ziggy", key: "Ziggy", rarity: "mythic" },
     { id: "gigi", name: "Gigi", key: "Gigi", rarity: "mythic" },
     { id: "pierce", name: "Pierce", key: "Pierce", rarity: "legendary" },
-    { id: "glowbert", name: "Glowbert", key: "Glowbert", rarity: "mythic" },
+    { id: "glowy", name: "Glowy", key: "Glowy", rarity: "mythic" },
+    { id: "sirius", name: "Sirius", key: "Sirius", rarity: "ultra legendary" },
 ];
 
 
@@ -105,21 +106,21 @@ const PREMADE_TIERS = {
 
     // ── TROPHIES───────────────────────────────────────────────────────────────
     Trophies: {
-        S: ["frank", "emz", "bibi"],
-        A: ["rico", "spike", "carl", "mico", "pierce", "cordelius", "colt", "mortis", "bo", "brock"],
-        B: ["crow", "fang", "bull", "kenji", "griff", "poco", "byron", "jessie", "bea", "surge", "piper", "gus", "mandy", "edgar", "lily", "tick", 
-            "dynamike", "otis", "tara", "stu", "grom", "angelo", "nani", "penny", "gray", "gale", "squeak", "nita", "mina", "glowbert", "shade", "leon", 
-            "melodie", "el-primo", "belle", "darryl", "meeple", "chester"], 
-        C: ["doug", "kaze", "gene", "jacky", "barley", "shelly", "chuck", "amber", "buzz", "maisie", "mr. p", "juju",
-            "sandy", "kit", "r-t", "buster", "berry", "willow", "clancy", "hank", "max", "colette", "larry-lawrie", "ruffs", "gigi", "eve", "alli"],
-        D: ["finx", "charlie", "trunk", "moe", "lou", "meg", "sprout", "ash", "ollie", "janet", "sam", "draco", "8-bit", 
-            "pearl", "bonnie", "pam", "rosa", "ziggy", "jea-yong", "lumi"],
-        F: ["lola"],
+        S: ["bibi", "sirius" ,"frank", "emz", "bo", "crow", "spike"],
+        A: ["rico", "bull", "brock", "mortis", "pierce", "carl", "fang", "kenji", "griff", "cordelius", "leon", "colt", "jessie", "stu", "byron", "mandy", "piper"],
+        B: ["tara", "surge", "shade", "tick", "squeak", "mico", "grom", "bea", "poco", "lily", "nita", "gus", "kit", "melodie", "edgar", "otis", "dynamike",
+            "nani", "chester", "gray", "penny", "angelo", "mina", "shelly", "buzz", "jacky", "doug", "el primo", "chuck", "belle", "darryl", "sandy", "glowy",
+            "maisie", "meeple", "gene", "kaze", "gale", "mr. p", "amber", "buster", "colette", "barley", "r-t", "willow", "juju", "max", "clancy"
+        ], 
+        C: ["hank", "berry", "alli", "ruffs", "larry-lawrie", "eve", "charlie", "lou", "8-bit", "ash", "moe", "finx", "trunk", "meg", "draco", "janet", "pearl", "gigi", 
+            "ollie", "bonnie", "sam", "rosa"],
+        D: ["pam", "ziggy", "lumi", "jae-yong", "lola"],
+        F: [""],
     },
 
     // ── BRAWL ARENA ───────────────────────────────────────────────────────────────
     "Brawl Arena": {
-        S: ["glowbert", "emz", "colt", "gigi", "spike", "pierce", "rico"],
+        S: ["glowy", "emz", "colt", "gigi", "spike", "pierce", "rico"],
         A: ["piper", "mortis", "penny", "brock", "tick", "jessie", "surge", "byron", "edgar", "chester", 
             "lily", "griff", "poco", "amber", "mandy"],
         B: ["kit", "cordelius", "bibi", "dynamike", "nita", "kenji", "frank", "shelly", "8-bit", "shade", 
@@ -141,7 +142,7 @@ const PREMADE_TIERS = {
         B: ["crow", "fang", "leon", "mandy", "colt", "piper", "surge", "gus", "dynamike", "jacky", "pierce", 
             "barley", "nani", "squeak", "gale", "juju", "melodie", "gray", "belle", "darryl", "chester", "bea", 
             "angelo", "shade", "berry", "el primo", "colette", "buzz", "otis", "sandy", "kit"],
-        C: ["eve", "stu", "shelly", "meeple", "gene", "larry-lawrie", "amber", "maisie", "8-bit", "glowbert", "kaze",  
+        C: ["eve", "stu", "shelly", "meeple", "gene", "larry-lawrie", "amber", "maisie", "8-bit", "glowy", "kaze",  
             "r-t", "hank", "sprout", "buster", "willow"],
         D: ["lou", "clancy", "mina", "meg", "janet", "ash", "bonnie", "trunk", "pearl", "finx", "rosa", "alli", 
             "draco", "ruffs", "max", "gigi", "ziggy", "charlie", "ollie", "pam", "moe", "sam", "lola"],

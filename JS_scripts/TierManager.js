@@ -1,18 +1,10 @@
-/**
- * tierManager.js
- * ─────────────────────────────────────────────────────────────────────────────
- * Requires brawlerData.js first (BRAWLERS, RANKS, PREMADE_TIERS, portraitUrl,
- * rankLogoUrl). BRAWLERS entries are expected to have: { id, key, name, rarity }
- * where rarity is a number (higher = rarer) or a string.
- * ─────────────────────────────────────────────────────────────────────────────
- */
 (function () {
     "use strict";
 
     const TIER_KEYS = ["S", "A", "B", "C", "D", "F"];
 
     const LAST_UPDATED = {
-        "Trophies":    "2026-02-07",
+        "Trophies":    "2026-03-01",
         "Brawl Arena": "2026-02-18",
         "Diamond":     "2026-02-07",
         "Mythic":      "2026-02-07",
@@ -21,22 +13,20 @@
         "Pro":         "2026-02-07",
     };
 
-    // Rarity order for sorting (lower index = lower rarity)
     const RARITY_ORDER = [
         "starter", "rare", "super rare", "epic", "mythic", "legendary", "ultra legendary"
     ];
 
-    // ── State ────────────────────────────────────────────────────────────────
     let currentRank   = RANKS[0].key;
     let currentMode   = "premade";
-    let currentSort   = "default";   // "default" | "az" | "za" | "rarity-asc" | "rarity-desc"
+    let currentSort   = "default";
     let searchQuery   = "";
 
     let draggedId  = null;
     let dragSource = null;
     let touchClone = null;
+    let didDrag    = false;   
 
-    // ── Shared custom state ──────────────────────────────────────────────────
     let sharedCustom = null;
 
     function getSharedCustomState() {
@@ -46,7 +36,6 @@
         return sharedCustom;
     }
 
-    // ── Persistence ──────────────────────────────────────────────────────────
     const LS_KEY = "bsTierCustom_v3";
 
     function saveAll() {
@@ -72,16 +61,13 @@
         } catch {}
     }
 
-    // ── Helpers ──────────────────────────────────────────────────────────────
     function getBrawler(id) { return BRAWLERS.find(b => b.id === id); }
 
     function rarityRank(b) {
-        const r = (b.rarity || "").toLowerCase();
-        const idx = RARITY_ORDER.indexOf(r);
+        const idx = RARITY_ORDER.indexOf((b.rarity || "").toLowerCase());
         return idx === -1 ? 99 : idx;
     }
 
-    /** Sort an array of brawler IDs according to currentSort. */
     function sortedIds(ids) {
         if (currentSort === "default") return [...ids];
         const brawlers = ids.map(id => getBrawler(id)).filter(Boolean);
@@ -97,7 +83,6 @@
         return brawlers.map(b => b.id);
     }
 
-    /** Filter IDs by current search query (matches name, case-insensitive). */
     function filteredIds(ids) {
         const q = searchQuery.trim().toLowerCase();
         if (!q) return ids;
@@ -107,7 +92,6 @@
         });
     }
 
-    // ── Insert-index for positional drop ─────────────────────────────────────
     function getInsertIndex(container, clientX, clientY) {
         const cards = [...container.querySelectorAll(".brawler-card")];
         for (let i = 0; i < cards.length; i++) {
@@ -122,20 +106,16 @@
     function moveBrawler(id, from, to, insertIdx) {
         if (!id) return;
         const state = getSharedCustomState();
-
         if (from === "pool") state.pool = state.pool.filter(x => x !== id);
         else if (TIER_KEYS.includes(from)) state[from] = state[from].filter(x => x !== id);
-
         const dest = (to === "pool") ? state.pool : state[to];
         if (!dest) return;
         const idx = (insertIdx === undefined) ? dest.length : Math.min(insertIdx, dest.length);
         dest.splice(idx, 0, id);
-
         render();
         saveAll();
     }
 
-    // ── Drop indicator ───────────────────────────────────────────────────────
     let dropIndicator = null;
 
     function ensureIndicator() {
@@ -161,40 +141,64 @@
 
     function hideIndicator() { dropIndicator?.remove(); }
 
-    // ── Card factory ─────────────────────────────────────────────────────────
-    function makeCard(brawlerId, zone, editable) {
-        const b = getBrawler(brawlerId);
-        if (!b) return null;
-
-        const card = document.createElement("div");
-        card.className    = "brawler-card";
-        card.title        = b.name;
-        card.dataset.id   = b.id;
-        card.dataset.zone = zone;
-        if (editable) card.draggable = true;
-
-        const img = document.createElement("img");
-        img.src = portraitUrl(b.key);
-        img.alt = b.name;
-        img.onerror = function () {
-            this.remove();
-            card.style.cssText += ";display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;letter-spacing:0;text-align:center;padding:2px;";
-            card.textContent = b.name.slice(0, 5).toUpperCase();
-        };
-        card.appendChild(img);
-
-        if (editable) {
-            card.addEventListener("dragstart", onDragStart);
-            card.addEventListener("dragend",   onDragEnd);
-            card.addEventListener("touchstart", onTouchStart, { passive: true });
-            card.addEventListener("touchmove",  onTouchMove,  { passive: false });
-            card.addEventListener("touchend",   onTouchEnd);
-        }
-
-        return card;
+    function goToGuide(brawlerId) {
+        window.location.href = `../Guide_Pages/${brawlerId}.html`;
     }
 
-    // ── Last Updated label ───────────────────────────────────────────────────
+function makeCard(brawlerId, zone, editable) {
+    const b = getBrawler(brawlerId);
+    if (!b) return null;
+
+    const card = document.createElement("div");
+    card.className    = "brawler-card";
+    card.title        = b.name;
+    card.dataset.id   = b.id;
+    card.dataset.zone = zone;
+    if (editable) card.draggable = true;
+
+    const img = document.createElement("img");
+    img.src = portraitUrl(b.key);
+    img.alt = b.name;
+    img.onerror = function () {
+        this.remove();
+        card.style.cssText += ";display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;letter-spacing:0;text-align:center;padding:2px;";
+        card.textContent = b.name.slice(0, 5).toUpperCase();
+    };
+    card.appendChild(img);
+
+    if (editable) {
+        card.addEventListener("dragstart", onDragStart);
+        card.addEventListener("dragend",   onDragEnd);
+        card.addEventListener("touchstart", onTouchStart, { passive: true });
+        card.addEventListener("touchmove",  onTouchMove,  { passive: false });
+        card.addEventListener("touchend",   onTouchEnd);
+    }
+
+    const tooltip = document.getElementById('brawlerTooltip');
+
+    card.addEventListener('mouseenter', () => {
+        document.getElementById('ttName').textContent   = b.name;
+        document.getElementById('ttRarity').textContent = b.rarity || '—';
+
+        let tierLabel = '—';
+        if (currentMode === 'premade') {
+            const premade = PREMADE_TIERS[currentRank] || {};
+            for (const t of TIER_KEYS) {
+                if ((premade[t] || []).includes(b.id)) { tierLabel = t; break; }
+            }
+        } else {
+            const state = getSharedCustomState();
+            for (const t of TIER_KEYS) {
+                if (state[t].includes(b.id)) { tierLabel = t; break; }
+            }
+        }
+        document.getElementById('ttTierVal').textContent = tierLabel;
+
+        tooltip.classList.add('visible');     
+    });
+
+    return card;
+}
     function updateLastUpdatedLabel() {
         let label = document.getElementById("lastUpdatedLabel");
         if (!label) {
@@ -223,15 +227,12 @@
         }
     }
 
-    // ── Render ───────────────────────────────────────────────────────────────
     function render() {
         const editable    = (currentMode === "custom");
         const poolSection = document.getElementById("brawler-pool-section");
 
         if (editable) {
             const state = getSharedCustomState();
-
-            // Tier rows — sort applied, no search filter (all placed brawlers stay put)
             TIER_KEYS.forEach(t => {
                 const c = document.getElementById(`tier-${t}-brawlers`);
                 if (!c) return;
@@ -242,7 +243,6 @@
                 });
             });
 
-            // Pool — sort + search filter applied
             const pool = document.getElementById("brawler-pool");
             if (pool) {
                 pool.innerHTML = "";
@@ -251,8 +251,6 @@
                     const card = makeCard(id, "pool", true);
                     if (card) pool.appendChild(card);
                 });
-
-                // Show "no results" hint when search yields nothing
                 if (visible.length === 0 && state.pool.length > 0) {
                     const empty = document.createElement("div");
                     empty.style.cssText = "color:rgba(255,255,255,0.2);font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:1px;padding:8px;";
@@ -260,7 +258,6 @@
                     pool.appendChild(empty);
                 }
             }
-
             if (poolSection) poolSection.style.display = "";
         } else {
             const premade = PREMADE_TIERS[currentRank] || {};
@@ -279,10 +276,10 @@
         updateLastUpdatedLabel();
     }
 
-    // ── Drag & Drop (mouse) ───────────────────────────────────────────────────
     function onDragStart(e) {
         draggedId  = e.currentTarget.dataset.id;
         dragSource = e.currentTarget.dataset.zone;
+        didDrag    = true;
         setTimeout(() => e.currentTarget.classList.add("dragging"), 0);
         e.dataTransfer.effectAllowed = "move";
     }
@@ -291,6 +288,7 @@
         e.currentTarget.classList.remove("dragging");
         draggedId = dragSource = null;
         hideIndicator();
+        setTimeout(() => { didDrag = false; }, 50);
     }
 
     function setupDropZones() {
@@ -300,14 +298,12 @@
                 zone.classList.add("drag-over");
                 if (currentMode === "custom") showIndicator(zone, getInsertIndex(zone, e.clientX, e.clientY));
             });
-
             zone.addEventListener("dragleave", e => {
                 if (!zone.contains(e.relatedTarget)) {
                     zone.classList.remove("drag-over");
                     hideIndicator();
                 }
             });
-
             zone.addEventListener("drop", e => {
                 e.preventDefault();
                 zone.classList.remove("drag-over");
@@ -320,11 +316,11 @@
         });
     }
 
-    // ── Touch drag ───────────────────────────────────────────────────────────
     function onTouchStart(e) {
         const card = e.currentTarget;
         draggedId  = card.dataset.id;
         dragSource = card.dataset.zone;
+        didDrag    = false;
         const rect = card.getBoundingClientRect();
         touchClone = card.cloneNode(true);
         Object.assign(touchClone.style, {
@@ -338,11 +334,11 @@
 
     function onTouchMove(e) {
         e.preventDefault();
+        didDrag = true;
         if (!touchClone) return;
         const t = e.touches[0];
         touchClone.style.left = (t.clientX - 32) + "px";
         touchClone.style.top  = (t.clientY - 32) + "px";
-
         if (currentMode === "custom") {
             touchClone.style.visibility = "hidden";
             const el = document.elementFromPoint(t.clientX, t.clientY);
@@ -359,13 +355,20 @@
         const t  = e.changedTouches[0];
         const el = document.elementFromPoint(t.clientX, t.clientY);
         const dz = el?.closest("[data-dropzone]");
-        if (dz && currentMode === "custom") {
-            moveBrawler(draggedId, dragSource, dz.dataset.dropzone, getInsertIndex(dz, t.clientX, t.clientY));
+
+        if (didDrag) {
+            if (dz && currentMode === "custom") {
+                moveBrawler(draggedId, dragSource, dz.dataset.dropzone, getInsertIndex(dz, t.clientX, t.clientY));
+            }
+        } else {
+            const card = el?.closest(".brawler-card");
+            if (card) goToGuide(card.dataset.id);
         }
+
         draggedId = dragSource = null;
+        setTimeout(() => { didDrag = false; }, 50);
     }
 
-    // ── Rank icons ───────────────────────────────────────────────────────────
     function buildRankIcons() {
         const grid  = document.getElementById("rankGrid");
         const title = document.getElementById("rankMainTitle");
@@ -414,7 +417,6 @@
         });
     }
 
-    // ── Mode bar ─────────────────────────────────────────────────────────────
     function buildModeBar() {
         if (document.getElementById("modeBar")) return;
         const bar = document.createElement("div");
@@ -423,9 +425,10 @@
             <div class="mode-bar-inner">
                 <button class="mode-btn mode-active" id="btnPremade">Ranked</button>
                 <button class="mode-btn" id="btnCustom">✏ Create Your Own</button>
+                <button class="mode-btn" id="btnSavePremade" title="Save tier list as image">⬇ Save</button>
             </div>
             <p class="custom-mode-note" id="customModeNote" style="display:none">
-                Drag brawlers between tiers. Saved automatically.
+                Drag brawlers between tiers. Click any brawler to view their guide. Saved automatically.
             </p>
         `;
         const tierList = document.querySelector(".custom-tier-list");
@@ -433,6 +436,7 @@
 
         document.getElementById("btnPremade").addEventListener("click", () => setMode("premade"));
         document.getElementById("btnCustom").addEventListener("click",  () => setMode("custom"));
+        document.getElementById("btnSavePremade").addEventListener("click", () => downloadTierList(true));
     }
 
     function setMode(mode) {
@@ -442,9 +446,11 @@
         document.getElementById("btnCustom")?.classList.toggle("mode-active",  mode === "custom");
         const note = document.getElementById("customModeNote");
         if (note) note.style.display = mode === "custom" ? "" : "none";
+
+        const saveBtn = document.getElementById("btnSavePremade");
+        if (saveBtn) saveBtn.style.display = mode === "premade" ? "" : "none";
     }
 
-    // ── Pool (with search + sort toolbar) ────────────────────────────────────
     function buildPool() {
         if (document.getElementById("brawler-pool-section")) return;
         const section = document.createElement("div");
@@ -458,7 +464,6 @@
                 </div>
             </div>
 
-            <!-- Search + Sort toolbar -->
             <div id="poolToolbar">
                 <div id="poolSearchWrap">
                     <svg id="poolSearchIcon" width="13" height="13" viewBox="0 0 24 24" fill="none"
@@ -469,9 +474,9 @@
                     <button id="poolSearchClear" title="Clear">✕</button>
                 </div>
                 <div id="poolSortBtns">
-                    <button class="sort-btn sort-active" data-sort="default" title="Default order">Default</button>
-                    <button class="sort-btn" data-sort="az"          title="A → Z">A–Z</button>
-                    <button class="sort-btn" data-sort="za"          title="Z → A">Z–A</button>
+                    <button class="sort-btn sort-active" data-sort="default">Default</button>
+                    <button class="sort-btn" data-sort="az">A–Z</button>
+                    <button class="sort-btn" data-sort="za">Z–A</button>
                     <button class="sort-btn" data-sort="rarity-asc"  title="Lowest rarity first">★↑</button>
                     <button class="sort-btn" data-sort="rarity-desc" title="Highest rarity first">★↓</button>
                 </div>
@@ -481,20 +486,16 @@
         `;
         document.getElementById("modeBar")?.after(section);
 
-        // ── Reset
         document.getElementById("resetBtn").addEventListener("click", () => {
             sharedCustom = { S:[], A:[], B:[], C:[], D:[], F:[], pool: BRAWLERS.map(b => b.id) };
             render();
             saveAll();
         });
 
-        // ── Download
-        document.getElementById("downloadBtn").addEventListener("click", downloadTierList);
+        document.getElementById("downloadBtn").addEventListener("click", () => downloadTierList(false));
 
-        // ── Search
         const searchInput = document.getElementById("poolSearch");
         const clearBtn    = document.getElementById("poolSearchClear");
-
         searchInput.addEventListener("input", function () {
             searchQuery = this.value;
             clearBtn.style.display = this.value ? "flex" : "none";
@@ -509,7 +510,6 @@
         });
         clearBtn.style.display = "none";
 
-        // ── Sort buttons
         document.querySelectorAll(".sort-btn").forEach(btn => {
             btn.addEventListener("click", () => {
                 currentSort = btn.dataset.sort;
@@ -520,17 +520,28 @@
         });
     }
 
-    // ── Download ─────────────────────────────────────────────────────────────
-    function downloadTierList() {
-        const btn = document.getElementById("downloadBtn");
-        btn.textContent = "Capturing...";
-        btn.disabled = true;
+    /**
+     * @param {boolean} isPremade - if true, uses the current rank label as filename
+     *                              and always includes watermark. Also shows the
+     *                              MetaLock copyright strip at the bottom.
+     */
+    function downloadTierList(isPremade) {
+        const btn = isPremade
+            ? document.getElementById("btnSavePremade")
+            : document.getElementById("downloadBtn");
+
+        if (btn) { btn.textContent = "Capturing..."; btn.disabled = true; }
 
         function runCapture() {
-            const target = document.querySelector(".custom-tier-list");
-            const dpr = window.devicePixelRatio || 1;
+            const target    = document.querySelector(".custom-tier-list");
+            const watermark = document.getElementById("tierlistWatermark");
+            const dpr       = window.devicePixelRatio || 1;
+
+            const origWm = watermark ? watermark.style.display : null;
+            if (watermark) watermark.style.display = "flex";
+
             html2canvas(target, {
-                backgroundColor: "#12131a",
+                backgroundColor: document.body.classList.contains("theme-light") ? "#f3f4f6" : "#12131a",
                 scale: dpr * 2,
                 useCORS: true,
                 allowTaint: false,
@@ -539,22 +550,53 @@
                     el.querySelectorAll("img").forEach(img => { img.style.imageRendering = "auto"; });
                 },
             }).then(canvas => {
+                if (watermark && origWm !== null) watermark.style.display = origWm;
+
+                const FOOTER_H = 40;
                 const out = document.createElement("canvas");
                 out.width  = canvas.width;
-                out.height = canvas.height;
+                out.height = canvas.height + FOOTER_H * dpr * 2;
                 const ctx = out.getContext("2d");
                 ctx.imageSmoothingEnabled = true;
                 ctx.imageSmoothingQuality = "high";
+
                 ctx.drawImage(canvas, 0, 0);
+
+                const isLight = document.body.classList.contains("theme-light");
+                ctx.fillStyle = isLight ? "#e5e7eb" : "#0d0d18";
+                ctx.fillRect(0, canvas.height, out.width, FOOTER_H * dpr * 2);
+
+                ctx.strokeStyle = isLight ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.07)";
+                ctx.lineWidth   = 1 * dpr;
+                ctx.beginPath();
+                ctx.moveTo(0, canvas.height);
+                ctx.lineTo(out.width, canvas.height);
+                ctx.stroke();
+
+                const footerY = canvas.height + (FOOTER_H * dpr * 2) / 2;
+                ctx.font      = `700 ${11 * dpr * 2}px Orbitron, sans-serif`;
+                ctx.fillStyle = isLight ? "rgba(0,0,0,0.3)" : "rgba(255,255,255,0.22)";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.letterSpacing = `${2 * dpr}px`;
+                ctx.fillText("Made with MetaLock  ·  metalock.app", out.width / 2, footerY);
+
+                const filename = isPremade
+                    ? `MetaLock_${currentRank.replace(/\s+/g, "_")}_TierList.png`
+                    : "MetaLock_Custom_TierList.png";
+
                 const link = document.createElement("a");
-                link.download = "TierList.png";
+                link.download = filename;
                 link.href = out.toDataURL("image/png");
                 link.click();
             }).catch(() => {
+                if (watermark && origWm !== null) watermark.style.display = origWm;
                 alert("Couldn't capture the tier list.");
             }).finally(() => {
-                btn.textContent = "⬇ Save Image";
-                btn.disabled = false;
+                if (btn) {
+                    btn.textContent = isPremade ? "⬇ Save" : "⬇ Save Image";
+                    btn.disabled = false;
+                }
             });
         }
 
@@ -566,34 +608,16 @@
             script.onload  = runCapture;
             script.onerror = () => {
                 alert("Couldn't load the capture library.");
-                btn.textContent = "⬇ Save Image";
-                btn.disabled = false;
+                if (btn) {
+                    btn.textContent = isPremade ? "⬇ Save" : "⬇ Save Image";
+                    btn.disabled = false;
+                }
             };
             document.head.appendChild(script);
         }
     }
 
-    // ── Theme (legacy — kept for compatibility with themeManager.js) ──────────
-    function setupTheme() {
-        const sel    = document.getElementById("themeSelector");
-        const themes = ["theme-dark","theme-light","theme-red","theme-blue"];
-        const saved  = localStorage.getItem("theme");
-        if (saved && themes.includes(saved)) {
-            themes.forEach(c => document.body.classList.remove(c));
-            document.body.classList.add(saved);
-            if (sel) sel.value = saved;
-        }
-        if (!sel) return;
-        sel.addEventListener("change", function () {
-            themes.forEach(c => document.body.classList.remove(c));
-            document.body.classList.add(this.value);
-            localStorage.setItem("theme", this.value);
-        });
-    }
-
-    // ── Init ─────────────────────────────────────────────────────────────────
     document.addEventListener("DOMContentLoaded", () => {
-        setupTheme();
         loadAll();
 
         TIER_KEYS.forEach(t => {

@@ -1,25 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tier Lists</title>
-
-    <link rel="stylesheet" href="../styles/base.css">
-    <link rel="stylesheet" href="../styles/layout.css">
-    <link rel="stylesheet" href="../styles/components.css">
-    <link rel="stylesheet" href="../styles/themes.css">
-    <link rel="stylesheet" href="../styles/Tierlist.css">
-
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&display=swap" rel="stylesheet">
-
-    <style>
-        /* ── Hide old top-bar ── */
         .top-bar { display: none; }
 
-        /* ═══════════════════════════════════════
-           GLASS NAV BAR
-        ═══════════════════════════════════════ */
         #glassNav {
             position: sticky;
             top: 0;
@@ -84,9 +64,6 @@
         #navGear:hover { background:rgba(255,255,255,0.12); color:#fff; border-color:rgba(255,255,255,0.22); }
         #navGear.open  { transform:rotate(60deg); background:rgba(255,255,255,0.12); color:#fff; }
 
-        /* ═══════════════════════════════════════
-           SETTINGS DRAWER
-        ═══════════════════════════════════════ */
         #settingsOverlay {
             display: none;
             position: fixed;
@@ -238,9 +215,6 @@
         .accent-pip:hover { transform:scale(1.2); }
         .accent-pip.active { border-color:#fff; transform:scale(1.15); }
 
-        /* ═══════════════════════════════════════
-           PAGE — RANK TITLE + GRID
-        ═══════════════════════════════════════ */
         .rank-title {
             text-align: center;
             margin: 30px auto 24px;
@@ -275,9 +249,6 @@
         .rank-icon:hover    { transform: scale(1.15); }
         .rank-icon.selected { transform: scale(1.18); }
 
-        /* ═══════════════════════════════════════
-           POOL TOOLBAR  (search + sort)
-        ═══════════════════════════════════════ */
         #poolToolbar {
             display: flex;
             align-items: center;
@@ -348,165 +319,247 @@
             color: #fff;
             border-color: rgba(255,255,255,0.25);
         }
-    </style>
-</head>
+        /* ═══════════════════════════════════════════════════════
+   TIER LIST STYLES  —  paste into components.css
+   or add as <link> / <style> in tier-lists.html
+   ═══════════════════════════════════════════════════════ */
 
-<body class="theme-dark">
+/* ── Layout ──────────────────────────────────────────── */
+.custom-tier-list {
+    width: 60%;
+    margin: 0 auto 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
 
-    <!-- ── Glass nav bar ── -->
-    <nav id="glassNav">
-        <button id="navBack" onclick="goHome()">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            BACK
-        </button>
+/* ── Tier row ────────────────────────────────────────── */
+.tier-row {
+    display: flex;
+    align-items: flex-start;
+    border-radius: 10px;
+    overflow: hidden;
+    min-height: 84px;
+    transition: box-shadow 0.2s;
+}
 
-        <span id="navTitle">Tier Lists</span>
+.tier-row.drag-over {
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.45);
+}
 
-        <button id="navGear" aria-label="Settings" title="Settings">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="3"/>
-                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-            </svg>
-        </button>
-    </nav>
+/* ── Tier colours ────────────────────────────────────── */
+.tier-S { background-color: #ee1b1b; }
+.tier-A { background-color: #e08823; }
+.tier-B { background-color: #f7e016; }
+.tier-C { background-color: #2eda0c; }
+.tier-D { background-color: #08c7c7; }
+.tier-F { background-color: #1a1a40; }
 
-    <!-- ── Settings overlay & drawer ── -->
-    <div id="settingsOverlay"></div>
+/* ── Tier label ──────────────────────────────────────── */
+.tier-label {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 34px;
+    width: 68px;
+    min-width: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    text-shadow: 1px 2px 6px rgba(0,0,0,0.7);
+    align-self: stretch;
+    border-right: 2px solid rgba(0,0,0,0.2);
+}
 
-    <aside id="settingsDrawer" role="dialog" aria-label="Settings">
-        <div class="drawer-header">
-            <span class="drawer-header-title">SETTINGS</span>
-            <button id="drawerClose" aria-label="Close settings">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                    <path d="M3 3L13 13M13 3L3 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-            </button>
-        </div>
+/* ── Brawler zone ────────────────────────────────────── */
+.tier-brawlers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px 14px;
+    flex: 1;
+    min-height: 64px;
+}
 
-        <div class="drawer-section">
-            <div class="drawer-section-label">Theme</div>
-            <div class="theme-swatches">
-                <div class="theme-swatch active" data-theme="theme-dark"><span class="swatch-dot"></span>Dark</div>
-                <div class="theme-swatch" data-theme="theme-light"><span class="swatch-dot"></span>Light</div>
-                <div class="theme-swatch" data-theme="theme-red"><span class="swatch-dot"></span>Red</div>
-                <div class="theme-swatch" data-theme="theme-blue"><span class="swatch-dot"></span>Blue</div>
-            </div>
-        </div>
+.tier-brawlers.drag-over {
+    background: rgba(255,255,255,0.06);
+}
 
-        <div class="drawer-divider"></div>
+/* ── Brawler card ────────────────────────────────────── */
+.brawler-card {
+    width: 64px;
+    height: 64px;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: default;
+    border: 2px solid rgba(255,255,255,0.15);
+    transition: transform 0.15s, box-shadow 0.2s, opacity 0.15s;
+    flex-shrink: 0;
+    background: #111;
+    position: relative;
+}
 
-        <div class="drawer-section">
-            <div class="drawer-section-label">Display</div>
-            <div class="setting-row">
-                <div>
-                    <div class="setting-row-label">Brawler Names</div>
-                    <div class="setting-row-desc">Name overlay on portrait</div>
-                </div>
-                <label class="pill-toggle">
-                    <input type="checkbox" id="toggleNames">
-                    <span class="pill-track"></span>
-                </label>
-            </div>
-            <div class="setting-row">
-                <div>
-                    <div class="setting-row-label">Compact Mode</div>
-                    <div class="setting-row-desc">Smaller brawler cards</div>
-                </div>
-                <label class="pill-toggle">
-                    <input type="checkbox" id="toggleCompact">
-                    <span class="pill-track"></span>
-                </label>
-            </div>
-            <div class="setting-row">
-                <div>
-                    <div class="setting-row-label">Hover Tooltips</div>
-                    <div class="setting-row-desc">Name popup on hover</div>
-                </div>
-                <label class="pill-toggle">
-                    <input type="checkbox" id="toggleTooltips" checked>
-                    <span class="pill-track"></span>
-                </label>
-            </div>
-        </div>
+.brawler-card[draggable="true"] {
+    cursor: grab;
+}
+.brawler-card[draggable="true"]:active {
+    cursor: grabbing;
+}
 
-        <div class="drawer-divider"></div>
+.brawler-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    display: block;
+}
 
-        <div class="drawer-section">
-            <div class="drawer-section-label">Card Size</div>
-            <input type="range" class="size-slider" id="cardSizeSlider" min="44" max="96" value="64" step="4">
-            <div class="slider-labels"><span>Small</span><span>Default</span><span>Large</span></div>
-        </div>
+.brawler-card:hover {
+    transform: scale(1.12);
+    z-index: 10;
+}
 
-        <div class="drawer-divider"></div>
+/* Theme glow on hover */
+body.theme-dark  .brawler-card:hover { box-shadow: 0 0 14px rgba(255,255,255,0.5); }
+body.theme-light .brawler-card:hover { box-shadow: 0 0 14px rgba(0,0,0,0.4); }
+body.theme-red   .brawler-card:hover { box-shadow: 0 0 14px #ff3b3b; }
+body.theme-blue  .brawler-card:hover { box-shadow: 0 0 14px #00aaff; }
 
-        <div class="drawer-section">
-            <div class="drawer-section-label">UI Accent</div>
-            <div class="accent-pips" id="accentPips">
-                <div class="accent-pip active" data-accent="#5ddcff" style="background:#5ddcff"></div>
-                <div class="accent-pip" data-accent="#ff5daa" style="background:#ff5daa"></div>
-                <div class="accent-pip" data-accent="#5dff8a" style="background:#5dff8a"></div>
-                <div class="accent-pip" data-accent="#ffbe5d" style="background:#ffbe5d"></div>
-                <div class="accent-pip" data-accent="#c05dff" style="background:#c05dff"></div>
-                <div class="accent-pip" data-accent="#ff5d5d" style="background:#ff5d5d"></div>
-                <div class="accent-pip" data-accent="#ffffff" style="background:#ffffff"></div>
-            </div>
-        </div>
+.brawler-card.dragging {
+    opacity: 0.25;
+    transform: scale(0.88);
+}
 
-        <div class="drawer-divider"></div>
+#modeBar {
+    width: 90%;
+    margin: 14px auto 0;
+    text-align: center;
+}
 
-        <div class="drawer-section">
-            <div class="drawer-section-label">Data</div>
-            <div class="setting-row">
-                <div>
-                    <div class="setting-row-label">Clear Custom List</div>
-                    <div class="setting-row-desc">Reset your personal tier list</div>
-                </div>
-                <button id="clearDataBtn" style="font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;padding:6px 12px;border-radius:8px;cursor:pointer;background:rgba(255,60,60,0.1);border:1px solid rgba(255,60,60,0.2);color:rgba(255,100,100,0.8);transition:background 0.2s,color 0.2s;">RESET</button>
-            </div>
-        </div>
-    </aside>
+.mode-bar-inner {
+    display: inline-flex;
+    gap: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.1);
+}
 
-    <!-- ── Page content ── -->
-    <h1 id="rankMainTitle" class="rank-title">Tier List</h1>
+.mode-btn {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 10px 24px;
+    border: none;
+    background: rgba(255,255,255,0.05);
+    color: rgba(255,255,255,0.4);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
 
-    <div class="rank-container">
-        <div class="rank-grid" id="rankGrid"></div>
-    </div>
+.mode-btn:hover {
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.7);
+}
 
-    <div class="custom-tier-list">
-        <div class="tier-row tier-S" id="tier-S">
-            <div class="tier-label">S</div>
-            <div class="tier-brawlers" id="tier-S-brawlers" data-dropzone="S"></div>
-        </div>
-        <div class="tier-row tier-A" id="tier-A">
-            <div class="tier-label">A</div>
-            <div class="tier-brawlers" id="tier-A-brawlers" data-dropzone="A"></div>
-        </div>
-        <div class="tier-row tier-B" id="tier-B">
-            <div class="tier-label">B</div>
-            <div class="tier-brawlers" id="tier-B-brawlers" data-dropzone="B"></div>
-        </div>
-        <div class="tier-row tier-C" id="tier-C">
-            <div class="tier-label">C</div>
-            <div class="tier-brawlers" id="tier-C-brawlers" data-dropzone="C"></div>
-        </div>
-        <div class="tier-row tier-D" id="tier-D">
-            <div class="tier-label">D</div>
-            <div class="tier-brawlers" id="tier-D-brawlers" data-dropzone="D"></div>
-        </div>
-        <div class="tier-row tier-F" id="tier-F">
-            <div class="tier-label">F</div>
-            <div class="tier-brawlers" id="tier-F-brawlers" data-dropzone="F"></div>
-        </div>
-    </div>
+.mode-btn.mode-active {
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+}
 
-    <!-- Load order matters: navigation → data → tier logic → settings UI -->
-    <script src="../scripts/navigation.js"></script>
-    <script src="../scripts/brawlerData.js"></script>
-    <script src="../scripts/tierManager.js"></script>
-    <script src="../scripts/Tiersettings.js"></script>
+.custom-mode-note {
+    margin-top: 8px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 0.5px;
+}
 
-</body>
-</html>
+#brawler-pool-section {
+    width: 90%;
+    margin: 16px auto 60px;
+}
+
+.pool-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.pool-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.reset-btn,
+.download-btn {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: background 0.2s, color 0.2s;
+}
+
+.reset-btn {
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.05);
+    color: rgba(255,255,255,0.4);
+}
+.reset-btn:hover {
+    background: rgba(255,60,60,0.2);
+    color: #ff8080;
+    border-color: rgba(255,60,60,0.3);
+}
+
+.download-btn {
+    border: 1px solid rgba(100,220,100,0.2);
+    background: rgba(100,220,100,0.07);
+    color: rgba(150,255,150,0.7);
+}
+.download-btn:hover {
+    background: rgba(100,220,100,0.18);
+    color: #90ff90;
+    border-color: rgba(100,220,100,0.4);
+}
+.download-btn:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
+.brawler-pool {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 14px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.03);
+    border: 2px dashed rgba(255,255,255,0.1);
+    min-height: 90px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.brawler-pool.drag-over {
+    border-color: rgba(255,255,255,0.35);
+    box-shadow: 0 0 18px rgba(255,255,255,0.06);
+}
+
+.brawler-pool:empty::after {
+    content: "All brawlers ranked! ✓";
+    color: rgba(255,255,255,0.2);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    pointer-events: none;
+    letter-spacing: 1px;
+}

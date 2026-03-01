@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shelly — Guide · Metalock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../StyleCSS/GuidePages.css">
+    <link rel="stylesheet" href="../StyleCSS/Themes.css">
+</head>
+<body>
+
+<nav id="glassNav">
+    <a id="navBack" href="../../Guides.html">
+        <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
+            <path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        GUIDES
+    </a>
+    <span id="navTitle">Shelly</span>
+    <div class="nav-right">
+        <div class="nav-rarity-badge" style="color:#50c850;border-color:rgba(80,200,80,0.3);background:rgba(80,200,80,0.08);">Starter</div>
+        <div class="nav-updated">Updated: 23 Feb 2026</div>
+    </div>
+</nav>
+
+<div id="hero">
+    <div id="heroPortraitCol">
+        <img id="heroPortrait"
+             src="../../Assets/Brawlers/Shelly/Base_Model.png"
+             alt="Brawler Name"
+             onerror="this.style.opacity='0.2'">
+    </div>
+    <div id="heroInfo">
+        <div class="hero-eyebrow">Guide · Metalock</div>
+        <div id="brawlerName">Shelly</div>
+        <div class="hero-tags">
+            <span class="hero-tag accent">Anti-Tank</span>
+        </div>
+        <div class="hero-oneliner">Shelly is a defensive brawlers which mainly focuses around protecting her allies from melee brawlers.</div>
+    </div>
+</div>
+
+<div id="contentWrap">
+    <div class="section-card">
+        <div class="section-head"><span class="section-icon">📖</span><span class="section-title">Overview</span></div>
+        <div class="section-body">
+            <div class="prose">
+                <p>
+                    <strong>Shelly</strong> is a Damage Dealer brawler who thrives as Anti-Tank.
+                    Being a starting brawler she doesn't have any outstanding feature's, which sets her apart from other brawlers.
+                </p>
+                <p>
+                    Shelly playstyle is about getting close to enemies, and excel on: Brawl Ball, Gem Gram and Showdown.
+                    Her main weakness is being outranged or ways to avoid her super.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-card">
+        <div class="section-head"><span class="section-icon">🔧</span><span class="section-title">Build</span></div>
+        <div class="section-body">
+
+            <div class="build-tabs">
+                <button class="build-tab active" data-tab="starpowers">Star Powers</button>
+                <button class="build-tab" data-tab="gadgets">Gadgets</button>
+                <button class="build-tab" data-tab="gears">Gears</button>
+            </div>
+
+            <div class="build-panel active" id="tab-starpowers">
+                <!--
+                ✏️ One .ability-icon-btn per star power.
+                   Add class "recommended" to the stronger pick.
+                   data-ability must match the "key" in the JSON data block below.
+                   Image: Assets/Brawlers/{key}/SP1.png  SP2.png etc.
+                -->
+                <div class="ability-grid">
+                    <button class="ability-icon-btn" data-ability="sp1" data-group="starpowers">
+                        <div class="ability-icon-wrap">
+                            <img src="../../Assets/Brawlers/Shelly/SP1.png" alt="" onerror="this.parentNode.style.background='rgba(255,255,255,0.1)'">
+                            <div class="ability-rec-dot"></div>
+                        </div>
+                        <div class="ability-icon-label">Shell Shock</div>
+                    </button>
+                    <button class="ability-icon-btn" data-ability="sp2" data-group="starpowers">
+                        <div class="ability-icon-wrap">
+                            <img src="../../Assets/Brawlers/Shelly/SP2.png" alt="" onerror="this.parentNode.style.background='rgba(255,255,255,0.1)'">
+                            
+                        </div>
+                        <div class="ability-icon-label">Band-Aid</div>
+                    </button>
+                </div>
+                <div class="ability-detail" id="detail-starpowers"></div>
+
+                <!--
+                ✏️ Fill in name, badge, desc, and buffieDesc for each star power.
+                   badge: "recommended" | "situational" | "skip"
+                   buffieDesc: the add-on effect the buffie gives on top of the base ability.
+                -->
+                <script type="application/json" id="data-starpowers">
+                [
+                    {
+                        "key":        "sp1",
+                        "name":       "Shell Shock",
+                        "badge":      "situational",
+                        "img":        "../../Assets/Brawlers/Shelly/SP1.png",
+                        "desc":       "Enemies hit by Shelly's Super are slowed down for 2 seconds.",
+                        "buffieDesc": "Three burning circles are left at where the super's shots end, which deal damage over time."
+                    },
+                    {
+                        "key":        "sp2",
+                        "name":       "Band-Aid",
+                        "badge":      "situational",
+                        "img":        "../../Assets/Brawlers/Shelly/SP2.png",
+                        "desc":       "When Shelly falls below 40% health, she instantly heals for 2340 health. Band-Aid recharges in 15 sec.",
+                        "buffieDesc": "Shelly gets a 15% movement for 3 seconds when Band-Aid activates."
+                    }
+                ]
+                </script>
+            </div>
+
+            <!-- ── GADGETS ── -->
+            <div class="build-panel" id="tab-gadgets">
+                <!--
+                ✏️ One .ability-icon-btn per gadget.
+                   Image: Assets/Brawlers/{key}/G1.png  G2.png etc.
+                -->
+                <div class="ability-grid">
+                    <button class="ability-icon-btn" data-ability="g1" data-group="gadgets">
+                        <div class="ability-icon-wrap">
+                            <img src="../../Assets/Brawlers/Shelly/G1.png" alt="" onerror="this.parentNode.style.background='rgba(255,255,255,0.1)'">
+                            <div class="ability-rec-dot"></div>
+                        </div>
+                        <div class="ability-icon-label">Fast Forward</div>
+                    </button>
+                    <button class="ability-icon-btn" data-ability="g2" data-group="gadgets">
+                        <div class="ability-icon-wrap">
+                            <img src="../../Assets/Brawlers/Shelly/G2.png" alt="" onerror="this.parentNode.style.background='rgba(255,255,255,0.1)'">
+                        </div>
+                        <div class="ability-icon-label">Clay Pigeons</div>
+                    </button>
+                </div>
+                <div class="ability-detail" id="detail-gadgets"></div>
+
+                <!-- ✏️ -->
+                <script type="application/json" id="data-gadgets">
+                [
+                    {
+                        "key":        "g1",
+                        "name":       "Fast Forward",
+                        "badge":      "Situational",
+                        "img":        "../../Assets/Brawlers/brawlername/G1.png",
+                        "desc":       "Shelly dashes to an aimed direction or forwards, fully reloading her ammo!",
+                        "buffieDesc": "Describe the buffie add-on — the extra effect layered on top of the gadget's base behaviour."
+                    },
+                    {
+                        "key":        "g2",
+                        "name":       "Clay Pigeons",
+                        "badge":      "recommended",
+                        "img":        "../../Assets/Brawlers/brawlername/G2.png",
+                        "desc":       "Explain why this gadget is usually skipped and when it could be considered.",
+                        "buffieDesc": "Describe the buffie add-on for this gadget."
+                    }
+                ]
+                </script>
+            </div>
+
+            <!-- ── GEARS ── -->
+            <div class="build-panel" id="tab-gears">
+                <div class="gear-section-label" style="margin-bottom:10px;">Recommended</div>
+                <div class="gear-row" style="margin-bottom:16px;">
+                    <!-- ✏️ swap emoji for <img> if you have gear icons -->
+                    <div class="gear-card rec">
+                        <div class="gear-icon">⚙️</div>
+                        <div>
+                            <div class="gear-name">Gear Name 1</div>
+                            <div class="gear-desc">Why this is the best first gear for this brawler.</div>
+                        </div>
+                    </div>
+                    <div class="gear-card rec">
+                        <div class="gear-icon">⚙️</div>
+                        <div>
+                            <div class="gear-name">Gear Name 2</div>
+                            <div class="gear-desc">Why this is the ideal second gear slot.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="gear-section-label">Situational</div>
+                <div class="gear-row" style="margin-top:8px;">
+                    <div class="gear-card">
+                        <div class="gear-icon">⚙️</div>
+                        <div>
+                            <div class="gear-name">Situational Gear</div>
+                            <div class="gear-desc">When to swap this in (specific maps, modes, matchups).</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ══ HYPERCHARGE ══ -->
+    <div class="section-card">
+        <div class="section-head"><span class="section-icon">⚡</span><span class="section-title">Hypercharge</span></div>
+        <div class="section-body">
+            <div class="hc-card">
+                <!-- Base hypercharge info -->
+                <div class="hc-base">
+                    <div class="hc-icon">🌀</div>
+                    <div>
+                        <!-- ✏️ -->
+                        <div class="hc-name">Hypercharge Name</div>
+                        <div class="hc-desc">
+                            Describe what the hypercharge does during the super — the effect, how it changes gameplay,
+                            the best way to set it up, and key interactions to be aware of.
+                        </div>
+                        <!-- ✏️ stat boosts: Speed / Dmg / Shield — remove any that don't apply -->
+                        <div class="hc-stats">
+                            <span class="hc-stat-pill">+25% Speed</span>
+                            <span class="hc-stat-pill">+5% Dmg</span>
+                            <span class="hc-stat-pill">+25% Shield</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Buffie on the hypercharge -->
+                <div class="hc-buffie">
+                    <div class="hc-buffie-icon">💫</div>
+                    <div>
+                        <div class="hc-buffie-label">Buffie</div>
+                        <!-- ✏️ -->
+                        <div class="hc-buffie-desc">
+                            Describe the buffie add-on effect for the hypercharge — what extra thing it does on top of the
+                            base hypercharge behaviour, and how it changes the way you use it.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══ TIPS & TRICKS ══ -->
+    <div class="section-card">
+        <div class="section-head"><span class="section-icon">💡</span><span class="section-title">Tips &amp; Tricks</span></div>
+        <div class="section-body">
+            <div class="tip-list">
+                <!-- ✏️ 4–8 tips -->
+                <div class="tip-item">
+                    <span class="tip-ico">⚡</span>
+                    <div class="tip-text"><strong>Tip title.</strong> Detailed explanation of the mechanic, combo, or positioning trick. Be specific about distances, timing, or conditions.</div>
+                </div>
+                <div class="tip-item">
+                    <span class="tip-ico">🎯</span>
+                    <div class="tip-text"><strong>Attack pattern.</strong> How to land attacks most reliably and what range to fight at.</div>
+                </div>
+                <div class="tip-item">
+                    <span class="tip-ico">🌀</span>
+                    <div class="tip-text"><strong>Super usage.</strong> Best windows — when enemies are grouped, when securing objectives, after a flank, etc.</div>
+                </div>
+                <div class="tip-item">
+                    <span class="tip-ico">🗺️</span>
+                    <div class="tip-text"><strong>Positioning.</strong> Preferred lanes, chokepoints, and how to rotate between objectives safely.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══ MATCHUPS & SYNERGIES ══ -->
+    <div class="section-card">
+        <div class="section-head"><span class="section-icon">⚔️</span><span class="section-title">Matchups &amp; Synergies</span></div>
+        <div class="section-body" style="display:flex;flex-direction:column;gap:22px;">
+
+            <div class="matchup-grid">
+                <div>
+                    <div class="matchup-col-label good">✅ Counters</div>
+                    <!-- ✏️ -->
+                    <div class="matchup-pill">
+                        <img class="matchup-portrait" src="../../Assets/Portraits/shelly_portrait.png" alt="" onerror="this.style.opacity='0.2'">
+                        <div>
+                            <div class="matchup-name">Shelly</div>
+                            <div class="matchup-reason">Out-ranges her; punish at mid distance.</div>
+                            <div class="rating-wrap"><div class="rating-bar"><div class="rating-fill good" style="width:80%"></div></div><div class="rating-num">8/10</div></div>
+                        </div>
+                    </div>
+                    <div class="matchup-pill">
+                        <img class="matchup-portrait" src="../../Assets/Portraits/bull_portrait.png" alt="" onerror="this.style.opacity='0.2'">
+                        <div>
+                            <div class="matchup-name">Bull</div>
+                            <div class="matchup-reason">Kite easily; destroy in open lanes.</div>
+                            <div class="rating-wrap"><div class="rating-bar"><div class="rating-fill good" style="width:70%"></div></div><div class="rating-num">7/10</div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="matchup-col-label bad">❌ Gets Countered By</div>
+                    <!-- ✏️ -->
+                    <div class="matchup-pill">
+                        <img class="matchup-portrait" src="../../Assets/Portraits/mortis_portrait.png" alt="" onerror="this.style.opacity='0.2'">
+                        <div>
+                            <div class="matchup-name">Mortis</div>
+                            <div class="matchup-reason">Dashes through attacks; hard to punish.</div>
+                            <div class="rating-wrap"><div class="rating-bar"><div class="rating-fill bad" style="width:75%"></div></div><div class="rating-num">7/10</div></div>
+                        </div>
+                    </div>
+                    <div class="matchup-pill">
+                        <img class="matchup-portrait" src="../../Assets/Portraits/leon_portrait.png" alt="" onerror="this.style.opacity='0.2'">
+                        <div>
+                            <div class="matchup-name">Leon</div>
+                            <div class="matchup-reason">Invisible dive, no safe zone.</div>
+                            <div class="rating-wrap"><div class="rating-bar"><div class="rating-fill bad" style="width:65%"></div></div><div class="rating-num">6/10</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="matchup-col-label sync" style="margin-bottom:10px;">💙 Synergies</div>
+                <div class="synergy-grid">
+                    <!-- ✏️ -->
+                    <div class="matchup-pill synergy-pill">
+                        <img class="matchup-portrait" src="../../Assets/Portraits/nita_portrait.png" alt="" onerror="this.style.opacity='0.2'">
+                        <div>
+                            <div class="matchup-name">Nita</div>
+                            <div class="matchup-reason">Tank + zone control; bear soaks damage.</div>
+                            <div class="rating-wrap"><div class="rating-bar"><div class="rating-fill sync" style="width:85%"></div></div><div class="rating-num">9/10</div></div>
+                        </div>
+                    </div>
+                    <div class="matchup-pill synergy-pill">
+                        <img class="matchup-portrait" src="../../Assets/Portraits/poco_portrait.png" alt="" onerror="this.style.opacity='0.2'">
+                        <div>
+                            <div class="matchup-name">Poco</div>
+                            <div class="matchup-reason">Healing sustains aggressive pushes.</div>
+                            <div class="rating-wrap"><div class="rating-bar"><div class="rating-fill sync" style="width:75%"></div></div><div class="rating-num">8/10</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ══ GAMEMODE SUITABILITY ══ -->
+    <div class="section-card">
+        <div class="section-head"><span class="section-icon">🏆</span><span class="section-title">Gamemode Suitability</span></div>
+        <div class="section-body">
+            <!-- ✏️ adjust class (strong/mid/weak), tier, and description per mode -->
+            <div class="mode-grid">
+                <div class="mode-card strong">
+                    <div class="mode-name">Gem Grab</div>
+                    <div class="mode-rating strong">S Tier</div>
+                    <div class="mode-desc">Controls the mine zone exceptionally well.</div>
+                </div>
+                <div class="mode-card strong">
+                    <div class="mode-name">Brawl Ball</div>
+                    <div class="mode-rating strong">A Tier</div>
+                    <div class="mode-desc">Great at clearing paths and bullying the carrier.</div>
+                </div>
+                <div class="mode-card mid">
+                    <div class="mode-name">Heist</div>
+                    <div class="mode-rating mid">B Tier</div>
+                    <div class="mode-desc">Decent damage; outclassed by dedicated picks.</div>
+                </div>
+                <div class="mode-card mid">
+                    <div class="mode-name">Bounty</div>
+                    <div class="mode-rating mid">B Tier</div>
+                    <div class="mode-desc">Works with wall cover; punishable in open lanes.</div>
+                </div>
+                <div class="mode-card weak">
+                    <div class="mode-name">Showdown</div>
+                    <div class="mode-rating weak">C Tier</div>
+                    <div class="mode-desc">Gets kited in open areas; solo struggles.</div>
+                </div>
+                <div class="mode-card weak">
+                    <div class="mode-name">Knockout</div>
+                    <div class="mode-rating weak">C Tier</div>
+                    <div class="mode-desc">No revives makes mistakes very punishing.</div>
+                </div>
+                <!-- ✏️ add/remove modes: Hot Zone, Wipeout, Duels, etc. -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ══ COSMETICS ══ -->
+    <div class="section-card">
+        <div class="section-head"><span class="section-icon">🎨</span><span class="section-title">Cosmetics</span></div>
+        <div class="section-body">
+            <div class="cosmetics-tabs">
+                <button class="cos-tab active" data-ctab="skins">Skins</button>
+                <button class="cos-tab" data-ctab="pins">Pins</button>
+                <button class="cos-tab" data-ctab="sprays">Sprays</button>
+            </div>
+
+            <!-- SKINS -->
+            <div class="cos-panel active" id="ctab-skins">
+                <div class="skins-grid">
+                    <!--
+                    ✏️ One .skin-card per skin.
+                       data-src = full model image path (swaps the hero portrait)
+                       Image: Assets/Brawlers/{key}/{SkinName}_Model.png
+                    -->
+                    <div class="skin-card active-skin" data-src="../../Assets/Brawlers/brawlername/Base_Model.png" onclick="selectSkin(this)">
+                        <img src="../../Assets/Brawlers/brawlername/Base_Model.png" alt="Default" onerror="this.style.opacity='0.15'">
+                        <div class="skin-card-name">Default</div>
+                    </div>
+                    <div class="skin-card" data-src="../../Assets/Brawlers/brawlername/SkinName_Model.png" onclick="selectSkin(this)">
+                        <img src="../../Assets/Brawlers/brawlername/SkinName_Model.png" alt="Skin Name" onerror="this.style.opacity='0.15'">
+                        <div class="skin-card-name">Skin Name</div>
+                    </div>
+                    <!-- ✏️ add more skins -->
+                </div>
+            </div>
+
+            <!-- PINS -->
+            <div class="cos-panel" id="ctab-pins">
+                <div class="items-grid">
+                    <!-- ✏️ Image: Assets/Brawlers/{key}/Pins/pin_name.png -->
+                    <div class="item-card">
+                        <img src="../../Assets/Brawlers/brawlername/Pins/pin_happy.png" alt="Happy" onerror="this.style.opacity='0.15'">
+                        <div class="item-card-label">Happy</div>
+                    </div>
+                    <div class="item-card">
+                        <img src="../../Assets/Brawlers/brawlername/Pins/pin_sad.png" alt="Sad" onerror="this.style.opacity='0.15'">
+                        <div class="item-card-label">Sad</div>
+                    </div>
+                    <div class="item-card">
+                        <img src="../../Assets/Brawlers/brawlername/Pins/pin_angry.png" alt="Angry" onerror="this.style.opacity='0.15'">
+                        <div class="item-card-label">Angry</div>
+                    </div>
+                    <!-- ✏️ add more pins -->
+                </div>
+            </div>
+
+            <!-- SPRAYS -->
+            <div class="cos-panel" id="ctab-sprays">
+                <div class="items-grid">
+                    <!-- ✏️ Image: Assets/Brawlers/{key}/Sprays/spray_name.png -->
+                    <div class="item-card">
+                        <img src="../../Assets/Brawlers/brawlername/Sprays/spray_default.png" alt="Default" onerror="this.style.opacity='0.15'">
+                        <div class="item-card-label">Default</div>
+                    </div>
+                    <!-- ✏️ add more sprays -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══ BALANCE HISTORY ══ -->
+    <div class="section-card">
+        <div class="section-head"><span class="section-icon">📋</span><span class="section-title">Balance History</span></div>
+        <div class="section-body">
+            <div class="balance-legend">
+                <div class="bl-leg-item"><div class="bl-leg-dot" style="background:rgba(80,220,120,0.85);"></div>Buff</div>
+                <div class="bl-leg-item"><div class="bl-leg-dot" style="background:rgba(255,100,100,0.85);"></div>Nerf</div>
+                <div class="bl-leg-item"><div class="bl-leg-dot" style="background:rgba(100,160,255,0.85);"></div>Rework / Bug Fix / Global</div>
+            </div>
+            <div class="balance-scroll">
+                <!--
+                ✏️ One .balance-entry per patch. Newest at the TOP.
+                   bl-dot / bl-title class: buff | nerf | change
+                   bl-change-item class: positive | negative (or neither for neutral)
+                -->
+
+                <!-- BUFF example -->
+                <div class="balance-entry">
+                    <div class="balance-line-col">
+                        <div class="bl-dot buff">📈</div>
+                        <div class="bl-line"></div>
+                    </div>
+                    <div class="balance-content">
+                        <div class="bl-date">15 MAY 2025 · PATCH 55.XXX</div>
+                        <div class="bl-title buff">Damage Buff</div>
+                        <div class="bl-changes">
+                            <div class="bl-change-item positive">Main attack damage: 1400 → 1540 (+10%)</div>
+                            <div class="bl-change-item positive">Reload speed: 1.5s → 1.3s</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NERF example -->
+                <div class="balance-entry">
+                    <div class="balance-line-col">
+                        <div class="bl-dot nerf">📉</div>
+                        <div class="bl-line"></div>
+                    </div>
+                    <div class="balance-content">
+                        <div class="bl-date">01 MAR 2025 · PATCH 54.XXX</div>
+                        <div class="bl-title nerf">Health Nerf</div>
+                        <div class="bl-changes">
+                            <div class="bl-change-item negative">HP: 5200 → 4800</div>
+                            <div class="bl-change-item negative">Super charge rate reduced 15%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BUG FIX / CHANGE example -->
+                <div class="balance-entry">
+                    <div class="balance-line-col">
+                        <div class="bl-dot change">🔧</div>
+                        <div class="bl-line"></div>
+                    </div>
+                    <div class="balance-content">
+                        <div class="bl-date">10 JAN 2025 · PATCH 53.XXX</div>
+                        <div class="bl-title change">Bug Fix</div>
+                        <div class="bl-desc">Fixed an issue where the super did not activate correctly near walls. No stat changes.</div>
+                    </div>
+                </div>
+
+                <!-- ✏️ add more entries above this line, newest first -->
+            </div>
+        </div>
+    </div>
+
+</div><!-- /contentWrap -->
+
+<div id="pageFooter">
+    LAST UPDATED: 01 JUN 2025 · PRODIGY GUIDES <!-- ✏️ -->
+</div>
+
+<script>
+(function(){
+
+// ── Build tab switching ──────────────────────────────────
+document.querySelectorAll(".build-tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+        document.querySelectorAll(".build-tab").forEach(t => t.classList.remove("active"));
+        document.querySelectorAll(".build-panel").forEach(p => p.classList.remove("active"));
+        tab.classList.add("active");
+        document.getElementById("tab-" + tab.dataset.tab).classList.add("active");
+    });
+});
+
+// ── Ability icon click → show detail + buffie strip ─────
+function getAbilityData(group, key){
+    try {
+        return JSON.parse(document.getElementById("data-" + group).textContent).find(d => d.key === key) || null;
+    } catch(e){ return null; }
+}
+
+const BADGE_LABEL = { recommended:"Recommended", situational:"Situational", skip:"Usually Skip" };
+
+function showAbilityDetail(group, item){
+    const el = document.getElementById("detail-" + group);
+    if(!item){ el.classList.remove("visible"); return; }
+    const badge = item.badge || "situational";
+    el.innerHTML =
+        `<div class="ad-base">
+            <div class="ad-header">
+                <img class="ad-img" src="${item.img}" alt="${item.name}" onerror="this.style.opacity='0.15'">
+                <div>
+                    <div class="ad-name">${item.name}</div>
+                    <div class="ad-badges"><span class="ad-badge ${badge}">${BADGE_LABEL[badge]||badge}</span></div>
+                </div>
+            </div>
+            <div class="ad-desc">${item.desc}</div>
+        </div>
+        <div class="ad-buffie">
+            <div class="ad-buffie-icon">💫</div>
+            <div>
+                <div class="ad-buffie-label">Buffie</div>
+                <div class="ad-buffie-desc">${item.buffieDesc}</div>
+            </div>
+        </div>`;
+    el.classList.add("visible");
+}
+
+document.querySelectorAll(".ability-icon-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+        const group = btn.dataset.group;
+        document.querySelectorAll(`.ability-icon-btn[data-group="${group}"]`).forEach(b => b.classList.remove("selected"));
+        btn.classList.add("selected");
+        showAbilityDetail(group, getAbilityData(group, btn.dataset.ability));
+    });
+});
+
+// Auto-open the recommended ability on load for each group
+["starpowers","gadgets"].forEach(group => {
+    const rec = document.querySelector(`.ability-icon-btn.recommended[data-group="${group}"]`);
+    if(rec) rec.click();
+});
+
+// ── Cosmetics tabs ───────────────────────────────────────
+document.querySelectorAll(".cos-tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+        document.querySelectorAll(".cos-tab").forEach(t => t.classList.remove("active"));
+        document.querySelectorAll(".cos-panel").forEach(p => p.classList.remove("active"));
+        tab.classList.add("active");
+        document.getElementById("ctab-" + tab.dataset.ctab).classList.add("active");
+    });
+});
+
+// ── Skin swap (swaps hero portrait) ─────────────────────
+window.selectSkin = function(card){
+    document.querySelectorAll(".skin-card").forEach(c => c.classList.remove("active-skin"));
+    card.classList.add("active-skin");
+    const portrait = document.getElementById("heroPortrait");
+    portrait.style.opacity = "0";
+    setTimeout(() => { portrait.src = card.dataset.src; portrait.style.opacity = "1"; }, 130);
+};
+
+})();
+</script>
+</body>
+</html>

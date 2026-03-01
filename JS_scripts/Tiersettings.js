@@ -1,28 +1,17 @@
-/**
- * tierSettings.js
- * ─────────────────────────────────────────────────────────────────────────────
- * Handles the glass nav settings drawer on the Tier Lists page.
- * Shared localStorage key "bsTierSettings_v1" with index.html so theme/accent
- * persist across pages.
- * ─────────────────────────────────────────────────────────────────────────────
- */
 (function () {
     "use strict";
 
-    const THEMES     = ["theme-dark", "theme-light", "theme-red", "theme-blue"];
+    const THEMES      = ["theme-dark", "theme-light", "theme-red", "theme-blue"];
     const LS_SETTINGS = "bsTierSettings_v1";
 
-    // Default settings — merged over with anything saved
     let settings = {
         theme:    "theme-dark",
-        accent:   "#5ddcff",
         cardSize: 64,
         names:    false,
         compact:  false,
         tooltips: true,
     };
 
-    // ── Persistence ──────────────────────────────────────────────────────────
     function loadSettings() {
         try {
             const saved = JSON.parse(localStorage.getItem(LS_SETTINGS));
@@ -36,7 +25,6 @@
         try { localStorage.setItem(LS_SETTINGS, JSON.stringify(settings)); } catch {}
     }
 
-    // ── Style injection helpers ───────────────────────────────────────────────
     function injectStyle(id, css) {
         let el = document.getElementById(id);
         if (!el) {
@@ -47,22 +35,9 @@
         el.textContent = css;
     }
 
-    // ── Apply functions ───────────────────────────────────────────────────────
     function applyTheme(theme) {
         THEMES.forEach(t => document.body.classList.remove(t));
         document.body.classList.add(theme);
-    }
-
-    function applyAccent(color) {
-        document.documentElement.style.setProperty("--ui-accent", color);
-        injectStyle("accentStyle", `
-            .pill-toggle input:checked + .pill-track { background:${color}33; border-color:${color}66; }
-            .pill-toggle input:checked + .pill-track::after { background:${color}; }
-            .size-slider::-webkit-slider-thumb { background:${color}; box-shadow:0 0 8px ${color}88; }
-            .size-slider::-moz-range-thumb { background:${color}; }
-            .download-btn { color:${color}aa !important; border-color:${color}33 !important; }
-            .download-btn:hover { color:${color} !important; border-color:${color}66 !important; background:${color}18 !important; }
-        `);
     }
 
     function applyCardSize(px) {
@@ -72,17 +47,12 @@
     }
 
     function applyNames(on) {
-        // Overlay the name on top of the image at the bottom, white text + dark outline
         injectStyle("namesStyle", on ? `
-            .brawler-card {
-                position: relative;
-            }
+            .brawler-card { position: relative; }
             .brawler-card::before {
                 content: attr(title);
                 position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
+                bottom: 0; left: 0; right: 0;
                 padding: 3px 2px 3px;
                 font-family: 'Orbitron', sans-serif;
                 font-size: 14px;
@@ -96,70 +66,138 @@
                 z-index: 2;
                 background: linear-gradient(transparent, rgba(0,0,0,0.72) 40%);
                 border-radius: 0 0 8px 8px;
-                text-shadow:
-                    -1px -1px 0 #000, 1px -1px 0 #000,
-                    -1px  1px 0 #000, 1px  1px 0 #000;
+                text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
             }
         ` : "");
     }
 
     function applyTooltips(on) {
-        injectStyle("tooltipStyle", on ? "" : `.brawler-card::after { display:none !important; }`);
+        window._metalockTooltipsEnabled = on;
     }
 
-    /**
-     * Compact toggle.
-     * ON  → force cards to 44 px and lock the slider there.
-     * OFF → restore to whatever the slider's actual saved cardSize is.
-     *       We always read from settings.cardSize, NOT the slider value,
-     *       so toggling compact off always brings back the real size.
-     */
     function applyCompact(on) {
         const slider = document.getElementById("cardSizeSlider");
         if (on) {
             applyCardSize(44);
             if (slider) slider.value = 44;
         } else {
-            applyCardSize(settings.cardSize);      // restore true saved size
+            applyCardSize(settings.cardSize);
             if (slider) slider.value = settings.cardSize;
         }
     }
 
-    // ── Sync drawer UI to current settings ───────────────────────────────────
     function syncDrawerUI() {
         document.querySelectorAll(".theme-swatch").forEach(el =>
             el.classList.toggle("active", el.dataset.theme === settings.theme));
-
-        document.querySelectorAll(".accent-pip").forEach(el =>
-            el.classList.toggle("active", el.dataset.accent === settings.accent));
 
         const slider = document.getElementById("cardSizeSlider");
         if (slider) slider.value = settings.compact ? 44 : settings.cardSize;
 
         const tog = id => document.getElementById(id);
-        if (tog("toggleNames"))    tog("toggleNames").checked   = settings.names;
-        if (tog("toggleCompact"))  tog("toggleCompact").checked = settings.compact;
+        if (tog("toggleNames"))    tog("toggleNames").checked    = settings.names;
+        if (tog("toggleCompact"))  tog("toggleCompact").checked  = settings.compact;
         if (tog("toggleTooltips")) tog("toggleTooltips").checked = settings.tooltips;
     }
 
-    // ── Apply everything ─────────────────────────────────────────────────────
     function applyAll() {
         applyTheme(settings.theme);
-        applyAccent(settings.accent);
         applyNames(settings.names);
         applyTooltips(settings.tooltips);
-
-        // compact takes priority over cardSize slider
         if (settings.compact) {
             applyCompact(true);
         } else {
             applyCardSize(settings.cardSize);
         }
-
         syncDrawerUI();
     }
 
-    // ── Drawer open / close ───────────────────────────────────────────────────
+    const RARITY_LABELS = {
+        "starter":        "Starter",
+        "rare":           "Rare",
+        "super rare":     "Super Rare",
+        "epic":           "Epic",
+        "mythic":         "Mythic",
+        "legendary":      "Legendary",
+        "ultra legendary":"Ultra Legendary",
+    };
+
+    const RARITY_CLASSES = {
+        "starter":        "rarity-starter",
+        "rare":           "rarity-rare",
+        "super rare":     "rarity-super-rare",
+        "epic":           "rarity-epic",
+        "mythic":         "rarity-mythic",
+        "legendary":      "rarity-legendary",
+        "ultra legendary":"rarity-ultra-legendary",
+    };
+
+    function initTooltip() {
+        const tip        = document.getElementById("brawlerTooltip");
+        const ttPortrait = document.getElementById("ttPortrait");
+        const ttName     = document.getElementById("ttName");
+        const ttRarity   = document.getElementById("ttRarity");
+        const ttTierVal  = document.getElementById("ttTierVal");
+        if (!tip) return;
+
+        let hideTimer = null;
+
+        function showTooltip(card, e) {
+            if (!window._metalockTooltipsEnabled) return;
+            clearTimeout(hideTimer);
+
+            const brawlerId = card.dataset.id;
+            const zone      = card.dataset.zone;
+
+            const brawler = (typeof BRAWLERS !== "undefined")
+                ? BRAWLERS.find(b => b.id === brawlerId)
+                : null;
+            if (!brawler) return;
+
+            const tierLabel = (zone && zone !== "pool") ? zone : "—";
+
+            ttPortrait.src = (typeof portraitUrl === "function")
+                ? portraitUrl(brawler.key)
+                : `../assets/Portraits/${brawler.key}_Portrait.jpg`;
+            ttPortrait.alt = brawler.name;
+
+            ttName.textContent = brawler.name;
+
+            const rarityKey = (brawler.rarity || "").toLowerCase();
+            ttRarity.textContent  = RARITY_LABELS[rarityKey] || brawler.rarity || "Unknown";
+            ttRarity.className    = "tt-rarity " + (RARITY_CLASSES[rarityKey] || "rarity-starter");
+
+            ttTierVal.textContent = tierLabel;
+
+            tip.style.left = e.clientX + "px";
+            tip.style.top  = e.clientY + "px";
+            tip.classList.add("visible");
+        }
+
+        function hideTooltip() {
+            hideTimer = setTimeout(() => tip.classList.remove("visible"), 80);
+        }
+
+        document.addEventListener("mouseover", e => {
+            const card = e.target.closest(".brawler-card");
+            if (card) showTooltip(card, e);
+        });
+
+        document.addEventListener("mousemove", e => {
+            if (!tip.classList.contains("visible")) return;
+            const card = e.target.closest(".brawler-card");
+            if (!card) return;
+            tip.style.left = e.clientX + "px";
+            tip.style.top  = e.clientY + "px";
+        });
+
+        document.addEventListener("mouseout", e => {
+            const card = e.target.closest(".brawler-card");
+            if (card) hideTooltip();
+        });
+
+        document.addEventListener("dragstart", () => tip.classList.remove("visible"));
+    }
+
     function initDrawer() {
         const gear     = document.getElementById("navGear");
         const drawer   = document.getElementById("settingsDrawer");
@@ -170,14 +208,12 @@
         const open  = () => { drawer.classList.add("open");    overlay?.classList.add("visible");    gear.classList.add("open"); };
         const close = () => { drawer.classList.remove("open"); overlay?.classList.remove("visible"); gear.classList.remove("open"); };
 
-        gear.addEventListener("click",    () => drawer.classList.contains("open") ? close() : open());
+        gear.addEventListener("click",     () => drawer.classList.contains("open") ? close() : open());
         overlay?.addEventListener("click", close);
         closeBtn?.addEventListener("click", close);
     }
 
-    // ── Wire up controls ─────────────────────────────────────────────────────
     function initControls() {
-        // Theme swatches
         document.querySelectorAll(".theme-swatch").forEach(el => {
             el.addEventListener("click", () => {
                 settings.theme = el.dataset.theme;
@@ -188,23 +224,10 @@
             });
         });
 
-        // Accent pips
-        document.querySelectorAll(".accent-pip").forEach(pip => {
-            pip.addEventListener("click", () => {
-                settings.accent = pip.dataset.accent;
-                applyAccent(settings.accent);
-                document.querySelectorAll(".accent-pip").forEach(p => p.classList.remove("active"));
-                pip.classList.add("active");
-                saveSettings();
-            });
-        });
-
-        // Card size slider
         const slider = document.getElementById("cardSizeSlider");
         if (slider) {
             slider.addEventListener("input", function () {
                 settings.cardSize = parseInt(this.value);
-                // Moving the slider implies turning compact off
                 if (settings.compact) {
                     settings.compact = false;
                     const tog = document.getElementById("toggleCompact");
@@ -215,7 +238,6 @@
             });
         }
 
-        // Names toggle
         const togNames = document.getElementById("toggleNames");
         if (togNames) {
             togNames.addEventListener("change", function () {
@@ -225,7 +247,6 @@
             });
         }
 
-        // Compact toggle — bug fix: OFF restores settings.cardSize, not slider value
         const togCompact = document.getElementById("toggleCompact");
         if (togCompact) {
             togCompact.addEventListener("change", function () {
@@ -235,7 +256,6 @@
             });
         }
 
-        // Tooltips toggle
         const togTooltips = document.getElementById("toggleTooltips");
         if (togTooltips) {
             togTooltips.addEventListener("change", function () {
@@ -245,7 +265,6 @@
             });
         }
 
-        // Clear data button
         const clearBtn = document.getElementById("clearDataBtn");
         if (clearBtn) {
             clearBtn.addEventListener("click", () => {
@@ -256,12 +275,12 @@
         }
     }
 
-    // ── Init ─────────────────────────────────────────────────────────────────
     function init() {
         loadSettings();
         applyAll();
         initDrawer();
         initControls();
+        initTooltip();
     }
 
     if (document.readyState === "loading") {

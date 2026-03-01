@@ -1,16 +1,4 @@
-/**
- * draftingData.js
- * ─────────────────────────────────────────────────────────────────────────────
- * Depends on brawlerData.js (BRAWLERS, PREMADE_TIERS, RANKS, portraitUrl,
- * rankLogoUrl). Must be loaded AFTER brawlerData.js.
- *
- * Meta scores are derived live from PREMADE_TIERS so they stay in sync.
- * Only roles, counters, and map data need manual upkeep here.
- * ─────────────────────────────────────────────────────────────────────────────
- */
-
-// ── Tier → raw meta score ─────────────────────────────────────────────────────
-const TIER_SCORE = { S: 10, A: 8, B: 6, C: 4, D: 2, F: 0 };
+const TIER_SCORE = { S: 5, A: 4, B: 3, C: 2, D: 1, F: 0 };
 
 function metaForRank(brawlerId, rankKey) {
     const tiers = PREMADE_TIERS[rankKey];
@@ -34,7 +22,6 @@ function tierLabelForRank(brawlerId, rankKey) {
     return "?";
 }
 
-// ── Brawler roles ─────────────────────────────────────────────────────────────
 const BRAWLER_ROLES = {
     "shelly":        ["Anti-Tank", "Buffied"],
     "nita":          ["Anti-Tank", "Heist Offense", "Spawner"],
@@ -135,6 +122,7 @@ const BRAWLER_ROLES = {
     "gigi":          ["Dive", "Gem Clutcher", "Goal Scorer"],
     "pierce":        ["Sniper", "Buffied", "First Pick", "Slow Paced"],
     "glowbert":      ["Anti-Dive", "Anti-Aggro", "Healer", "Keeper", "Slow Paced"],
+    "sirius":        ["Spawner", "Controller"],
 };
 
 function getRoles(brawlerId) {
@@ -145,29 +133,34 @@ function getRoles(brawlerId) {
 // COUNTERS[A][B] = bonus score for brawler A when brawler B is on the enemy team.
 // 0.5 = slight edge · 1.5 = solid counter · 2.5 = hard counter
 const COUNTERS = {
-    "8-bit":     {"belle":2.5, "penny": 2.5, "mandy": 2.0, "piper": 2.0, "squeak": 2.5},
-    "alli":      {"bull":2.5, "draco": 2.5, "r-t":2.5, "doug": 2.3, "ash": 2.2},
-    "amber":     {"bonnie": 2.5, "carl": 2.5, "crow": 2.0, "piper": 1.5, "belle": 1.3},
-    "angelo":    {"kit": 2.5, "jae-yong": 2.3, "piper": 2.3, "max": 2.3, "nani": 2.5},
-    "ash":       {"frank": 2.5, "bull": 2.0, "amber": 2.5, "charlie": 1.5, "cordelius": 1.5},
+    "8-bit":     {
+      "jessie": 3.0, "dynamike": 3.0, "penny": 3.0, "nani": 3.0, "colette": 3.0, "grom": 3.0, "squeak": 3.0, "mina": 3.0, "sirius": 3.0,
+      "brock": 2.0, "stu": 2.0, "belle":2.0, "maisie": 2.0, "larry-lawrie": 2.0, "berry": 2.0, "mr. p": 2.0, "mico": 2.0, "melodie": 2.0, "juju": 2.0, "ziggy": 2.0, "gigi": 2.0, "pierce": 2.0,
+      "colt": 1.0, "barley": 1.0, "rico": 1.0, "carl": 1.0, "piper": 1.0, "mandy": 1.0, "pearl": 1.0, "angelo": 1.0, "shade": 1.0, "max": 1.0, "sprout": 1.0, "willow": 1.0, "lumi": 1.0, "jae-yong": 1.0, "amber": 1.0,
+      "bull":-1.0, "el primo": -1.0, "darryl": -1.0, "emz": -1.0, "ash": -1.0, "sam": -1.0, "hank": -1.0, "trunk": -1.0, "gene": -1.0, "buzz": -1.0, 
+      "rosa":-2.0, "jacky": -2.0, "frank": -2.0, "doug": -2.0, "draco": -2.0,
+    },
+    "alli": {
+      "bull": 3.0, "rosa": 3.0, "jacky": 3.0, "r-t": 3.0, "doug": 3.0, "draco": 3.0,
+      "pam": 2.0, "frank": 2.0, "bibi": 2.0, "bea": 2.0, "gale": 2.0, "hank": 2.0, "gene": 2.0, "buzz": 2.0, "otis": 2.0, "charlie": 2.0,  "crow": 2.0, "chester": 2.0,
+      "shelly": 1.0, "rico": 1.0, "darryl": 1.0, "griff": 1.0, "ash": 1.0, "pearl": 1.0, "trunk": 1.0, "tara": 1.0, "mr. p": 1.0, "clancy": 1.0, "ollie": 1.0, "spike": 1.0, "sandy": 1.0, "surge": 1.0, "amber": 1.0, "meg": 1.0,
+      "brock": -1.0, "barley": -1.0, "tick": -1.0, "bo": -1.0, "mandy": -1.0, "larry-lawrie": -1.0, "squeak": -1.0,
+      "dynamike": -2.0, "grom": -2.0, "sprout": -2.0, "ziggy": -2.0,
+    },
 
 
 };
 
-// ── Maps ──────────────────────────────────────────────────────────────────────
-// classWeights: multipliers per role. 1.0 = neutral.
-// imageFile: filename inside ../assets/maps/
 const DRAFT_MAPS = [
-    // Gem Grab
     { id:"gg-double-swoosh",    
       name:"Double Swoosh",    
       mode:"Gem Grab",   
       imageFile:"Double Swoosh.png",
       classWeights:
         { 
-          Tank: 1.1,
+          Tank: 1.0,
           Dive: 1.0,
-          Aggro: 1.3,
+          Aggro: 1.0,
         } 
         },
   { id:"gg-crystal-arcade",    
@@ -221,7 +214,7 @@ const DRAFT_MAPS = [
       imageFile:"Bridge Too Far.png",
       classWeights:
         { 
-          Tank: 0.4,
+          Tank: 1.0,
         } 
         },
   { id:"gg-hot-potato",    
@@ -230,7 +223,7 @@ const DRAFT_MAPS = [
       imageFile:"Hot Potato.png",
       classWeights:
         { 
-          Tank: 0.4,
+          Tank: 1.0,
         } 
         },        
   { id:"gg-kaboom-canyon",    
@@ -239,7 +232,7 @@ const DRAFT_MAPS = [
       imageFile:"Kaboom Canyon.png",
       classWeights:
         { 
-          Tank: 0.4,
+          Tank: 1.0,
         } 
         },        
   { id:"gg-saze-zonde",    
@@ -248,7 +241,7 @@ const DRAFT_MAPS = [
       imageFile:"Safe Zone.png",
       classWeights:
         { 
-          Tank: 0.4,
+          Tank: 1.0,
         } 
         },
   { id:"gg-dry-season",    
@@ -257,7 +250,7 @@ const DRAFT_MAPS = [
       imageFile:"Dry Season.png",
       classWeights:
         { 
-          Tank: 0.4,
+          Tank: 1.0,
         } 
         },
   { id:"gg-hideout",    
@@ -266,7 +259,7 @@ const DRAFT_MAPS = [
       imageFile:"Hideout.png",
       classWeights:
         { 
-          Tank: 0.4,
+          Tank: 1.0,
         } 
         },
   { id:"gg-layer-cake",    
@@ -275,7 +268,7 @@ const DRAFT_MAPS = [
       imageFile:"Layer Cake.png",
       classWeights:
         { 
-          Tank: 0.4,
+          Tank: 1.0,
         } 
         },
   { id:"gg-shooting-star",    
@@ -284,7 +277,7 @@ const DRAFT_MAPS = [
       imageFile:"Shooting Star.png",
       classWeights:
         { 
-          Tank: 0.4,
+          Tank: 1.0,
         } 
         },
   { id:"gg-center-stage",    
@@ -293,7 +286,7 @@ const DRAFT_MAPS = [
       imageFile:"Center Stage.png",
       classWeights:
         { 
-          Tank: 0.4,
+          Tank: 1.0,
         } 
         },
   { id:"gg-pinball-dreams",    
@@ -302,7 +295,7 @@ const DRAFT_MAPS = [
       imageFile:"Pinball Dreams.png",
       classWeights:
         { 
-          Tank: 0.4,
+          Tank: 1.0,
         } 
         },
   { id:"gg-sneaky-fields",    
@@ -311,7 +304,7 @@ const DRAFT_MAPS = [
       imageFile:"Sneaky Fields.png",
       classWeights:
         { 
-          Tank: 0.4,
+          Tank: 1.0,
         } 
         },
   { id:"gg-triple-dribble",    
@@ -320,7 +313,7 @@ const DRAFT_MAPS = [
       imageFile:"Triple Dribble.png",
       classWeights:
         { 
-          Tank: 0.4,
+          Tank: 1.0,
         } 
         },
   { id:"gg-dueling-beatles",    
@@ -329,7 +322,7 @@ const DRAFT_MAPS = [
       imageFile:"Dueling Beatles.png",
       classWeights:
         { 
-          Tank: 0.4,
+          Tank: 1.0,
         } 
         },
   { id:"gg-open-business",    
@@ -338,7 +331,7 @@ const DRAFT_MAPS = [
       imageFile:"Open Business.png",
       classWeights:
         { 
-          Tank: 0.4,
+          Tank: 1.0,
         } 
         },
   { id:"gg-parallel-plays",    
@@ -347,7 +340,7 @@ const DRAFT_MAPS = [
       imageFile:"Parallel Plays.png",
       classWeights:
         { 
-          Tank: 0.4,
+          Tank: 1.0,
         } 
         },        
   { id:"gg-ring-of-fire",    
@@ -356,7 +349,7 @@ const DRAFT_MAPS = [
       imageFile:"Ring of Fire.png",
       classWeights:
         { 
-          Tank: 0.4,
+          Tank: 1.0,
         } 
         },
   { id:"gg-belle-rock",    
@@ -365,7 +358,7 @@ const DRAFT_MAPS = [
       imageFile:"Belle's Rock.png",
       classWeights:
         { 
-          Tank: 0.4,
+          Tank: 1.0,
         } 
         },
   { id:"gg-flaring-phoenix",    
@@ -374,7 +367,7 @@ const DRAFT_MAPS = [
       imageFile:"Flaring Phoenix.png",
       classWeights:
         { 
-          Tank: 0.4,
+          Tank: 1.0,
         } 
         },        
   { id:"gg-new-horizons",    
@@ -383,7 +376,7 @@ const DRAFT_MAPS = [
       imageFile:"New Horizons.png",
       classWeights:
         { 
-          Tank: 0.4,
+          Tank: 1.0,
         } 
         },
   { id:"gg-out-in-the-open",    
@@ -392,16 +385,16 @@ const DRAFT_MAPS = [
       imageFile:"Out in the Open.png",
       classWeights:
         { 
-          Tank: 0.4,
+          Tank: 1.0,
         } 
         },
       ];
 
 const DRAFT_RANK_PROFILES = [
-    { id:"Mythic",      label:"Mythic",      range:"Mythic",      metaWeight:0.8, counterWeight:1.1 },
-    { id:"Legendary",   label:"Legendary",   range:"Legendary",   metaWeight:0.9, counterWeight:1.2 },
+    { id:"Mythic",      label:"Mythic",      range:"Mythic",      metaWeight:1.0, counterWeight:1.0 },
+    { id:"Legendary",   label:"Legendary",   range:"Legendary",   metaWeight:1.0, counterWeight:1.2 },
     { id:"Masters",     label:"Masters",     range:"Masters",     metaWeight:1.0, counterWeight:1.4 },
-    { id:"Pro",         label:"Pro",         range:"Pro League",  metaWeight:1.0, counterWeight:1.5 },
+    { id:"Pro",         label:"Pro",         range:"Pro League",  metaWeight:1.0, counterWeight:1.6 },
 ];
 
 function draftMapImageUrl(filename) {

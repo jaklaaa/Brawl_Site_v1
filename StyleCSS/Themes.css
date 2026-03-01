@@ -1,0 +1,118 @@
+body.theme-dark {
+    background: #252525;
+    color: #9c9c9c;
+}
+
+.theme-dark .feature-card {
+    background: #252525;
+    border: 1px solid #9c9c9c;
+}
+
+.theme-dark .primary-btn {
+    background: #9c9c9c;
+}
+
+body.theme-light {
+    background: #f3f4f6;
+    color: #111;
+}
+
+.theme-light .feature-card {
+    background: white;
+    border: 1px solid #ddd;
+}
+
+.theme-light .primary-btn {
+    background: #b8b8b8;
+}
+
+body.theme-red {
+    background: #1d1d1d;
+    color: #ff2b2b;
+}
+
+.theme-red .feature-card {
+    background: #1d1d1d;
+    border: 1px solid #ff2b2b;
+}
+
+.theme-red .primary-btn {
+    background: #ff2b2b;
+    color: #1d1d1d;
+}
+
+body.theme-blue {
+    background: #2f3031;
+    color: #00aaff;
+}
+
+.theme-blue .feature-card {
+    background: #2f3031;
+    border: 1px solid #00aaff;
+}
+
+.theme-blue .primary-btn {
+    background: #00aaff;
+    color: black;
+}
+
+.theme-dark .feature-card:hover {
+    box-shadow: 0 12px 40px rgba(93, 220, 255, 0.12);
+}
+.theme-dark .primary-btn:hover {
+    box-shadow: 0 0 20px rgba(156, 156, 156, 0.55), 0 0 40px rgba(156, 156, 156, 0.2);
+    border-color: rgba(156, 156, 156, 0.6);
+}
+.theme-dark .card-icon:hover,
+.theme-dark .feature-card:hover .card-icon {
+    box-shadow: 0 0 18px rgba(93, 220, 255, 0.3);
+}
+
+.theme-light .feature-card:hover {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+}
+.theme-light .primary-btn:hover {
+    box-shadow: 0 0 20px rgba(100, 100, 140, 0.4), 0 0 40px rgba(100, 100, 140, 0.15);
+    border-color: rgba(100, 100, 140, 0.5);
+}
+.theme-light .card-icon {
+    background: rgba(0,0,0,0.05);
+    border-color: rgba(0,0,0,0.1);
+}
+
+.theme-red .feature-card:hover {
+    box-shadow: 0 12px 40px rgba(255, 43, 43, 0.2);
+}
+.theme-red .primary-btn:hover {
+    box-shadow: 0 0 24px rgba(255, 43, 43, 0.65), 0 0 50px rgba(255, 43, 43, 0.25);
+    border-color: rgba(255, 43, 43, 0.7);
+}
+.theme-red .card-icon {
+    background: rgba(255, 43, 43, 0.1);
+    border-color: rgba(255, 43, 43, 0.2);
+    color: #ff2b2b;
+}
+.theme-red .feature-card:hover .card-icon {
+    box-shadow: 0 0 20px rgba(255, 43, 43, 0.4);
+}
+
+.theme-blue .feature-card:hover {
+    box-shadow: 0 12px 40px rgba(0, 170, 255, 0.2);
+}
+.theme-blue .primary-btn:hover {
+    box-shadow: 0 0 24px rgba(0, 170, 255, 0.65), 0 0 50px rgba(0, 170, 255, 0.25);
+    border-color: rgba(0, 170, 255, 0.7);
+}
+.theme-blue .card-icon {
+    background: rgba(0, 170, 255, 0.1);
+    border-color: rgba(0, 170, 255, 0.2);
+    color: #00aaff;
+}
+.theme-blue .feature-card:hover .card-icon {
+    box-shadow: 0 0 20px rgba(0, 170, 255, 0.4);
+}
+
+.theme-dark  .hero-divider { background: #9c9c9c; }
+.theme-light .hero-divider { background: #111; }
+.theme-red   .hero-divider { background: #ff2b2b; }
+.theme-blue  .hero-divider { background: #00aaff; }

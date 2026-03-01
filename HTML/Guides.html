@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brawler Guides — Prodigy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../StyleCSS/Guides.css">
+</head>
+<body class="theme-dark">
+
+<div id="settingsOverlay"></div>
+<aside id="settingsDrawer" role="dialog" aria-label="Settings">
+    <div class="drawer-header">
+        <span class="drawer-header-title">SETTINGS</span>
+        <button id="drawerClose" aria-label="Close settings">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M3 3L13 13M13 3L3 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        </button>
+    </div>
+    <div class="drawer-section">
+        <div class="drawer-section-label">Theme</div>
+        <div class="theme-swatches">
+            <div class="theme-swatch active" data-theme="theme-dark"><span class="swatch-dot"></span>Dark</div>
+            <div class="theme-swatch" data-theme="theme-light"><span class="swatch-dot"></span>Light</div>
+            <div class="theme-swatch" data-theme="theme-red"><span class="swatch-dot"></span>Red</div>
+            <div class="theme-swatch" data-theme="theme-blue"><span class="swatch-dot"></span>Blue</div>
+        </div>
+    </div>
+</aside>
+
+<nav id="glassNav">
+    <a id="navBack" href="../index.html">
+        <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
+            <path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        BACK
+    </a>
+    <span id="navTitle">Brawler Guides</span>
+    <div class="nav-right">
+        <div id="navCount">— Guides</div>
+        <button id="navGear" aria-label="Settings" title="Settings">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+        </button>
+    </div>
+</nav>
+
+<div id="guidesHero">
+    <div class="hero-label">Prodigy Knowledge Base</div>
+    <div class="hero-title">Brawler Guides</div>
+    <div class="hero-sub">In-depth breakdowns · Tips · Counters · Build paths</div>
+</div>
+
+<div id="controlsBar">
+    <div id="searchWrap">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="2.5" stroke-linecap="round">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input id="searchInput" type="text" placeholder="Search brawler…" autocomplete="off" spellcheck="false">
+        <button id="searchClear">✕</button>
+    </div>
+    <div class="ctrl-sep"></div>
+    <span class="ctrl-label">SORT</span>
+    <div id="sortBar">
+        <button class="sort-pill active" data-sort="default">Default</button>
+        <button class="sort-pill" data-sort="az">A → Z</button>
+        <button class="sort-pill" data-sort="za">Z → A</button>
+        <button class="sort-pill" data-sort="rarity">Rarity</button>
+        <button class="sort-pill" data-sort="updated">Recently Updated</button>
+    </div>
+    <div class="ctrl-sep"></div>
+    <span class="ctrl-label">RARITY</span>
+    <div id="rarityBar">
+        <button class="rarity-pill active" data-rarity="all">All</button>
+        <button class="rarity-pill" data-rarity="starter">Starter</button>
+        <button class="rarity-pill" data-rarity="rare">Rare</button>
+        <button class="rarity-pill" data-rarity="super rare">Super Rare</button>
+        <button class="rarity-pill" data-rarity="epic">Epic</button>
+        <button class="rarity-pill" data-rarity="mythic">Mythic</button>
+        <button class="rarity-pill" data-rarity="legendary">Legendary</button>
+        <button class="rarity-pill" data-rarity="ultra legendary">Ultra Legendary</button>
+    </div>
+</div>
+
+<div id="guidesGrid">
+    <div id="emptyState">No brawlers match your search.</div>
+</div>
+
+<script>
+const BRAWLERS = [
+    { name: "Shelly",   key: "shelly",   rarity: "starter",       updated: "2025-06-01", hasGuide: true  },
+    { name: "Nita",     key: "nita",     rarity: "rare",          updated: "2025-05-20", hasGuide: false  },
+    { name: "Colt",     key: "colt",     rarity: "rare",          updated: "2025-04-10", hasGuide: false },
+    { name: "Bull",     key: "bull",     rarity: "rare",          updated: null,         hasGuide: false },
+    { name: "Brock",    key: "brock",    rarity: "rare",          updated: "2025-05-30", hasGuide: false  },
+    { name: "El Primo", key: "el primo",  rarity: "rare",          updated: null,         hasGuide: false },
+    { name: "Barley",   key: "barley",   rarity: "rare",          updated: "2025-06-05", hasGuide: false  },
+    { name: "Poco",     key: "poco",     rarity: "rare",          updated: null,         hasGuide: false },
+    { name: "Rosa",     key: "rosa",     rarity: "rare",          updated: null,         hasGuide: false },
+    { name: "Jessie",   key: "jessie",   rarity: "super rare",    updated: null,         hasGuide: false },
+    { name: "Penny",    key: "penny",    rarity: "super rare",    updated: null,         hasGuide: false },
+    { name: "Piper",    key: "piper",    rarity: "epic",          updated: "2025-05-28", hasGuide: false  },
+    { name: "Pam",      key: "pam",      rarity: "epic",          updated: null,         hasGuide: false },
+    { name: "Mortis",   key: "mortis",   rarity: "mythic",        updated: "2025-06-10", hasGuide: false  },
+    { name: "Tara",     key: "tara",     rarity: "mythic",        updated: null,         hasGuide: false },
+    { name: "Gene",     key: "gene",     rarity: "mythic",        updated: null,         hasGuide: false },
+    { name: "Spike",    key: "spike",    rarity: "legendary",     updated: "2025-06-08", hasGuide: false  },
+    { name: "Crow",     key: "crow",     rarity: "legendary",     updated: null,         hasGuide: false },
+    { name: "Leon",     key: "leon",     rarity: "legendary",     updated: "2025-04-22", hasGuide: false  },
+    { name: "Sandy",    key: "sandy",    rarity: "legendary",     updated: null,         hasGuide: false },
+];
+
+const RARITY_ORDER = ["starter","rare","super rare","epic","mythic","legendary","ultra legendary"];
+
+function portraitUrl(key)  { return `../Assets/Portraits/${key}_portrait.jpg`; }
+function guideUrl(key)     { return `../Guide_Pages/${key}.html`; }
+
+function formatDate(iso){
+    if(!iso) return null;
+    return new Date(iso).toLocaleDateString("en-GB", { day:"2-digit", month:"short", year:"numeric" });
+}
+
+function rarityColour(rarity){
+    return { starter:"#8cc8ff", rare:"#50c850", "super rare":"#3c8cff", epic:"#be46ff",
+             mythic:"#ff4646", legendary:"#ffb900", "ultra legendary":"#ff7800" }[rarity] || "#fff";
+}
+
+let state = { search:"", sort:"default", rarity:"all" };
+
+function getFiltered(){
+    let list = [...BRAWLERS];
+    const q = state.search.toLowerCase().trim();
+    if(q) list = list.filter(b => b.name.toLowerCase().includes(q));
+    if(state.rarity !== "all") list = list.filter(b => b.rarity === state.rarity);
+    if(state.sort === "az")      list.sort((a,b) => a.name.localeCompare(b.name));
+    if(state.sort === "za")      list.sort((a,b) => b.name.localeCompare(a.name));
+    if(state.sort === "rarity")  list.sort((a,b) => RARITY_ORDER.indexOf(a.rarity) - RARITY_ORDER.indexOf(b.rarity));
+    if(state.sort === "updated") list.sort((a,b) => {
+        if(!a.updated && !b.updated) return 0;
+        if(!a.updated) return 1; if(!b.updated) return -1;
+        return new Date(b.updated) - new Date(a.updated);
+    });
+    return list;
+}
+
+function render(){
+    const grid = document.getElementById("guidesGrid");
+    const empty = document.getElementById("emptyState");
+    const list = getFiltered();
+    Array.from(grid.querySelectorAll(".guide-card")).forEach(el => el.remove());
+    if(!list.length){ empty.style.display="block"; document.getElementById("navCount").textContent="0 Guides"; return; }
+    empty.style.display = "none";
+    document.getElementById("navCount").textContent = `${list.filter(b=>b.hasGuide).length} / ${BRAWLERS.length} Guides`;
+    list.forEach(b => {
+        const card = document.createElement("a");
+        card.className = "guide-card" + (b.hasGuide ? "" : " no-guide");
+        card.dataset.rarity = b.rarity;
+        card.href = b.hasGuide ? guideUrl(b.key) : "#";
+        if(!b.hasGuide) card.addEventListener("click", e => e.preventDefault());
+
+        const wrap = document.createElement("div"); wrap.className = "card-portrait-wrap";
+        const img = document.createElement("img"); img.className = "card-portrait";
+        img.src = portraitUrl(b.key); img.alt = b.name;
+        img.onerror = () => { img.style.display="none"; wrap.style.background="rgba(255,255,255,0.06)"; };
+        wrap.appendChild(img); card.appendChild(wrap);
+
+        const info = document.createElement("div"); info.className = "card-info";
+        const name = document.createElement("div"); name.className = "card-name"; name.textContent = b.name; info.appendChild(name);
+        const rar  = document.createElement("div"); rar.className  = "card-rarity"; rar.style.color = rarityColour(b.rarity);
+        rar.textContent = b.rarity.charAt(0).toUpperCase() + b.rarity.slice(1); info.appendChild(rar);
+        const upd  = document.createElement("div"); upd.className  = "card-updated";
+        upd.textContent = b.updated ? `Updated: ${formatDate(b.updated)}` : (b.hasGuide ? "" : "No guide yet");
+        info.appendChild(upd); card.appendChild(info);
+
+        if(b.hasGuide){ const h = document.createElement("div"); h.className="card-hover-tag"; h.textContent="VIEW GUIDE →"; card.appendChild(h); }
+        grid.appendChild(card);
+    });
+}
+
+// ── Search / sort / rarity events ──
+document.getElementById("searchInput").addEventListener("input", function(){
+    state.search = this.value;
+    document.getElementById("searchClear").style.display = this.value ? "block" : "none";
+    render();
+});
+document.getElementById("searchClear").addEventListener("click", () => {
+    state.search = ""; document.getElementById("searchInput").value = "";
+    document.getElementById("searchClear").style.display = "none"; render();
+});
+document.querySelectorAll(".sort-pill").forEach(pill => pill.addEventListener("click", () => {
+    document.querySelectorAll(".sort-pill").forEach(p => p.classList.remove("active"));
+    pill.classList.add("active"); state.sort = pill.dataset.sort; render();
+}));
+document.querySelectorAll(".rarity-pill").forEach(pill => pill.addEventListener("click", () => {
+    document.querySelectorAll(".rarity-pill").forEach(p => p.classList.remove("active"));
+    pill.classList.add("active"); state.rarity = pill.dataset.rarity; render();
+}));
+
+// ── Settings drawer ──
+const gear    = document.getElementById("navGear");
+const drawer  = document.getElementById("settingsDrawer");
+const overlay = document.getElementById("settingsOverlay");
+const closeBtn= document.getElementById("drawerClose");
+
+function openDrawer()  { drawer.classList.add("open"); overlay.classList.add("visible"); gear.classList.add("open"); }
+function closeDrawer() { drawer.classList.remove("open"); overlay.classList.remove("visible"); gear.classList.remove("open"); }
+
+gear.addEventListener("click", () => drawer.classList.contains("open") ? closeDrawer() : openDrawer());
+overlay.addEventListener("click", closeDrawer);
+closeBtn.addEventListener("click", closeDrawer);
+
+// ── Theme switcher ──
+const THEME_KEY = "guidesTheme";
+function applyTheme(theme){
+    document.body.className = theme;
+    document.querySelectorAll(".theme-swatch").forEach(s => s.classList.toggle("active", s.dataset.theme === theme));
+    try { localStorage.setItem(THEME_KEY, theme); } catch{}
+}
+document.querySelectorAll(".theme-swatch").forEach(s => s.addEventListener("click", () => applyTheme(s.dataset.theme)));
+
+// Load saved theme
+try { const saved = localStorage.getItem(THEME_KEY); if(saved) applyTheme(saved); } catch{}
+
+render();
+</script>
+</body>
+</html>

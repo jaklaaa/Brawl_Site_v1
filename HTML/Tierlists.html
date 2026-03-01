@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tier Lists</title>
+
+    <link rel="stylesheet" href="../StyleCSS/Tierlist.css">
+    <link rel="stylesheet" href="../StyleCSS/Themes.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="theme-dark">
+
+    <nav id="glassNav">
+        <button id="navBack" onclick="goHome()">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            BACK
+        </button>
+
+        <span id="navTitle">Tier Lists</span>
+
+        <button id="navGear" aria-label="Settings" title="Settings">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+        </button>
+    </nav>
+
+    <div id="settingsOverlay"></div>
+
+    <aside id="settingsDrawer" role="dialog" aria-label="Settings">
+        <div class="drawer-header">
+            <span class="drawer-header-title">SETTINGS</span>
+            <button id="drawerClose" aria-label="Close settings">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M3 3L13 13M13 3L3 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </button>
+        </div>
+
+        <div class="drawer-section">
+            <div class="drawer-section-label">Theme</div>
+            <div class="theme-swatches">
+                <div class="theme-swatch active" data-theme="theme-dark"><span class="swatch-dot"></span>Dark</div>
+                <div class="theme-swatch" data-theme="theme-light"><span class="swatch-dot"></span>Light</div>
+                <div class="theme-swatch" data-theme="theme-red"><span class="swatch-dot"></span>Red</div>
+                <div class="theme-swatch" data-theme="theme-blue"><span class="swatch-dot"></span>Blue</div>
+            </div>
+        </div>
+
+        <div class="drawer-divider"></div>
+
+        <div class="drawer-section">
+            <div class="drawer-section-label">Display</div>
+            <div class="setting-row">
+                <div>
+                    <div class="setting-row-label">Brawler Names</div>
+                    <div class="setting-row-desc">Name overlay on portrait</div>
+                </div>
+                <label class="pill-toggle">
+                    <input type="checkbox" id="toggleNames">
+                    <span class="pill-track"></span>
+                </label>
+            </div>
+            <div class="setting-row">
+                <div>
+                    <div class="setting-row-label">Compact Mode</div>
+                    <div class="setting-row-desc">Smaller brawler cards</div>
+                </div>
+                <label class="pill-toggle">
+                    <input type="checkbox" id="toggleCompact">
+                    <span class="pill-track"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="drawer-divider"></div>
+
+        <div class="drawer-section">
+            <div class="drawer-section-label">Card Size</div>
+            <input type="range" class="size-slider" id="cardSizeSlider" min="44" max="96" value="64" step="4">
+            <div class="slider-labels"><span>Small</span><span>Default</span><span>Large</span></div>
+        </div>
+
+        <div class="drawer-divider"></div>
+
+        <div class="drawer-section">
+            <div class="drawer-section-label">Data</div>
+            <div class="setting-row">
+                <div>
+                    <div class="setting-row-label">Clear Custom List</div>
+                    <div class="setting-row-desc">Reset your personal tier list</div>
+                </div>
+                <button id="clearDataBtn" style="font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;padding:6px 12px;border-radius:8px;cursor:pointer;background:rgba(255,60,60,0.1);border:1px solid rgba(255,60,60,0.2);color:rgba(255,100,100,0.8);transition:background 0.2s,color 0.2s;">RESET</button>
+            </div>
+        </div>
+    </aside>
+
+    <h1 id="rankMainTitle" class="rank-title">Tier List</h1>
+
+    <div class="rank-container">
+        <div class="rank-grid" id="rankGrid"></div>
+    </div>
+
+    <div class="custom-tier-list">
+        <div class="tier-row tier-S" id="tier-S">
+            <div class="tier-label">S</div>
+            <div class="tier-brawlers" id="tier-S-brawlers" data-dropzone="S"></div>
+        </div>
+        <div class="tier-row tier-A" id="tier-A">
+            <div class="tier-label">A</div>
+            <div class="tier-brawlers" id="tier-A-brawlers" data-dropzone="A"></div>
+        </div>
+        <div class="tier-row tier-B" id="tier-B">
+            <div class="tier-label">B</div>
+            <div class="tier-brawlers" id="tier-B-brawlers" data-dropzone="B"></div>
+        </div>
+        <div class="tier-row tier-C" id="tier-C">
+            <div class="tier-label">C</div>
+            <div class="tier-brawlers" id="tier-C-brawlers" data-dropzone="C"></div>
+        </div>
+        <div class="tier-row tier-D" id="tier-D">
+            <div class="tier-label">D</div>
+            <div class="tier-brawlers" id="tier-D-brawlers" data-dropzone="D"></div>
+        </div>
+        <div class="tier-row tier-F" id="tier-F">
+            <div class="tier-label">F</div>
+            <div class="tier-brawlers" id="tier-F-brawlers" data-dropzone="F"></div>
+        </div>
+    </div>
+
+    <div class="tierlist-watermark" id="tierlistWatermark">
+        Made on MetaLock &nbsp;·&nbsp; metalock.app
+    </div>
+
+    <script src="../JS_scripts/Navigation.js"></script>
+    <script src="../JS_scripts/Brawlerdata.js"></script>
+    <script src="../JS_scripts/TierManager.js"></script>
+    <script src="../JS_scripts/Tiersettings.js"></script>
+
+</body>
+</html>
