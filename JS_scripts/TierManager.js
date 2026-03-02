@@ -5,7 +5,7 @@
 
     const LAST_UPDATED = {
         "Trophies":    "2026-03-01",
-        "Brawl Arena": "2026-02-18",
+        "Brawl Arena": "2026-03-03",
         "Diamond":     "2026-02-07",
         "Mythic":      "2026-02-07",
         "Legendary":   "2026-02-07",

@@ -105,33 +105,30 @@ const BRAWLERS = [
 const PREMADE_TIERS = {
 
     // ── TROPHIES───────────────────────────────────────────────────────────────
+    
     Trophies: {
-        S: ["bibi", "sirius" ,"frank", "emz", "bo", "crow", "spike"],
-        A: ["rico", "bull", "brock", "mortis", "pierce", "carl", "fang", "kenji", "griff", "cordelius", "leon", "colt", "jessie", "stu", "byron", "mandy", "piper"],
-        B: ["tara", "surge", "shade", "tick", "squeak", "mico", "grom", "bea", "poco", "lily", "nita", "gus", "kit", "melodie", "edgar", "otis", "dynamike",
-            "nani", "chester", "gray", "penny", "angelo", "mina", "shelly", "buzz", "jacky", "doug", "el primo", "chuck", "belle", "darryl", "sandy", "glowy",
-            "maisie", "meeple", "gene", "kaze", "gale", "mr. p", "amber", "buster", "colette", "barley", "r-t", "willow", "juju", "max", "clancy"
-        ], 
-        C: ["hank", "berry", "alli", "ruffs", "larry-lawrie", "eve", "charlie", "lou", "8-bit", "ash", "moe", "finx", "trunk", "meg", "draco", "janet", "pearl", "gigi", 
-            "ollie", "bonnie", "sam", "rosa"],
-        D: ["pam", "ziggy", "lumi", "jae-yong", "lola"],
-        F: [""],
+        S: ["sirius", "pierce", "glowy", "bibi"], 
+        A: ["emz", "spike", "crow", "rico", "trunk", "gigi", "mina", "kaze", "bo", "doug", "ziggy", "mortis", "lily"],
+        B: ["otis", "colt", "cordelius", "shade", "r-t", "kenji", "squeak", "alli", "bull", "fang", "penny", "frank", 
+            "amber", " carl", "edgar", "meeple", "chester", "leon", "juju", "finx", "griff", "rosa", "grom", "nita", " poco", "dynamike"], 
+        C: ["angelo", "ruffs", "jessie", "mico", "melodie", "tick", "tara", "charlie", "eve", "willow", "brock", "sandy", "byron", 
+            "buster", "mr. p", "ash", "chuck", "mandy", "bea", "belle", "draco", "janet", "berry", "8-bit", "larry-lawrie", "ollie", 
+            "gray", "barley", "moe", "nani", "kit", "pam", "lou", "sam", "gus", "gene", "piper", "meg", "bonnie", "jae-yong", "clancy", "lumi"], 
+        D: ["shelly", "hank", "buzz", "maisie", "stu", "surge", "sprout", "pearl", "lola", "colette", "jacky", "darryl", "gale", "el primo"], 
+        F: ["max"] 
     },
 
     // ── BRAWL ARENA ───────────────────────────────────────────────────────────────
     "Brawl Arena": {
-        S: ["glowy", "emz", "colt", "gigi", "spike", "pierce", "rico"],
-        A: ["piper", "mortis", "penny", "brock", "tick", "jessie", "surge", "byron", "edgar", "chester", 
-            "lily", "griff", "poco", "amber", "mandy"],
-        B: ["kit", "cordelius", "bibi", "dynamike", "nita", "kenji", "frank", "shelly", "8-bit", "shade", 
-            "leon", "berry", "tara", "barley", "fang", "bull", "clancy", "crow", "buzz", "bo", "nani",
-            "chuck", "carl", "colette", "grom"],
-        C: ["el primo", "angelo", "alli", "squeak", "darryl", "lumi", "ash", "stu" ,"pam", "bea", "belle", 
-            "mr. p", "doug", "gene", "trunk", "mina", "jacky", "maisie", "r-t", "meg", "rosa", "melodie", 
-            "larry-lawrie", "gale", "ruffs", "janet", "draco", "mico", "otis", "kaze"],
-        D: ["pearl", "max", "sandy", "lola", "moe", "lou", "hank", "buster", "gray", "willow", "sam", "finx", 
-            "bonnie", "meeple", "gus"],
-        F: ["ollie", "ziggy", "juju", "charlie", "jae-yong", "eve"],
+        S: ["bibi", "glowy", "emz", "colt", "pierce"],
+        A: ["griff", "8-bit", "spike", "rico", "jessie", "penny", "amber", "clancy", "crow", "chester", "lumi", "bo", "nita"],
+        B: ["el primo", "gigi", "berry", "edgar", "tara", "mandy", "barley", "carl", "brock", "mina", "kenji", "bull", "leon",
+            "squeak", "trunk", "mortis", "surge", "cordelius", "doug", "frank", "larry-lawrie", "shade", "kaze", "poco", "r-t" ,"colette"],
+        C: ["meg", "dynamike", "otis", "jacky", "ruffs", "moe", "byron", "fang", "piper", "tick", "gale", "draco", "bea",
+            "melodie", "charlie", "buzz", "mico", "sirius", "kit"],
+        D: ["mr. p", "grom", "pam", "darryl", "chuck", "nani", "ziggy", "lily", "alli",
+            "ash", "meeple", "buster", "stu", "finx", "shelly", "lola", "hank", "sandy", "pearl", "rosa", "maisie", "janet", "willow"],
+        F: ["jae-yong", "juju", "max", "ollie", "lou", "bonnie", "sprout", "gus", "gray", "eve", "sam", "belle",  "gene", "angelo"]        
     },
 
     // ── DIAMOND ───────────────────────────────────────────────────────────────
