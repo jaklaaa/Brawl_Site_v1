@@ -4,11 +4,11 @@
     const TIER_KEYS = ["S", "A", "B", "C", "D", "F"];
 
     const LAST_UPDATED = {
-        "Trophies":    "2026-03-01",
+        "Trophies":    "2026-03-03",
         "Brawl Arena": "2026-03-03",
-        "Diamond":     "2026-02-07",
-        "Mythic":      "2026-02-07",
-        "Legendary":   "2026-02-07",
+        "Diamond":     "2026-03-03",
+        "Mythic":      "2026-03-03",
+        "Legendary":   "2026-03-03",
         "Masters":     "2026-02-07",
         "Pro":         "2026-02-07",
     };
